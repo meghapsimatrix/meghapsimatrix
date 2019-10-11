@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts | Megha</title>
+    <link>/post/</link>
+      <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <description>Posts</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 09 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/img/icon-192.png</url>
+      <title>Posts</title>
+      <link>/post/</link>
+    </image>
+    
+    <item>
+      <title>Continuous Treatment in Propensity Score Analysis</title>
+      <link>/post/continuous-r-rmarkdown/</link>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>/post/continuous-r-rmarkdown/</guid>
+      <description>
+
+
+&lt;p&gt;In my qualifying exam, in the written part, I was asked about how to analyze the effect of continuous, not binary, treatment using propensity score analysis. I skipped it for the written but I spent a few days looking up how to analyze this in case I would be asked during my oral examination. Sadly, no one asked me even when I asked them to, so here is a blog detailing my explorations.&lt;/p&gt;
+&lt;div id=&#34;binary-treatment&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Binary Treatment&lt;/h1&gt;
+&lt;p&gt;Below let &lt;span class=&#34;math inline&#34;&gt;\(e(X)\)&lt;/span&gt; denote propensity score, &lt;span class=&#34;math inline&#34;&gt;\(D\)&lt;/span&gt; denote a binary treatment, and &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt; denote all the observed confounders. In the case of binary treatment, propensity scores represent the probability of receiving treatment given the covariates:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[e(X) = P(D = 1|X)\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;We estimate the scores using logistic regression or machine learning techniques like generalized boosted models.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;extension-to-contiuous-treatment&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Extension to Contiuous Treatment&lt;/h1&gt;
+&lt;p&gt;In binary treatment context, we assume that the potential outcomes are independent of treatment given &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[Y(1), Y(0) \perp\!\!\!\perp D |X\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;and by extension are independent given the propensity scores:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[Y(0), Y(1) \perp\!\!\!\perp D|e(X)\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Hirano and Imbens (2004) introduced the assumption of weak unconfoundedness in context of continuous treatment. They stated: “we do not require joint independence of all potential outcomes. Instead, we require conditional independence to hold for each value of the treatment.” Below, the potential outcome given that &lt;span class=&#34;math inline&#34;&gt;\(T = t\)&lt;/span&gt; is unreated to the treatment given the set of covariates:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[Y(t) \perp\!\!\!\perp T |X\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;To calculate the propensity scores, in the case of continuous treatment, we cannot find the probability that continuous treatment, &lt;span class=&#34;math inline&#34;&gt;\(T\)&lt;/span&gt;, equals a given value &lt;span class=&#34;math inline&#34;&gt;\(t\)&lt;/span&gt;. The likelihood of continuous variables taking on a given value is zero. For continuous treatment variable, we find the conditional density, the probability that &lt;span class=&#34;math inline&#34;&gt;\(T\)&lt;/span&gt; is infinitely close to &lt;span class=&#34;math inline&#34;&gt;\(t\)&lt;/span&gt;. Below let &lt;span class=&#34;math inline&#34;&gt;\(r(t,x)\)&lt;/span&gt; denote the propensity scores. The right hand side of the equation represents the conditional density function of a normal distribution. To estimate the propensity scores, we need to run a linear regression predicting the treatment by a set of covariates. From that we get the fitted values &lt;span class=&#34;math inline&#34;&gt;\(X\hat{\beta}\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\({\sigma}^2\)&lt;/span&gt; (Austin, 2019). The fitted values take the place of the mean in the density function.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ r(t, x) = {f_{T|X}}^{(t|x)} = \frac{1}{\sqrt{2\pi\hat{\sigma}^2}} e^{-\frac{(t - X\hat{\beta})^2}{2\pi\hat{\sigma}^2}}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Conditional on the propensity scores we can assume that each potential outcome is independent of treatment given the propensity scores:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[Y(t) \perp\!\!\!\perp T |r(t,x)\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Hirano and Imbens (2004) state that: “Within strata with the same value of &lt;span class=&#34;math inline&#34;&gt;\(r(t,X)\)&lt;/span&gt;, the probability that &lt;span class=&#34;math inline&#34;&gt;\(T = t\)&lt;/span&gt; does not depend on the value of &lt;span class=&#34;math inline&#34;&gt;\(X\)&lt;/span&gt;.”&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[X \perp\!\!\!\perp 1(T = t)|r(t,x)\]&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;calculating-weights&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Calculating Weights&lt;/h1&gt;
+&lt;p&gt;Following the same logic as the inverse propensity weights (IPW) for the estimation of the average treatment effect (ATE) for a binary treatment, we calculate the inverse of the propensity scores are the weights:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\frac{1}{{f_{T|X}}^{(t|x)}}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;However, Robins et al. (2000) noted that such weights can result in infinite variance (Austin, 2019). They suggested to use stabilized weights as follows:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\frac{{f_{T}}^{(t)}}{{f_{T|X}}^{(t|x)}}\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Here the numerator represents the marginal density of treatment:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[{f_{T}}^{(t)} = \frac{1}{\sqrt{2\pi\hat{\sigma_t}^2}} e^{-\frac{(t - \mu_t)^2}{2\pi\hat{\sigma_t}^2}}\]&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;references&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;References&lt;/h1&gt;
+&lt;p&gt;Hirano K and Imbens GW. The propensity score with continuous treatments. In: Gelman A and Meng X-L (eds) Applied Bayesian modeling and causal inference from incomplete-data perspectives. Chichester: John Wiley &amp;amp; Sons Ltd, 2004, pp.73–84.&lt;/p&gt;
+&lt;p&gt;Robins JM, Hernan MA and Brumback B. Marginal structural models and causal inference in epidemiology. Epidemiol 2000; 11: 550–560.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

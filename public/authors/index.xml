@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Authors | Megha</title>
+    <link>/authors/</link>
+      <atom:link href="/authors/index.xml" rel="self" type="application/rss+xml" />
+    <description>Authors</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language>
+    <image>
+      <url>/img/icon-192.png</url>
+      <title>Authors</title>
+      <link>/authors/</link>
+    </image>
+    
+    <item>
+      <title></title>
+      <link>/authors/admin/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/authors/admin/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Keenan A Pituch, Megha Joshi, Molly E Cain, Tiffany A Whittaker, Wanchen Chang, Ryoungsun Park, Graham J McDougall</title>
+      <link>/authors/keenan-a-pituch-megha-joshi-molly-e-cain-tiffany-a-whittaker-wanchen-chang-ryoungsun-park-graham-j-mcdougall/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/authors/keenan-a-pituch-megha-joshi-molly-e-cain-tiffany-a-whittaker-wanchen-chang-ryoungsun-park-graham-j-mcdougall/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Megha Joshi, Melissa L Aikens, Erin L Dolan</title>
+      <link>/authors/megha-joshi-melissa-l-aikens-erin-l-dolan/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/authors/megha-joshi-melissa-l-aikens-erin-l-dolan/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
