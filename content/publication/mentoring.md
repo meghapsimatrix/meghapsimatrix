@@ -12,7 +12,7 @@ publication_types:
 - "2"
 publishDate: "2019"
 
-summary: Direct ties to faculty is related to better outcomes for undergraduate life-science researchers 
+summary: Direct ties to faculty related to better outcomes for undergraduate life-science researchers. 
 tags:
 - structural equation modeling
 - mentoring structures
