@@ -572,7 +572,7 @@
 </div>
 <div id="real-data-analysis-example" class="section level1">
 <h1>Real Data Analysis Example</h1>
-<p>The data that I use here is from High School and Beyond (HSB) longitudinal study used by Rosenbaum (1986) to analyze the effect of dropping out of high school on later math achievement. The missing data in the original dataset have been replaced with one iteration of imputation using <code>mice</code>. This is not an appropriate method to analyze missing data but for the purpose of the example I am just using the one complete data. For the sake of this example, let’s analyze the effect of math efficacy on later math achievement.</p>
+<p>The data that I use here is from High School and Beyond (HSB) longitudinal study used by Rosenbaum (1986) to analyze the effect of dropping out of high school on later math achievement. The missing data in the original dataset have been replaced with one iteration of imputation using <code>mice</code> (van Buuren &amp; Groothuis-Oudshoorn, 2011). This is not an appropriate method to analyze missing data but for the purpose of the example I am just using the one complete data. For the sake of this example, let’s analyze the effect of math efficacy on later math achievement.</p>
 <div id="loading-the-data" class="section level2">
 <h2>Loading the Data</h2>
 <pre class="r"><code>library(tidyverse)
@@ -620,6 +620,9 @@ summary(dat$ipw_s)</code></pre>
 <p>Hirano K and Imbens GW. The propensity score with continuous treatments. In: Gelman A and Meng X-L (eds) Applied Bayesian modeling and causal inference from incomplete-data perspectives. Chichester: John Wiley &amp; Sons Ltd, 2004, pp.73–84.</p>
 <p>Robins JM, Hernan MA and Brumback B. Marginal structural models and causal inference in epidemiology. Epidemiol 2000; 11: 550–560.</p>
 <p>Stuart, E. A. (2010). Matching methods for causal inference: A review and a look forward. Statistical science: a review journal of the Institute of Mathematical Statistics, 25(1), 1.</p>
+<p>van Buuren, S., &amp; Groothuis-Oudshoorn, K. (2011). mice: Multivariate imputation by
+chained equations in r. Journal of Statistical Software, 45 (3), 1–67. Retrieved from
+<a href="http://www.jstatsoft.org/v45/i03/" class="uri">http://www.jstatsoft.org/v45/i03/</a></p>
 <p>van der Wal, W. M., &amp; Geskus, R. B. (2011). Ipw: an R package for inverse probability weighting. J Stat Softw, 43(13), 1-23.</p>
 <p>Zhu, Y., Coffman, D. L., &amp; Ghosh, D. (2015). A boosting algorithm for estimating generalized propensity scores with continuous treatments. Journal of causal inference, 3(1), 25-40.</p>
 </div>
