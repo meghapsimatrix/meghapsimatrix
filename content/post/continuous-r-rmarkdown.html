@@ -11,36 +11,81 @@ tags: ["propensity score analysis", "causal inference", "continuous treatment"]
 <p>In my qualifying exam, in the written part, I was asked about how to analyze the effect of continuous, not binary, treatment using propensity score analysis. I skipped it for the written but I spent a few days looking up how to analyze this in case I would be asked during my oral examination. Sadly, no one asked me even when I asked them to, so here is a blog detailing my explorations.</p>
 <div id="binary-treatment" class="section level1">
 <h1>Binary Treatment</h1>
-<p>Below let <span class="math inline">\(e(X)\)</span> denote propensity score, <span class="math inline">\(D\)</span> denote a binary treatment, and <span class="math inline">\(X\)</span> denote all the observed confounders. In the case of binary treatment, propensity scores represent the probability of receiving treatment given the covariates:</p>
+<p>For a review of propensity score analysis with binary treatment, please see Stuart (2010). Below let <span class="math inline">\(e(X)\)</span> denote propensity score, <span class="math inline">\(D\)</span> denote a binary treatment, and <span class="math inline">\(X\)</span> denote all the observed confounders. In the case of binary treatment, propensity scores represent the probability of receiving treatment given the covariates:</p>
 <p><span class="math display">\[e(X) = P(D = 1|X)\]</span></p>
 <p>We estimate the scores using logistic regression or machine learning techniques like generalized boosted models.</p>
 </div>
 <div id="extension-to-contiuous-treatment" class="section level1">
 <h1>Extension to Contiuous Treatment</h1>
-<p>In binary treatment context, we assume that the potential outcomes are independent of treatment given <span class="math inline">\(X\)</span>:</p>
+<p>In binary treatment context, we assume that the potential outcomes (<span class="math inline">\(Y(1)\)</span> and <span class="math inline">\(Y(0)\)</span>) are independent of treatment given <span class="math inline">\(X\)</span>:</p>
 <p><span class="math display">\[Y(1), Y(0) \perp\!\!\!\perp D |X\]</span></p>
 <p>and by extension are independent given the propensity scores:</p>
 <p><span class="math display">\[Y(0), Y(1) \perp\!\!\!\perp D|e(X)\]</span></p>
-<p>Hirano and Imbens (2004) introduced the assumption of weak unconfoundedness in context of continuous treatment. They stated: “we do not require joint independence of all potential outcomes. Instead, we require conditional independence to hold for each value of the treatment.” Below, the potential outcome given that <span class="math inline">\(T = t\)</span> is unreated to the treatment given the set of covariates:</p>
+<p>Hirano and Imbens (2004) introduced the assumption of weak unconfoundedness in the context of continuous treatment. They stated: “we do not require joint independence of all potential outcomes. Instead, we require conditional independence to hold for each value of the treatment.” Below, let <span class="math inline">\(T\)</span> denote a continuous treatment variable. The potential outcome given that <span class="math inline">\(T = t\)</span> is unreated to the treatment given the set of covariates:</p>
 <p><span class="math display">\[Y(t) \perp\!\!\!\perp T |X\]</span></p>
-<p>To calculate the propensity scores, in the case of continuous treatment, we cannot find the probability that continuous treatment, <span class="math inline">\(T\)</span>, equals a given value <span class="math inline">\(t\)</span>. The likelihood of continuous variables taking on a given value is zero. For continuous treatment variable, we find the conditional density, the probability that <span class="math inline">\(T\)</span> is infinitely close to <span class="math inline">\(t\)</span>. Below let <span class="math inline">\(r(t,x)\)</span> denote the propensity scores. The right hand side of the equation represents the conditional density function of a normal distribution. To estimate the propensity scores, we need to run a linear regression predicting the treatment by a set of covariates. From that we get the fitted values <span class="math inline">\(X\hat{\beta}\)</span> and <span class="math inline">\({\sigma}^2\)</span> (Austin, 2019). The fitted values take the place of the mean in the density function.</p>
+<p>To calculate the propensity scores, in the case of continuous treatment, we cannot find the probability that continuous treatment, <span class="math inline">\(T\)</span>, equals a given value <span class="math inline">\(t\)</span>. The likelihood of continuous variables taking on a given value is zero. For continuous treatment variable, we find the conditional density, the probability that <span class="math inline">\(T\)</span> is infinitely close to <span class="math inline">\(t\)</span> given <span class="math inline">\(X\)</span>. Below let <span class="math inline">\(r(t,x)\)</span> denote the propensity scores. The right hand side of the equation represents the conditional density function of a normal distribution. To estimate the propensity scores, we need to run a linear regression predicting the treatment by a set of covariates (Austin, 2019). From that we get the fitted values <span class="math inline">\(X\hat{\beta}\)</span> and <span class="math inline">\({\sigma}^2\)</span> (Austin, 2019). The fitted values take the place of the mean in the density function.</p>
 <p><span class="math display">\[ r(t, x) = {f_{T|X}}^{(t|x)} = \frac{1}{\sqrt{2\pi\hat{\sigma}^2}} e^{-\frac{(t - X\hat{\beta})^2}{2\pi\hat{\sigma}^2}}\]</span></p>
-<p>Conditional on the propensity scores we can assume that each potential outcome is independent of treatment given the propensity scores:</p>
+<p>Conditional on the propensity scores, we can assume that each potential outcome is independent of treatment:</p>
 <p><span class="math display">\[Y(t) \perp\!\!\!\perp T |r(t,x)\]</span></p>
 <p>Hirano and Imbens (2004) state that: “Within strata with the same value of <span class="math inline">\(r(t,X)\)</span>, the probability that <span class="math inline">\(T = t\)</span> does not depend on the value of <span class="math inline">\(X\)</span>.”</p>
 <p><span class="math display">\[X \perp\!\!\!\perp 1(T = t)|r(t,x)\]</span></p>
 </div>
 <div id="calculating-weights" class="section level1">
 <h1>Calculating Weights</h1>
-<p>Following the same logic as the inverse propensity weights (IPW) for the estimation of the average treatment effect (ATE) for a binary treatment, we calculate the inverse of the propensity scores are the weights:</p>
+<p>Following the same logic as the inverse propensity weights (IPW) for the estimation of the average treatment effect (ATE) for a binary treatment, we calculate the inverse of the propensity scores as the weights:</p>
 <p><span class="math display">\[\frac{1}{{f_{T|X}}^{(t|x)}}\]</span></p>
 <p>However, Robins et al. (2000) noted that such weights can result in infinite variance (Austin, 2019). They suggested to use stabilized weights as follows:</p>
 <p><span class="math display">\[\frac{{f_{T}}^{(t)}}{{f_{T|X}}^{(t|x)}}\]</span></p>
 <p>Here the numerator represents the marginal density of treatment:</p>
 <p><span class="math display">\[{f_{T}}^{(t)} = \frac{1}{\sqrt{2\pi\hat{\sigma_t}^2}} e^{-\frac{(t - \mu_t)^2}{2\pi\hat{\sigma_t}^2}}\]</span></p>
 </div>
+<div id="real-data-analysis-example" class="section level1">
+<h1>Real Data Analysis Example</h1>
+<p>The data that I use here is from High School and Beyond (HSB) longitudinal study used by Rosenbaum (1986) to analyze the effect of dropping out of high school of later math achievement. For the sake of this example, let’s analyze the effect of math efficacy on later math achievement.</p>
+<div id="loading-the-data" class="section level2">
+<h2>Loading the Data</h2>
+<pre class="r"><code>library(tidyverse)
+
+dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/meghapsimatrix/R_practice/master/Data/HSLS09_complete.csv&quot;)</code></pre>
+</div>
+<div id="the-denominator" class="section level2">
+<h2>The Denominator</h2>
+<p>Here I am getting the numerators of the IPW, the marginal densities. I have regressed math_efficacy on just the intercept and used <code>dnorm</code> function to extract the densities.</p>
+<pre class="r"><code># the numerator
+mod_num &lt;- lm(math_efficacy ~ 1, data = dat)
+
+num &lt;- dnorm(x = dat$math_efficacy, # treatment 
+             mean = fitted.values(mod_num), # fitted values
+             sd = summary(mod_num)$sigma) # model sigma</code></pre>
+</div>
+<div id="the-denominator-1" class="section level2">
+<h2>The Denominator</h2>
+<p>Here I am getting the denominators of the IPW, the conditional densities. I have regressed math_efficacy on <span class="math inline">\(X\)</span> and used <code>dnorm</code> function to extract the densities. Here, I am not quite sure whether to use the model sigma which divides the errors squared by the degrees of freedom before taking the square root or whether I should just take the standard deviation of the errors.</p>
+<pre class="r"><code># the demonimator
+mod_den &lt;- lm(math_efficacy ~ sex + race + language + repeated_grade + IEP + locale + region + SES, data = dat)
+
+den &lt;- dnorm(x = dat$math_efficacy, # treatment variable
+             mean = fitted.values(mod_den), # fitted values
+             sd = summary(mod_den)$sigma)</code></pre>
+</div>
+<div id="the-ipw" class="section level2">
+<h2>The IPW</h2>
+<p>Below I calculate the stabilized weights:</p>
+<pre class="r"><code>dat &lt;- dat %&gt;%
+  mutate(ipw_s = num/den)
+
+summary(dat$ipw_s)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.1398  0.9186  0.9778  1.0001  1.0390  5.9782</code></pre>
+</div>
+<div id="checking-balance-and-outcome-analysis" class="section level2">
+<h2>Checking Balance and Outcome Analysis</h2>
+<p>Please check back on my next post :)</p>
+</div>
+</div>
 <div id="references" class="section level1">
 <h1>References</h1>
 <p>Hirano K and Imbens GW. The propensity score with continuous treatments. In: Gelman A and Meng X-L (eds) Applied Bayesian modeling and causal inference from incomplete-data perspectives. Chichester: John Wiley &amp; Sons Ltd, 2004, pp.73–84.</p>
 <p>Robins JM, Hernan MA and Brumback B. Marginal structural models and causal inference in epidemiology. Epidemiol 2000; 11: 550–560.</p>
+<p>Stuart, E. A. (2010). Matching methods for causal inference: A review and a look forward. Statistical science: a review journal of the Institute of Mathematical Statistics, 25(1), 1.</p>
 </div>
