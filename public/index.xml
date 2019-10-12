@@ -147,7 +147,7 @@
 &lt;/div&gt;
 &lt;div id=&#34;real-data-analysis-example&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Real Data Analysis Example&lt;/h1&gt;
-&lt;p&gt;The data that I use here is from High School and Beyond (HSB) longitudinal study used by Rosenbaum (1986) to analyze the effect of dropping out of high school of later math achievement. The missing data in the original dataset have been replaced with one iteration of imputation using &lt;code&gt;mice&lt;/code&gt;. This is not an appropriate method to analyze missing data but for the purpose of the example I am just using the one complete data. For the sake of this example, let’s analyze the effect of math efficacy on later math achievement.&lt;/p&gt;
+&lt;p&gt;The data that I use here is from High School and Beyond (HSB) longitudinal study used by Rosenbaum (1986) to analyze the effect of dropping out of high school on later math achievement. The missing data in the original dataset have been replaced with one iteration of imputation using &lt;code&gt;mice&lt;/code&gt;. This is not an appropriate method to analyze missing data but for the purpose of the example I am just using the one complete data. For the sake of this example, let’s analyze the effect of math efficacy on later math achievement.&lt;/p&gt;
 &lt;div id=&#34;loading-the-data&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Loading the Data&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
