@@ -27,11 +27,11 @@ and by extension are independent given the propensity scores:
 
 $$Y(0), Y(1) \perp\!\!\!\perp D|e(X)$$
 
-Hirano and Imbens (2004) introduced the assumption of weak unconfoundedness in the context of continuous treatment. They stated: "we do not require joint independence of all potential outcomes. Instead, we require conditional independence to hold for each value of the treatment." Below, let $T$ denote a continuous treatment variable. The potential outcome given that $T = t$ is unreated to the treatment given the set of covariates:
+Hirano and Imbens (2004) introduced the assumption of weak unconfoundedness in the context of continuous treatment. They stated: "we do not require joint independence of all potential outcomes. Instead, we require conditional independence to hold for each value of the treatment." Below, let $T$ denote a continuous treatment variable. The potential outcome when $T = t$ is unreated to the treatment given the set of covariates:
 
 $$Y(t) \perp\!\!\!\perp T |X$$
 
-To calculate the propensity scores, in the case of continuous treatment, we cannot find the probability that continuous treatment, $T$, equals a given value $t$. The likelihood of continuous variables taking on a given value is zero. For continuous treatment variable, we find the conditional density, the probability that $T$ is infinitely close to $t$ given $X$. Below let $r(t,x)$ denote the propensity scores. The right hand side of the equation represents the conditional density function of a normal distribution. To estimate the propensity scores, we need to run a linear regression predicting the treatment by a set of covariates (Austin, 2019). From that we get the fitted values $X\hat{\beta}$ and ${\sigma}^2$ (Austin, 2019). The fitted values take the place of the mean in the density function. 
+To calculate the propensity scores, in the case of continuous treatment, we cannot find the probability that continuous treatment ($T$) equals a given value $t$. The likelihood of continuous variables taking on a given value is zero. For continuous treatment variable, we find the conditional density, the probability that $T$ is infinitely close to $t$ given $X$. Below let $r(t,x)$ denote the propensity scores. The right hand side of the equation represents the conditional density function of a normal distribution. To estimate the propensity scores, we need to run a linear regression predicting the treatment by a set of covariates (Austin, 2019). From that we get the fitted values ($X\hat{\beta}$) and the model variance,  (${\sigma}^2$) (Austin, 2019). The fitted values take the place of the mean in the density function. 
 
 $$ r(t, x) = {f_{T|X}}^{(t|x)} = \frac{1}{\sqrt{2\pi\hat{\sigma}^2}} e^{-\frac{(t - X\hat{\beta})^2}{2\pi\hat{\sigma}^2}}$$
 
@@ -39,7 +39,7 @@ Conditional on the propensity scores, we can assume that each potential outcome 
 
 $$Y(t) \perp\!\!\!\perp T |r(t,x)$$
 
-Hirano and Imbens (2004) state that: "Within strata with the same value of $r(t,X)$, the probability that $T = t$ does not depend on the value of $X$.”
+Hirano and Imbens (2004) state that: "Within strata with the same value of $r(t,X)$, the probability that $T = t$ does not depend on the value of $X$.” I have seen $1$ and $I$ in front of the $(T = t)$, denoting the indicator function (Hirano & Imbens, 2004; Bia & Mattei, 2008).
 
 $$X \perp\!\!\!\perp 1(T = t)|r(t,x)$$
 
@@ -61,7 +61,7 @@ $${f_{T}}^{(t)} = \frac{1}{\sqrt{2\pi\hat{\sigma_t}^2}} e^{-\frac{(t - \mu_t)^2}
 
 # Real Data Analysis Example 
 
-The data that I use here is from High School and Beyond (HSB) longitudinal study used by Rosenbaum (1986) to analyze the effect of dropping out of high school of later math achievement. For the sake of this example, let's analyze the effect of math efficacy on later math achievement. 
+The data that I use here is from High School and Beyond (HSB) longitudinal study used by Rosenbaum (1986) to analyze the effect of dropping out of high school of later math achievement. The missing data in the original dataset have been replaced with one iteration of imputation using `mice`. This is not an appropriate method to analyze missing data but for the purpose of the example I am just using the one complete data. For the sake of this example, let's analyze the effect of math efficacy on later math achievement. 
 
 ## Loading the Data
 
@@ -73,7 +73,7 @@ dat <- read_csv("https://raw.githubusercontent.com/meghapsimatrix/R_practice/mas
 ```
 
 
-## The Denominator
+## The Numerators
 
 Here I am getting the numerators of the IPW, the marginal densities. I have regressed math_efficacy on just the intercept and used `dnorm` function to extract the densities.
 
@@ -88,9 +88,9 @@ num <- dnorm(x = dat$math_efficacy, # treatment
 
 
 
-## The Denominator
+## The Denominators
 
-Here I am getting the denominators of the IPW, the conditional densities. I have regressed math_efficacy on $X$ and used `dnorm` function to extract the densities. Here, I am not quite sure whether to use the model sigma which divides the errors squared by the degrees of freedom before taking the square root or whether I should just take the standard deviation of the errors. 
+Here I am getting the denominators of the IPW, the conditional densities. I have regressed math_efficacy on $X$ and used `dnorm` function to extract the densities. I am not quite sure whether to use the model sigma which divides the sum of errors squared by the degrees of freedom before taking the square root or whether I should just take the standard deviation of the errors. However, with large sample size the difference between the two are negligible. 
 
 ```{r}
 # the demonimator
@@ -117,10 +117,12 @@ summary(dat$ipw_s)
 
 ## Checking Balance and Outcome Analysis
 
-Please check back on my next post :) 
+Please check back on my next post :) Short story: For balance, we have to calculate weighted correlations, and for outcome analysis we estimate the expected outcome for each treatment level and compare (Austin, 2019).
 
 
 # References
+
+Bia, M., & Mattei, A. (2008). A Stata package for the estimation of the dose-response function through adjustment for the generalized propensity score. The Stata Journal, 8(3), 354-373.
 
 Hirano K and Imbens GW. The propensity score with continuous treatments. In: Gelman A and Meng X-L (eds) Applied Bayesian modeling and causal inference from incomplete-data perspectives. Chichester: John Wiley & Sons Ltd, 2004, pp.73–84.
 
