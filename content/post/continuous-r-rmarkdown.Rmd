@@ -129,6 +129,8 @@ Hirano K and Imbens GW. The propensity score with continuous treatments. In: Gel
 
 Robins JM, Hernan MA and Brumback B. Marginal structural models and causal inference in epidemiology. Epidemiol 2000; 11: 550–560.
 
+Rosenbaum, P. R. (1986). Dropping out of high school in the United States: An observational study. Journal of Educational Statistics, 11(3), 207-224.
+
 Stuart, E. A. (2010). Matching methods for causal inference: A review and a look forward. Statistical science: a review journal of the Institute of Mathematical Statistics, 25(1), 1.
 
 van Buuren, S., & Groothuis-Oudshoorn, K. (2011). mice: Multivariate imputation by
