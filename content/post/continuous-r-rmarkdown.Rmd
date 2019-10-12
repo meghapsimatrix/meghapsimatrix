@@ -10,7 +10,7 @@ In my qualifying exam, in the written part, I was asked about how to analyze the
 
 # Binary Treatment
 
-For a review of propensity score analysis with binary treatment, please see Stuart (2010). Below let $e(X)$ denote propensity score, $D$ denote a binary treatment, and $X$ denote all the observed confounders. In the case of binary treatment, propensity scores represent the probability of receiving treatment given the covariates:
+For a review of propensity score analysis with binary treatment, please see Stuart (2010). Below let $e(X)$ denote propensity scores, $D$ denote a binary treatment, and $X$ denote all the observed confounders. In the case of binary treatment, propensity scores represent the probability of receiving treatment given the covariates:
 
 $$e(X) = P(D = 1|X)$$
 
