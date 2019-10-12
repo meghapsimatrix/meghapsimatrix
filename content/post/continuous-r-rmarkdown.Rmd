@@ -57,6 +57,7 @@ Here the numerator represents the marginal density of treatment:
 
 $${f_{T}}^{(t)} = \frac{1}{\sqrt{2\pi\hat{\sigma_t}^2}} e^{-\frac{(t - \mu_t)^2}{2\pi\hat{\sigma_t}^2}}$$
 
+The stabilized weights make the distribution of the IPW narrower as there is less difference between the numerators and the denominators (van der Wal & Geskus, 2011).
 
 
 # Real Data Analysis Example 
@@ -130,8 +131,9 @@ Robins JM, Hernan MA and Brumback B. Marginal structural models and causal infer
 
 Stuart, E. A. (2010). Matching methods for causal inference: A review and a look forward. Statistical science: a review journal of the Institute of Mathematical Statistics, 25(1), 1.
 
+van der Wal, W. M., & Geskus, R. B. (2011). Ipw: an R package for inverse probability weighting. J Stat Softw, 43(13), 1-23.
 
-
+Zhu, Y., Coffman, D. L., & Ghosh, D. (2015). A boosting algorithm for estimating generalized propensity scores with continuous treatments. Journal of causal inference, 3(1), 25-40.
 
 
 
