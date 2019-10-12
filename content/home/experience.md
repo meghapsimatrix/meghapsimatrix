@@ -69,7 +69,7 @@ date_format = "Jan 2006"
   description = """
   Responsibilities include:
   
-  * Analyzed data related to health, education, water, sanitation, and micro-finance projects carried out by the organization in Ethiopia
-  * Developed a method to estimate the number of people who have benefited from the projects
+  * Analyzed data related to health, education, water, sanitation, and micro-finance projects carried out by the organization in Ethiopia.
+  * Developed a method to estimate the number of people who have benefited from the projects.
   """
 +++
