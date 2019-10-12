@@ -28,7 +28,7 @@ date_format = "Jan 2006"
   Responsibilities include:
   
   * Evaluate impact of a college preparatory program using propensity score analysis with generalized boosted modeling.
-  * Working with large datasets and integrating data from multiple sources. 
+  * Work with large datasets and integrating data from multiple sources. 
   """
   
 [[experience]]
