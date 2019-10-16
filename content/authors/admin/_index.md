@@ -22,7 +22,7 @@ interests:
 - Robust variance-covariance matrices
 name: Megha Joshi
 organizations:
-- name: The University of Texas At Austin
+- name: The University of Texas at Austin
   url: ""
 role: Doctoral student
 social:
