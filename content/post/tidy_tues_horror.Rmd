@@ -14,6 +14,7 @@ library(tidyverse)
 library(lubridate)
 library(kableExtra)
 
+
 dat <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv")
 ```
 
@@ -44,7 +45,7 @@ genre_count <- dat_long %>%
   summarize(n = n()) %>%
   ungroup() 
 
-kable(genre_count) %>%
+kable(genre_count, format = "html", table.attr = "style = \"color: white;\"") %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 

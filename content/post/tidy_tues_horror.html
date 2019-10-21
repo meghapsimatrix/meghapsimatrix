@@ -15,6 +15,7 @@ tags: ["propensity score analysis", "causal inference", "continuous treatment"]
 library(lubridate)
 library(kableExtra)
 
+
 dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;)</code></pre>
 </div>
 <div id="genres" class="section level1">
@@ -47,9 +48,9 @@ table(dat_long$genres, useNA = &quot;ifany&quot;)</code></pre>
   summarize(n = n()) %&gt;%
   ungroup() 
 
-kable(genre_count) %&gt;%
+kable(genre_count, format = &quot;html&quot;, table.attr = &quot;style = \&quot;color: white;\&quot;&quot;) %&gt;%
   kable_styling(bootstrap_options = &quot;striped&quot;, full_width = F)</code></pre>
-<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table style="color: white; width: auto !important; margin-left: auto; margin-right: auto;" class="table table-striped">
 <thead>
 <tr>
 <th style="text-align:left;">
