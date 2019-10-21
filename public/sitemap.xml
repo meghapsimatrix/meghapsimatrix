@@ -38,22 +38,12 @@
   </url>
   
   <url>
-    <loc>/tags/causal-inference/</loc>
-    <lastmod>2019-10-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/continuous-treatment/</loc>
+    <loc>/tags/ggplot/</loc>
     <lastmod>2019-10-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-10-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/propensity-score-analysis/</loc>
     <lastmod>2019-10-21T00:00:00+00:00</lastmod>
   </url>
   
@@ -68,12 +58,37 @@
   </url>
   
   <url>
+    <loc>/tags/tidy-tuesday/</loc>
+    <lastmod>2019-10-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/tidy_tues_horror/</loc>
     <lastmod>2019-10-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
+    <loc>/tags/tidyverse/</loc>
+    <lastmod>2019-10-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/causal-inference/</loc>
+    <lastmod>2019-10-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/continuous-treatment/</loc>
+    <lastmod>2019-10-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/continuous-r-rmarkdown/</loc>
+    <lastmod>2019-10-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/propensity-score-analysis/</loc>
     <lastmod>2019-10-09T00:00:00+00:00</lastmod>
   </url>
   

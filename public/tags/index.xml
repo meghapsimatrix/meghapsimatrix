@@ -13,9 +13,33 @@
     </image>
     
     <item>
+      <title>ggplot</title>
+      <link>/tags/ggplot/</link>
+      <pubDate>Mon, 21 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>/tags/ggplot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tidy tuesday</title>
+      <link>/tags/tidy-tuesday/</link>
+      <pubDate>Mon, 21 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>/tags/tidy-tuesday/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tidyverse</title>
+      <link>/tags/tidyverse/</link>
+      <pubDate>Mon, 21 Oct 2019 00:00:00 +0000</pubDate>
+      <guid>/tags/tidyverse/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>causal inference</title>
       <link>/tags/causal-inference/</link>
-      <pubDate>Mon, 21 Oct 2019 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
       <guid>/tags/causal-inference/</guid>
       <description></description>
     </item>
@@ -23,7 +47,7 @@
     <item>
       <title>continuous treatment</title>
       <link>/tags/continuous-treatment/</link>
-      <pubDate>Mon, 21 Oct 2019 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
       <guid>/tags/continuous-treatment/</guid>
       <description></description>
     </item>
@@ -31,7 +55,7 @@
     <item>
       <title>propensity score analysis</title>
       <link>/tags/propensity-score-analysis/</link>
-      <pubDate>Mon, 21 Oct 2019 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate>
       <guid>/tags/propensity-score-analysis/</guid>
       <description></description>
     </item>

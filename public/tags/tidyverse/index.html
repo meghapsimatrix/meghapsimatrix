@@ -31,7 +31,7 @@
   <meta name="description" content="Doctoral student">
 
   
-  <link rel="alternate" hreflang="en-us" href="/tags/causal-inference/">
+  <link rel="alternate" hreflang="en-us" href="/tags/tidyverse/">
 
   
 
@@ -96,14 +96,14 @@
 
 
   
-  <link rel="alternate" href="/tags/causal-inference/index.xml" type="application/rss+xml" title="Megha">
+  <link rel="alternate" href="/tags/tidyverse/index.xml" type="application/rss+xml" title="Megha">
   
 
   <link rel="manifest" href="/index.webmanifest">
   <link rel="icon" type="image/png" href="/img/icon-32.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="/tags/causal-inference/">
+  <link rel="canonical" href="/tags/tidyverse/">
 
   
   
@@ -116,12 +116,12 @@
   <meta property="twitter:card" content="summary">
   
   <meta property="og:site_name" content="Megha">
-  <meta property="og:url" content="/tags/causal-inference/">
-  <meta property="og:title" content="causal inference | Megha">
+  <meta property="og:url" content="/tags/tidyverse/">
+  <meta property="og:title" content="tidyverse | Megha">
   <meta property="og:description" content="Doctoral student"><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
-    <meta property="og:updated_time" content="2019-10-09T00:00:00&#43;00:00">
+    <meta property="og:updated_time" content="2019-10-21T00:00:00&#43;00:00">
   
 
   
@@ -138,7 +138,7 @@
 
 
 
-  <title>causal inference | Megha</title>
+  <title>tidyverse | Megha</title>
 
 </head>
 
@@ -329,7 +329,7 @@
     
   
 <div class="universal-wrapper pt-3">
-  <h1>causal inference</h1>
+  <h1>tidyverse</h1>
 
   
 
@@ -344,10 +344,11 @@
   
   
   <div>
-    <h2><a href="/post/continuous-r-rmarkdown/">Continuous Treatment in Propensity Score Analysis</a></h2>
+    <h2><a href="/post/tidy_tues_horror/">Tidy Tuesday Horror</a></h2>
     <div class="article-style">
       
-      In my qualifying exam, in the written part, I was asked about how to analyze the effect of continuous, not binary, treatment using propensity score analysis. I skipped it for the written but I spent a few days looking up how to analyze this in case I would be asked during my oral examination. Sadly, no one asked me even when I asked them to, so here is a blog detailing my explorations.
+      Load the Data library(tidyverse) library(lubridate) library(kableExtra) dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;)  Genres The genre column looked extremely messy so some stringr fun. Each film can be categorized as multiple genres.
+dat &lt;- dat %&gt;% mutate(genres = str_remove_all(genres, &quot;\\|&quot;)) # remove | dat_long &lt;- dat %&gt;% separate_rows(genres, sep = &quot; &quot;) # long format # Just to check - looks okay table(dat_long$genres, useNA = &quot;ifany&quot;) ## ## Action Adult Adventure Animation Biography Comedy ## 336 1 116 39 4 513 ## Crime Drama Family Fantasy History Horror ## 121 531 11 229 6 3327 ## Music Musical Mystery Reality-TV Romance Sci-Fi ## 5 13 453 1 99 309 ## Sport Thriller War Western &lt;NA&gt; ## 4 1378 14 15 1 dat_long &lt;- dat_long %&gt;% mutate(genres = fct_infreq(fct_lump(genres, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency Table: Number of Films per Genre genre_count &lt;- dat_long %&gt;% filter(!
       
     </div>
   </div>

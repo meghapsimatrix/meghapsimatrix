@@ -121,7 +121,7 @@
   <meta property="og:description" content="Doctoral student"><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
-    <meta property="og:updated_time" content="2019-10-21T00:00:00&#43;00:00">
+    <meta property="og:updated_time" content="2019-10-09T00:00:00&#43;00:00">
   
 
   
@@ -342,16 +342,6 @@
   
 
   
-  
-  <div>
-    <h2><a href="/post/tidy_tues_horror/">Tidy Tuesday Horror</a></h2>
-    <div class="article-style">
-      
-      Load the Data library(tidyverse) library(lubridate) library(kableExtra) dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;)  Genres The genre column looked extremely messy so some stringr fun. Each film can be categorized as multiple genres.
-dat &lt;- dat %&gt;% mutate(genres = str_remove_all(genres, &quot;\\|&quot;)) # remove | dat_long &lt;- dat %&gt;% separate_rows(genres, sep = &quot; &quot;) # long format # Just to check - looks okay table(dat_long$genres, useNA = &quot;ifany&quot;) ## ## Action Adult Adventure Animation Biography Comedy ## 336 1 116 39 4 513 ## Crime Drama Family Fantasy History Horror ## 121 531 11 229 6 3327 ## Music Musical Mystery Reality-TV Romance Sci-Fi ## 5 13 453 1 99 309 ## Sport Thriller War Western &lt;NA&gt; ## 4 1378 14 15 1 dat_long &lt;- dat_long %&gt;% mutate(genres = fct_infreq(fct_lump(genres, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency Table: Number of Films per Genre genre_count &lt;- dat_long %&gt;% filter(!
-      
-    </div>
-  </div>
   
   <div>
     <h2><a href="/post/continuous-r-rmarkdown/">Continuous Treatment in Propensity Score Analysis</a></h2>
