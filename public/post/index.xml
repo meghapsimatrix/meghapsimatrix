@@ -238,21 +238,6 @@ table(is.na(date_dat$yr))&lt;/code&gt;&lt;/pre&gt;
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/tidy_tues_horror_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id=&#34;length-of-movie-by-year&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Length of Movie by Year&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;table(is.na(date_dat$movie_run_time))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## FALSE  TRUE 
-##  2767   543&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;date_dat %&amp;gt;%  
-  mutate(mins = as.numeric(str_remove_all(movie_run_time, &amp;quot;min&amp;quot;))) %&amp;gt;%
-  ggplot(aes(y = yr, x = mins, fill = yr)) +
-  geom_density_ridges(alpha = .5) + 
-  labs(y = &amp;quot;Release Year&amp;quot;, x = &amp;quot;Movie Length (Minutes)&amp;quot;) +
-  theme_light() + 
-  theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/tidy_tues_horror_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
 </description>
     </item>
     

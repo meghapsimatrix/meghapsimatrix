@@ -127,17 +127,5 @@ date_dat %>%
 ```
 
 
-# Length of Movie by Year
 
-```{r, message = FALSE, warning = FALSE}
-table(is.na(date_dat$movie_run_time))
-
-date_dat %>%  
-  mutate(mins = as.numeric(str_remove_all(movie_run_time, "min"))) %>%
-  ggplot(aes(y = yr, x = mins, fill = yr)) +
-  geom_density_ridges(alpha = .5) + 
-  labs(y = "Release Year", x = "Movie Length (Minutes)") +
-  theme_light() + 
-  theme(legend.position = "none")
-```
 
