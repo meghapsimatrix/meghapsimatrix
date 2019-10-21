@@ -27,7 +27,7 @@ dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidyt
 dat_long &lt;- dat %&gt;% 
   separate_rows(genres, sep = &quot; &quot;)  # long format
 
-# Just to check - looks okay
+# Just to check - looks okay - just 1 movie with no genre
 table(dat_long$genres, useNA = &quot;ifany&quot;)</code></pre>
 <pre><code>## 
 ##     Action      Adult  Adventure  Animation  Biography     Comedy 

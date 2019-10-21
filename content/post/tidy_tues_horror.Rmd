@@ -29,7 +29,7 @@ dat <- dat %>%
 dat_long <- dat %>% 
   separate_rows(genres, sep = " ")  # long format
 
-# Just to check - looks okay
+# Just to check - looks okay - just 1 movie with no genre
 table(dat_long$genres, useNA = "ifany")
 
 dat_long <- dat_long %>%
