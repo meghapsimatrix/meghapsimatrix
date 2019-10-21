@@ -187,7 +187,7 @@ Fantasy
   scale_y_continuous(labels = scales::comma) +  # y axis to have commas 
   scale_fill_brewer(palette =&amp;quot;BuPu&amp;quot;, direction = -1) + # reverse order the palette
   theme_light() + 
-  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Count&amp;quot;) + 
+  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Number of Films&amp;quot;) + 
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/tidy_tues_horror_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
