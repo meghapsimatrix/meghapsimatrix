@@ -1,0 +1,92 @@
+---
+title: "Tidy Tuesday Horror"
+author: "Megha Joshi"
+date: 2019-10-21
+categories: ["R"]
+tags: ["propensity score analysis", "causal inference", "continuous treatment"]
+---
+
+
+# Load the Data 
+
+```{r, message = FALSE, warning = FALSE}
+library(tidyverse)
+library(lubridate)
+library(kableExtra)
+
+dat <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv")
+```
+
+# Genres
+
+The genre column looked extremely messy so some `stringr` fun. Each film can be categorized as multiple genres. 
+
+```{r}
+dat <- dat %>%
+  mutate(genres = str_remove_all(genres, "\\|"))  # remove |
+
+dat_long <- dat %>% 
+  separate_rows(genres, sep = " ")  # long format
+
+# Just to check - looks okay
+table(dat_long$genres, useNA = "ifany")
+
+dat_long <- dat_long %>%
+  mutate(genres = fct_infreq(fct_lump(genres, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency
+```
+
+## Table: Number of Films per Genre
+
+```{r}
+genre_count <- dat_long %>%
+  filter(!is.na(genres)) %>%
+  group_by(genres) %>%
+  summarize(n = n()) %>%
+  ungroup() 
+
+kable(genre_count) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+```
+
+## Bar Graph: Distribution of Genres
+
+```{r, fig.height = 4, fig.length = 5}
+genre_count %>%
+  ggplot(aes(x = genres, y = n, fill = genres)) +
+  geom_bar(stat = "identity") + 
+  scale_y_continuous(labels = scales::comma) +  # y axis to have commas 
+  scale_fill_brewer(palette="BuPu", direction = -1) + # reverse order the palette
+  theme_light() + 
+  labs(x = "", y = "Count") + 
+  theme(legend.position = "none")
+```
+
+
+# Review Rating by Release Year
+
+Some of the years are `dmy` format, some just have the years. I am extracting the year and filling in any that didn't parse with the year value from the original release_date column. No missing values for year :) 
+
+```{r, warning = FALSE, message = FALSE}
+date_dat <- dat %>%
+  mutate(date = dmy(release_date),
+         yr = year(date),
+         yr = ifelse(is.na(yr), release_date, yr))
+
+table(is.na(date_dat$yr))
+
+date_dat %>%
+  select(release_date, date, yr) %>%
+  filter(is.na(date)) %>%
+  head()
+
+  
+date_dat %>%  
+  ggplot(aes(x = yr, y = review_rating, fill = yr)) +
+  geom_boxplot(alpha = .5) + 
+  labs(x = "Release Year", y = "Review Rating") + 
+  theme_light()  + 
+  theme(legend.position = "none")
+```
+
+
+Looks like there is a slight increase in ratings for newer films.
