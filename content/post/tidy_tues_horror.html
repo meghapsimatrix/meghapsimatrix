@@ -51,13 +51,13 @@ dat &lt;- dat %&gt;%
 <h1>Genres</h1>
 <p>The genre column looked extremely messy so some <code>stringr</code> fun. Each film can be categorized into multiple genres.</p>
 <pre class="r"><code>dat &lt;- dat %&gt;%
-  mutate(genres = str_remove_all(genres, &quot;\\|&quot;))  # remove |
+  mutate(genres_rec = str_remove_all(genres, &quot;\\|&quot;))  # remove |
 
 dat_long &lt;- dat %&gt;% 
-  separate_rows(genres, sep = &quot; &quot;)  # long format
+  separate_rows(genres_rec, sep = &quot; &quot;)  # long format
 
 # Just to check - looks okay - just 1 movie with no genre
-table(dat_long$genres, useNA = &quot;ifany&quot;)</code></pre>
+table(dat_long$genres_rec, useNA = &quot;ifany&quot;)</code></pre>
 <pre><code>## 
 ##     Action      Adult  Adventure  Animation  Biography     Comedy 
 ##        335          1        115         39          4        511 
@@ -68,12 +68,12 @@ table(dat_long$genres, useNA = &quot;ifany&quot;)</code></pre>
 ##      Sport   Thriller        War    Western       &lt;NA&gt; 
 ##          4       1369         14         15          1</code></pre>
 <pre class="r"><code>dat_long &lt;- dat_long %&gt;%
-  mutate(genres = fct_infreq(fct_lump(genres, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency</code></pre>
+  mutate(genres_rec = fct_infreq(fct_lump(genres_rec, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency</code></pre>
 <div id="table-number-of-films-per-genre" class="section level2">
 <h2>Table: Number of Films per Genre</h2>
 <pre class="r"><code>genre_count &lt;- dat_long %&gt;%
-  filter(!is.na(genres)) %&gt;%
-  group_by(genres) %&gt;%
+  filter(!is.na(genres_rec)) %&gt;%
+  group_by(genres_rec) %&gt;%
   summarize(n = n()) %&gt;%
   ungroup() 
 
@@ -83,7 +83,7 @@ kable(genre_count, format = &quot;html&quot;, table.attr = &quot;style = \&quot;
 <thead>
 <tr>
 <th style="text-align:left;">
-genres
+genres_rec
 </th>
 <th style="text-align:right;">
 n
@@ -169,7 +169,7 @@ Fantasy
 <div id="bar-graph-distribution-of-genres" class="section level2">
 <h2>Bar Graph: Distribution of Genres</h2>
 <pre class="r"><code>genre_count %&gt;%
-  ggplot(aes(x = genres, y = n, fill = genres)) +
+  ggplot(aes(x = genres_rec, y = n, fill = genres_rec)) +
   geom_bar(stat = &quot;identity&quot;) + 
   scale_y_continuous(labels = scales::comma) +  # y axis to have commas 
   scale_fill_brewer(palette =&quot;BuPu&quot;, direction = -1) + # reverse order the palette

@@ -44,24 +44,24 @@ The genre column looked extremely messy so some `stringr` fun. Each film can be 
 
 ```{r}
 dat <- dat %>%
-  mutate(genres = str_remove_all(genres, "\\|"))  # remove |
+  mutate(genres_rec = str_remove_all(genres, "\\|"))  # remove |
 
 dat_long <- dat %>% 
-  separate_rows(genres, sep = " ")  # long format
+  separate_rows(genres_rec, sep = " ")  # long format
 
 # Just to check - looks okay - just 1 movie with no genre
-table(dat_long$genres, useNA = "ifany")
+table(dat_long$genres_rec, useNA = "ifany")
 
 dat_long <- dat_long %>%
-  mutate(genres = fct_infreq(fct_lump(genres, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency
+  mutate(genres_rec = fct_infreq(fct_lump(genres_rec, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency
 ```
 
 ## Table: Number of Films per Genre
 
 ```{r}
 genre_count <- dat_long %>%
-  filter(!is.na(genres)) %>%
-  group_by(genres) %>%
+  filter(!is.na(genres_rec)) %>%
+  group_by(genres_rec) %>%
   summarize(n = n()) %>%
   ungroup() 
 
@@ -73,7 +73,7 @@ kable(genre_count, format = "html", table.attr = "style = \"color: white;\"") %>
 
 ```{r, fig.height = 4, fig.length = 5}
 genre_count %>%
-  ggplot(aes(x = genres, y = n, fill = genres)) +
+  ggplot(aes(x = genres_rec, y = n, fill = genres_rec)) +
   geom_bar(stat = "identity") + 
   scale_y_continuous(labels = scales::comma) +  # y axis to have commas 
   scale_fill_brewer(palette ="BuPu", direction = -1) + # reverse order the palette

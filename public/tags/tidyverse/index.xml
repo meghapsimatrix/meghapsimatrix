@@ -63,13 +63,13 @@ dat &amp;lt;- dat %&amp;gt;%
 &lt;h1&gt;Genres&lt;/h1&gt;
 &lt;p&gt;The genre column looked extremely messy so some &lt;code&gt;stringr&lt;/code&gt; fun. Each film can be categorized into multiple genres.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat &amp;lt;- dat %&amp;gt;%
-  mutate(genres = str_remove_all(genres, &amp;quot;\\|&amp;quot;))  # remove |
+  mutate(genres_rec = str_remove_all(genres, &amp;quot;\\|&amp;quot;))  # remove |
 
 dat_long &amp;lt;- dat %&amp;gt;% 
-  separate_rows(genres, sep = &amp;quot; &amp;quot;)  # long format
+  separate_rows(genres_rec, sep = &amp;quot; &amp;quot;)  # long format
 
 # Just to check - looks okay - just 1 movie with no genre
-table(dat_long$genres, useNA = &amp;quot;ifany&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+table(dat_long$genres_rec, useNA = &amp;quot;ifany&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ##     Action      Adult  Adventure  Animation  Biography     Comedy 
 ##        335          1        115         39          4        511 
@@ -80,12 +80,12 @@ table(dat_long$genres, useNA = &amp;quot;ifany&amp;quot;)&lt;/code&gt;&lt;/pre&g
 ##      Sport   Thriller        War    Western       &amp;lt;NA&amp;gt; 
 ##          4       1369         14         15          1&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat_long &amp;lt;- dat_long %&amp;gt;%
-  mutate(genres = fct_infreq(fct_lump(genres, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency&lt;/code&gt;&lt;/pre&gt;
+  mutate(genres_rec = fct_infreq(fct_lump(genres_rec, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;table-number-of-films-per-genre&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Table: Number of Films per Genre&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;genre_count &amp;lt;- dat_long %&amp;gt;%
-  filter(!is.na(genres)) %&amp;gt;%
-  group_by(genres) %&amp;gt;%
+  filter(!is.na(genres_rec)) %&amp;gt;%
+  group_by(genres_rec) %&amp;gt;%
   summarize(n = n()) %&amp;gt;%
   ungroup() 
 
@@ -95,7 +95,7 @@ kable(genre_count, format = &amp;quot;html&amp;quot;, table.attr = &amp;quot;sty
 &lt;thead&gt;
 &lt;tr&gt;
 &lt;th style=&#34;text-align:left;&#34;&gt;
-genres
+genres_rec
 &lt;/th&gt;
 &lt;th style=&#34;text-align:right;&#34;&gt;
 n
@@ -181,7 +181,7 @@ Fantasy
 &lt;div id=&#34;bar-graph-distribution-of-genres&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Bar Graph: Distribution of Genres&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;genre_count %&amp;gt;%
-  ggplot(aes(x = genres, y = n, fill = genres)) +
+  ggplot(aes(x = genres_rec, y = n, fill = genres_rec)) +
   geom_bar(stat = &amp;quot;identity&amp;quot;) + 
   scale_y_continuous(labels = scales::comma) +  # y axis to have commas 
   scale_fill_brewer(palette =&amp;quot;BuPu&amp;quot;, direction = -1) + # reverse order the palette
