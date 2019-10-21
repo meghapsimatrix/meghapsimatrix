@@ -114,8 +114,8 @@
 &lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
 
 
-&lt;div id=&#34;load-the-data&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Load the Data&lt;/h1&gt;
+&lt;div id=&#34;load-the-data-and-check-duplicates&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Load the Data and Check Duplicates&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
 library(lubridate)
 library(kableExtra)

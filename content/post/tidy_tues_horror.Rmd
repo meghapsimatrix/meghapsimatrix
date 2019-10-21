@@ -7,7 +7,7 @@ tags: ["tidy tuesday", "ggplot", "tidyverse"]
 ---
 
 
-# Load the Data 
+# Load the Data and Check Duplicates
 
 ```{r, message = FALSE, warning = FALSE}
 library(tidyverse)
