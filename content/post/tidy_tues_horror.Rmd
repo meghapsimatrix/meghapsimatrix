@@ -20,7 +20,7 @@ dat <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/m
 
 # Genres
 
-The genre column looked extremely messy so some `stringr` fun. Each film can be categorized as multiple genres. 
+The genre column looked extremely messy so some `stringr` fun. Each film can be categorized into multiple genres. 
 
 ```{r}
 dat <- dat %>%
