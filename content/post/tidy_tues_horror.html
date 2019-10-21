@@ -226,3 +226,18 @@ table(is.na(date_dat$yr))</code></pre>
   theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/tidy_tues_horror_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
+<div id="length-of-movie-by-year" class="section level1">
+<h1>Length of Movie by Year</h1>
+<pre class="r"><code>table(is.na(date_dat$movie_run_time))</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##  2767   543</code></pre>
+<pre class="r"><code>date_dat %&gt;%  
+  mutate(mins = as.numeric(str_remove_all(movie_run_time, &quot;min&quot;))) %&gt;%
+  ggplot(aes(y = yr, x = mins, fill = yr)) +
+  geom_density_ridges(alpha = .5) + 
+  labs(y = &quot;Release Year&quot;, x = &quot;Movie Length (Minutes)&quot;) +
+  theme_light() + 
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="/post/tidy_tues_horror_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
