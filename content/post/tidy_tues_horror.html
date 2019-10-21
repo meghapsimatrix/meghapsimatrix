@@ -16,7 +16,36 @@ library(lubridate)
 library(kableExtra)
 
 
-dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;)</code></pre>
+# there were complete duplicated rows
+dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;) %&gt;%
+  distinct(.) # removes complete dups
+
+# check duplicates
+dup_title &lt;- dat %&gt;%
+  filter(duplicated(title) | duplicated(title, fromLast = TRUE)) %&gt;%
+  arrange(title)
+
+# examined they seem different movies even though same title
+dup_title %&gt;%
+  filter(duplicated(plot))</code></pre>
+<pre><code>## # A tibble: 0 x 12
+## # … with 12 variables: title &lt;chr&gt;, genres &lt;chr&gt;, release_date &lt;chr&gt;,
+## #   release_country &lt;chr&gt;, movie_rating &lt;chr&gt;, review_rating &lt;dbl&gt;,
+## #   movie_run_time &lt;chr&gt;, plot &lt;chr&gt;, cast &lt;chr&gt;, language &lt;chr&gt;,
+## #   filming_locations &lt;chr&gt;, budget &lt;chr&gt;</code></pre>
+<pre class="r"><code>dup_title %&gt;%
+  filter(duplicated(release_date)| duplicated(release_date, fromLast = TRUE))</code></pre>
+<pre><code>## # A tibble: 2 x 12
+##   title genres release_date release_country movie_rating review_rating
+##   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;           &lt;chr&gt;                &lt;dbl&gt;
+## 1 The … Comed… 21-Jul-15    USA             &lt;NA&gt;                   5.2
+## 2 The … Comed… 21-Jul-15    USA             NOT RATED              3.6
+## # … with 6 more variables: movie_run_time &lt;chr&gt;, plot &lt;chr&gt;, cast &lt;chr&gt;,
+## #   language &lt;chr&gt;, filming_locations &lt;chr&gt;, budget &lt;chr&gt;</code></pre>
+<pre class="r"><code># The Jokesters seems to be a duplicate but with different rating and run time
+# Deleting it for now
+dat &lt;- dat %&gt;%
+  filter(title != &quot;The Jokesters (2015)&quot;)</code></pre>
 </div>
 <div id="genres" class="section level1">
 <h1>Genres</h1>
@@ -31,13 +60,13 @@ dat_long &lt;- dat %&gt;%
 table(dat_long$genres, useNA = &quot;ifany&quot;)</code></pre>
 <pre><code>## 
 ##     Action      Adult  Adventure  Animation  Biography     Comedy 
-##        336          1        116         39          4        513 
+##        335          1        115         39          4        511 
 ##      Crime      Drama     Family    Fantasy    History     Horror 
-##        121        531         11        229          6       3327 
+##        120        529         11        229          6       3309 
 ##      Music    Musical    Mystery Reality-TV    Romance     Sci-Fi 
-##          5         13        453          1         99        309 
+##          5         13        453          1         99        308 
 ##      Sport   Thriller        War    Western       &lt;NA&gt; 
-##          4       1378         14         15          1</code></pre>
+##          4       1369         14         15          1</code></pre>
 <pre class="r"><code>dat_long &lt;- dat_long %&gt;%
   mutate(genres = fct_infreq(fct_lump(genres, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency</code></pre>
 <div id="table-number-of-films-per-genre" class="section level2">
@@ -67,7 +96,7 @@ n
 Horror
 </td>
 <td style="text-align:right;">
-3327
+3309
 </td>
 </tr>
 <tr>
@@ -75,7 +104,7 @@ Horror
 Thriller
 </td>
 <td style="text-align:right;">
-1378
+1369
 </td>
 </tr>
 <tr>
@@ -83,7 +112,7 @@ Thriller
 Drama
 </td>
 <td style="text-align:right;">
-531
+529
 </td>
 </tr>
 <tr>
@@ -91,7 +120,7 @@ Drama
 Comedy
 </td>
 <td style="text-align:right;">
-513
+511
 </td>
 </tr>
 <tr>
@@ -107,7 +136,7 @@ Mystery
 Other
 </td>
 <td style="text-align:right;">
-449
+447
 </td>
 </tr>
 <tr>
@@ -115,7 +144,7 @@ Other
 Action
 </td>
 <td style="text-align:right;">
-336
+335
 </td>
 </tr>
 <tr>
@@ -123,7 +152,7 @@ Action
 Sci-Fi
 </td>
 <td style="text-align:right;">
-309
+308
 </td>
 </tr>
 <tr>
@@ -161,7 +190,7 @@ Fantasy
 table(is.na(date_dat$yr))</code></pre>
 <pre><code>## 
 ## FALSE 
-##  3328</code></pre>
+##  3310</code></pre>
 <pre class="r"><code>date_dat %&gt;%
   select(release_date, date, yr) %&gt;%
   filter(is.na(date)) %&gt;%

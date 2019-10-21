@@ -28,7 +28,36 @@ library(lubridate)
 library(kableExtra)
 
 
-dat &amp;lt;- read_csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+# there were complete duplicated rows
+dat &amp;lt;- read_csv(&amp;quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&amp;quot;) %&amp;gt;%
+  distinct(.) # removes complete dups
+
+# check duplicates
+dup_title &amp;lt;- dat %&amp;gt;%
+  filter(duplicated(title) | duplicated(title, fromLast = TRUE)) %&amp;gt;%
+  arrange(title)
+
+# examined they seem different movies even though same title
+dup_title %&amp;gt;%
+  filter(duplicated(plot))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 0 x 12
+## # … with 12 variables: title &amp;lt;chr&amp;gt;, genres &amp;lt;chr&amp;gt;, release_date &amp;lt;chr&amp;gt;,
+## #   release_country &amp;lt;chr&amp;gt;, movie_rating &amp;lt;chr&amp;gt;, review_rating &amp;lt;dbl&amp;gt;,
+## #   movie_run_time &amp;lt;chr&amp;gt;, plot &amp;lt;chr&amp;gt;, cast &amp;lt;chr&amp;gt;, language &amp;lt;chr&amp;gt;,
+## #   filming_locations &amp;lt;chr&amp;gt;, budget &amp;lt;chr&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dup_title %&amp;gt;%
+  filter(duplicated(release_date)| duplicated(release_date, fromLast = TRUE))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 2 x 12
+##   title genres release_date release_country movie_rating review_rating
+##   &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt;  &amp;lt;chr&amp;gt;        &amp;lt;chr&amp;gt;           &amp;lt;chr&amp;gt;                &amp;lt;dbl&amp;gt;
+## 1 The … Comed… 21-Jul-15    USA             &amp;lt;NA&amp;gt;                   5.2
+## 2 The … Comed… 21-Jul-15    USA             NOT RATED              3.6
+## # … with 6 more variables: movie_run_time &amp;lt;chr&amp;gt;, plot &amp;lt;chr&amp;gt;, cast &amp;lt;chr&amp;gt;,
+## #   language &amp;lt;chr&amp;gt;, filming_locations &amp;lt;chr&amp;gt;, budget &amp;lt;chr&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# The Jokesters seems to be a duplicate but with different rating and run time
+# Deleting it for now
+dat &amp;lt;- dat %&amp;gt;%
+  filter(title != &amp;quot;The Jokesters (2015)&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;genres&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Genres&lt;/h1&gt;
@@ -43,13 +72,13 @@ dat_long &amp;lt;- dat %&amp;gt;%
 table(dat_long$genres, useNA = &amp;quot;ifany&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ##     Action      Adult  Adventure  Animation  Biography     Comedy 
-##        336          1        116         39          4        513 
+##        335          1        115         39          4        511 
 ##      Crime      Drama     Family    Fantasy    History     Horror 
-##        121        531         11        229          6       3327 
+##        120        529         11        229          6       3309 
 ##      Music    Musical    Mystery Reality-TV    Romance     Sci-Fi 
-##          5         13        453          1         99        309 
+##          5         13        453          1         99        308 
 ##      Sport   Thriller        War    Western       &amp;lt;NA&amp;gt; 
-##          4       1378         14         15          1&lt;/code&gt;&lt;/pre&gt;
+##          4       1369         14         15          1&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat_long &amp;lt;- dat_long %&amp;gt;%
   mutate(genres = fct_infreq(fct_lump(genres, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;table-number-of-films-per-genre&#34; class=&#34;section level2&#34;&gt;
@@ -79,7 +108,7 @@ n
 Horror
 &lt;/td&gt;
 &lt;td style=&#34;text-align:right;&#34;&gt;
-3327
+3309
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -87,7 +116,7 @@ Horror
 Thriller
 &lt;/td&gt;
 &lt;td style=&#34;text-align:right;&#34;&gt;
-1378
+1369
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -95,7 +124,7 @@ Thriller
 Drama
 &lt;/td&gt;
 &lt;td style=&#34;text-align:right;&#34;&gt;
-531
+529
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -103,7 +132,7 @@ Drama
 Comedy
 &lt;/td&gt;
 &lt;td style=&#34;text-align:right;&#34;&gt;
-513
+511
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -119,7 +148,7 @@ Mystery
 Other
 &lt;/td&gt;
 &lt;td style=&#34;text-align:right;&#34;&gt;
-449
+447
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -127,7 +156,7 @@ Other
 Action
 &lt;/td&gt;
 &lt;td style=&#34;text-align:right;&#34;&gt;
-336
+335
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -135,7 +164,7 @@ Action
 Sci-Fi
 &lt;/td&gt;
 &lt;td style=&#34;text-align:right;&#34;&gt;
-309
+308
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -173,7 +202,7 @@ Fantasy
 table(is.na(date_dat$yr))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ## FALSE 
-##  3328&lt;/code&gt;&lt;/pre&gt;
+##  3310&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;date_dat %&amp;gt;%
   select(release_date, date, yr) %&amp;gt;%
   filter(is.na(date)) %&amp;gt;%

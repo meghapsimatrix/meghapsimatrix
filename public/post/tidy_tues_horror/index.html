@@ -28,8 +28,7 @@
   
     
   
-  <meta name="description" content="Load the Data library(tidyverse) library(lubridate) library(kableExtra) dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;)  Genres The genre column looked extremely messy so some stringr fun. Each film can be categorized into multiple genres.
-dat &lt;- dat %&gt;% mutate(genres = str_remove_all(genres, &quot;\\|&quot;)) # remove | dat_long &lt;- dat %&gt;% separate_rows(genres, sep = &quot; &quot;) # long format # Just to check - looks okay - just 1 movie with no genre table(dat_long$genres, useNA = &quot;ifany&quot;) ## ## Action Adult Adventure Animation Biography Comedy ## 336 1 116 39 4 513 ## Crime Drama Family Fantasy History Horror ## 121 531 11 229 6 3327 ## Music Musical Mystery Reality-TV Romance Sci-Fi ## 5 13 453 1 99 309 ## Sport Thriller War Western &lt;NA&gt; ## 4 1378 14 15 1 dat_long &lt;- dat_long %&gt;% mutate(genres = fct_infreq(fct_lump(genres, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency Table: Number of Films per Genre genre_count &lt;- dat_long %&gt;% filter(!">
+  <meta name="description" content="Load the Data library(tidyverse) library(lubridate) library(kableExtra) # there were complete duplicated rows dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;) %&gt;% distinct(.) # removes complete dups # check duplicates dup_title &lt;- dat %&gt;% filter(duplicated(title) | duplicated(title, fromLast = TRUE)) %&gt;% arrange(title) # examined they seem different movies even though same title dup_title %&gt;% filter(duplicated(plot)) ## # A tibble: 0 x 12 ## # … with 12 variables: title &lt;chr&gt;, genres &lt;chr&gt;, release_date &lt;chr&gt;, ## # release_country &lt;chr&gt;, movie_rating &lt;chr&gt;, review_rating &lt;dbl&gt;, ## # movie_run_time &lt;chr&gt;, plot &lt;chr&gt;, cast &lt;chr&gt;, language &lt;chr&gt;, ## # filming_locations &lt;chr&gt;, budget &lt;chr&gt; dup_title %&gt;% filter(duplicated(release_date)| duplicated(release_date, fromLast = TRUE)) ## # A tibble: 2 x 12 ## title genres release_date release_country movie_rating review_rating ## &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; ## 1 The … Comed… 21-Jul-15 USA &lt;NA&gt; 5.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/tidy_tues_horror/">
@@ -117,8 +116,7 @@ dat &lt;- dat %&gt;% mutate(genres = str_remove_all(genres, &quot;\\|&quot;)) # 
   <meta property="og:site_name" content="Megha">
   <meta property="og:url" content="/post/tidy_tues_horror/">
   <meta property="og:title" content="Tidy Tuesday Horror | Megha">
-  <meta property="og:description" content="Load the Data library(tidyverse) library(lubridate) library(kableExtra) dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;)  Genres The genre column looked extremely messy so some stringr fun. Each film can be categorized into multiple genres.
-dat &lt;- dat %&gt;% mutate(genres = str_remove_all(genres, &quot;\\|&quot;)) # remove | dat_long &lt;- dat %&gt;% separate_rows(genres, sep = &quot; &quot;) # long format # Just to check - looks okay - just 1 movie with no genre table(dat_long$genres, useNA = &quot;ifany&quot;) ## ## Action Adult Adventure Animation Biography Comedy ## 336 1 116 39 4 513 ## Crime Drama Family Fantasy History Horror ## 121 531 11 229 6 3327 ## Music Musical Mystery Reality-TV Romance Sci-Fi ## 5 13 453 1 99 309 ## Sport Thriller War Western &lt;NA&gt; ## 4 1378 14 15 1 dat_long &lt;- dat_long %&gt;% mutate(genres = fct_infreq(fct_lump(genres, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency Table: Number of Films per Genre genre_count &lt;- dat_long %&gt;% filter(!"><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:description" content="Load the Data library(tidyverse) library(lubridate) library(kableExtra) # there were complete duplicated rows dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;) %&gt;% distinct(.) # removes complete dups # check duplicates dup_title &lt;- dat %&gt;% filter(duplicated(title) | duplicated(title, fromLast = TRUE)) %&gt;% arrange(title) # examined they seem different movies even though same title dup_title %&gt;% filter(duplicated(plot)) ## # A tibble: 0 x 12 ## # … with 12 variables: title &lt;chr&gt;, genres &lt;chr&gt;, release_date &lt;chr&gt;, ## # release_country &lt;chr&gt;, movie_rating &lt;chr&gt;, review_rating &lt;dbl&gt;, ## # movie_run_time &lt;chr&gt;, plot &lt;chr&gt;, cast &lt;chr&gt;, language &lt;chr&gt;, ## # filming_locations &lt;chr&gt;, budget &lt;chr&gt; dup_title %&gt;% filter(duplicated(release_date)| duplicated(release_date, fromLast = TRUE)) ## # A tibble: 2 x 12 ## title genres release_date release_country movie_rating review_rating ## &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; ## 1 The … Comed… 21-Jul-15 USA &lt;NA&gt; 5."><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
@@ -170,7 +168,7 @@ dat &lt;- dat %&gt;% mutate(genres = str_remove_all(genres, &quot;\\|&quot;)) # 
       "url": "/img/icon-512.png"
     }
   },
-  "description": "Load the Data library(tidyverse) library(lubridate) library(kableExtra) dat \u0026lt;- read_csv(\u0026quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv\u0026quot;)  Genres The genre column looked extremely messy so some stringr fun. Each film can be categorized into multiple genres.\ndat \u0026lt;- dat %\u0026gt;% mutate(genres = str_remove_all(genres, \u0026quot;\\\\|\u0026quot;)) # remove | dat_long \u0026lt;- dat %\u0026gt;% separate_rows(genres, sep = \u0026quot; \u0026quot;) # long format # Just to check - looks okay - just 1 movie with no genre table(dat_long$genres, useNA = \u0026quot;ifany\u0026quot;) ## ## Action Adult Adventure Animation Biography Comedy ## 336 1 116 39 4 513 ## Crime Drama Family Fantasy History Horror ## 121 531 11 229 6 3327 ## Music Musical Mystery Reality-TV Romance Sci-Fi ## 5 13 453 1 99 309 ## Sport Thriller War Western \u0026lt;NA\u0026gt; ## 4 1378 14 15 1 dat_long \u0026lt;- dat_long %\u0026gt;% mutate(genres = fct_infreq(fct_lump(genres, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency Table: Number of Films per Genre genre_count \u0026lt;- dat_long %\u0026gt;% filter(!"
+  "description": "Load the Data library(tidyverse) library(lubridate) library(kableExtra) # there were complete duplicated rows dat \u0026lt;- read_csv(\u0026quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv\u0026quot;) %\u0026gt;% distinct(.) # removes complete dups # check duplicates dup_title \u0026lt;- dat %\u0026gt;% filter(duplicated(title) | duplicated(title, fromLast = TRUE)) %\u0026gt;% arrange(title) # examined they seem different movies even though same title dup_title %\u0026gt;% filter(duplicated(plot)) ## # A tibble: 0 x 12 ## # … with 12 variables: title \u0026lt;chr\u0026gt;, genres \u0026lt;chr\u0026gt;, release_date \u0026lt;chr\u0026gt;, ## # release_country \u0026lt;chr\u0026gt;, movie_rating \u0026lt;chr\u0026gt;, review_rating \u0026lt;dbl\u0026gt;, ## # movie_run_time \u0026lt;chr\u0026gt;, plot \u0026lt;chr\u0026gt;, cast \u0026lt;chr\u0026gt;, language \u0026lt;chr\u0026gt;, ## # filming_locations \u0026lt;chr\u0026gt;, budget \u0026lt;chr\u0026gt; dup_title %\u0026gt;% filter(duplicated(release_date)| duplicated(release_date, fromLast = TRUE)) ## # A tibble: 2 x 12 ## title genres release_date release_country movie_rating review_rating ## \u0026lt;chr\u0026gt; \u0026lt;chr\u0026gt; \u0026lt;chr\u0026gt; \u0026lt;chr\u0026gt; \u0026lt;chr\u0026gt; \u0026lt;dbl\u0026gt; ## 1 The … Comed… 21-Jul-15 USA \u0026lt;NA\u0026gt; 5."
 }
 </script>
 
@@ -408,7 +406,7 @@ dat &lt;- dat %&gt;% mutate(genres = str_remove_all(genres, &quot;\\|&quot;)) # 
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    2 min read
+    3 min read
   </span>
   
 
@@ -548,7 +546,36 @@ library(lubridate)
 library(kableExtra)
 
 
-dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;)</code></pre>
+# there were complete duplicated rows
+dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;) %&gt;%
+  distinct(.) # removes complete dups
+
+# check duplicates
+dup_title &lt;- dat %&gt;%
+  filter(duplicated(title) | duplicated(title, fromLast = TRUE)) %&gt;%
+  arrange(title)
+
+# examined they seem different movies even though same title
+dup_title %&gt;%
+  filter(duplicated(plot))</code></pre>
+<pre><code>## # A tibble: 0 x 12
+## # … with 12 variables: title &lt;chr&gt;, genres &lt;chr&gt;, release_date &lt;chr&gt;,
+## #   release_country &lt;chr&gt;, movie_rating &lt;chr&gt;, review_rating &lt;dbl&gt;,
+## #   movie_run_time &lt;chr&gt;, plot &lt;chr&gt;, cast &lt;chr&gt;, language &lt;chr&gt;,
+## #   filming_locations &lt;chr&gt;, budget &lt;chr&gt;</code></pre>
+<pre class="r"><code>dup_title %&gt;%
+  filter(duplicated(release_date)| duplicated(release_date, fromLast = TRUE))</code></pre>
+<pre><code>## # A tibble: 2 x 12
+##   title genres release_date release_country movie_rating review_rating
+##   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;           &lt;chr&gt;                &lt;dbl&gt;
+## 1 The … Comed… 21-Jul-15    USA             &lt;NA&gt;                   5.2
+## 2 The … Comed… 21-Jul-15    USA             NOT RATED              3.6
+## # … with 6 more variables: movie_run_time &lt;chr&gt;, plot &lt;chr&gt;, cast &lt;chr&gt;,
+## #   language &lt;chr&gt;, filming_locations &lt;chr&gt;, budget &lt;chr&gt;</code></pre>
+<pre class="r"><code># The Jokesters seems to be a duplicate but with different rating and run time
+# Deleting it for now
+dat &lt;- dat %&gt;%
+  filter(title != &quot;The Jokesters (2015)&quot;)</code></pre>
 </div>
 <div id="genres" class="section level1">
 <h1>Genres</h1>
@@ -563,13 +590,13 @@ dat_long &lt;- dat %&gt;%
 table(dat_long$genres, useNA = &quot;ifany&quot;)</code></pre>
 <pre><code>## 
 ##     Action      Adult  Adventure  Animation  Biography     Comedy 
-##        336          1        116         39          4        513 
+##        335          1        115         39          4        511 
 ##      Crime      Drama     Family    Fantasy    History     Horror 
-##        121        531         11        229          6       3327 
+##        120        529         11        229          6       3309 
 ##      Music    Musical    Mystery Reality-TV    Romance     Sci-Fi 
-##          5         13        453          1         99        309 
+##          5         13        453          1         99        308 
 ##      Sport   Thriller        War    Western       &lt;NA&gt; 
-##          4       1378         14         15          1</code></pre>
+##          4       1369         14         15          1</code></pre>
 <pre class="r"><code>dat_long &lt;- dat_long %&gt;%
   mutate(genres = fct_infreq(fct_lump(genres, n = 8))) # Factor keeping 8 most frequent categories and lumping the rest to Other and order the factor by frequency</code></pre>
 <div id="table-number-of-films-per-genre" class="section level2">
@@ -599,7 +626,7 @@ n
 Horror
 </td>
 <td style="text-align:right;">
-3327
+3309
 </td>
 </tr>
 <tr>
@@ -607,7 +634,7 @@ Horror
 Thriller
 </td>
 <td style="text-align:right;">
-1378
+1369
 </td>
 </tr>
 <tr>
@@ -615,7 +642,7 @@ Thriller
 Drama
 </td>
 <td style="text-align:right;">
-531
+529
 </td>
 </tr>
 <tr>
@@ -623,7 +650,7 @@ Drama
 Comedy
 </td>
 <td style="text-align:right;">
-513
+511
 </td>
 </tr>
 <tr>
@@ -639,7 +666,7 @@ Mystery
 Other
 </td>
 <td style="text-align:right;">
-449
+447
 </td>
 </tr>
 <tr>
@@ -647,7 +674,7 @@ Other
 Action
 </td>
 <td style="text-align:right;">
-336
+335
 </td>
 </tr>
 <tr>
@@ -655,7 +682,7 @@ Action
 Sci-Fi
 </td>
 <td style="text-align:right;">
-309
+308
 </td>
 </tr>
 <tr>
@@ -693,7 +720,7 @@ Fantasy
 table(is.na(date_dat$yr))</code></pre>
 <pre><code>## 
 ## FALSE 
-##  3328</code></pre>
+##  3310</code></pre>
 <pre class="r"><code>date_dat %&gt;%
   select(release_date, date, yr) %&gt;%
   filter(is.na(date)) %&gt;%

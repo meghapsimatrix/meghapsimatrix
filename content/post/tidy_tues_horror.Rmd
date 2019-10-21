@@ -15,7 +15,27 @@ library(lubridate)
 library(kableExtra)
 
 
-dat <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv")
+# there were complete duplicated rows
+dat <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv") %>%
+  distinct(.) # removes complete dups
+
+# check duplicates
+dup_title <- dat %>%
+  filter(duplicated(title) | duplicated(title, fromLast = TRUE)) %>%
+  arrange(title)
+
+# examined they seem different movies even though same title
+dup_title %>%
+  filter(duplicated(plot))
+
+dup_title %>%
+  filter(duplicated(release_date)| duplicated(release_date, fromLast = TRUE))
+
+# The Jokesters seems to be a duplicate but with different rating and run time
+# Deleting it for now
+dat <- dat %>%
+  filter(title != "The Jokesters (2015)")
+
 ```
 
 # Genres
