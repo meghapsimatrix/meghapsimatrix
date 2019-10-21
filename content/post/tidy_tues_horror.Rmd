@@ -56,7 +56,7 @@ genre_count %>%
   ggplot(aes(x = genres, y = n, fill = genres)) +
   geom_bar(stat = "identity") + 
   scale_y_continuous(labels = scales::comma) +  # y axis to have commas 
-  scale_fill_brewer(palette="BuPu", direction = -1) + # reverse order the palette
+  scale_fill_brewer(palette ="BuPu", direction = -1) + # reverse order the palette
   theme_light() + 
   labs(x = "", y = "Count") + 
   theme(legend.position = "none")

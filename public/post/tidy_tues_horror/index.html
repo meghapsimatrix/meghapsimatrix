@@ -675,7 +675,7 @@ Fantasy
   ggplot(aes(x = genres, y = n, fill = genres)) +
   geom_bar(stat = &quot;identity&quot;) + 
   scale_y_continuous(labels = scales::comma) +  # y axis to have commas 
-  scale_fill_brewer(palette=&quot;BuPu&quot;, direction = -1) + # reverse order the palette
+  scale_fill_brewer(palette =&quot;BuPu&quot;, direction = -1) + # reverse order the palette
   theme_light() + 
   labs(x = &quot;&quot;, y = &quot;Count&quot;) + 
   theme(legend.position = &quot;none&quot;)</code></pre>
