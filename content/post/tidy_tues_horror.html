@@ -14,6 +14,7 @@ tags: ["tidy tuesday", "ggplot", "tidyverse"]
 <pre class="r"><code>library(tidyverse)
 library(lubridate)
 library(kableExtra)
+library(ggridges)
 
 
 # there were complete duplicated rows
@@ -191,6 +192,10 @@ table(is.na(date_dat$yr))</code></pre>
 <pre><code>## 
 ## FALSE 
 ##  3310</code></pre>
+<pre class="r"><code>table(is.na(date_dat$review_rating))</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##  3058   252</code></pre>
 <pre class="r"><code>date_dat %&gt;%
   select(release_date, date, yr) %&gt;%
   filter(is.na(date)) %&gt;%
@@ -212,4 +217,12 @@ table(is.na(date_dat$yr))</code></pre>
   theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/tidy_tues_horror_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Looks like there is a slight increase in ratings for newer films.</p>
+<p>And here is a ridgeline plot :)</p>
+<pre class="r"><code>date_dat %&gt;%  
+  ggplot(aes(y = yr, x = review_rating, fill = yr)) +
+  geom_density_ridges(alpha = .5) + 
+  labs(y = &quot;Release Year&quot;, x = &quot;Review Rating&quot;) +
+  theme_light() + 
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="/post/tidy_tues_horror_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>

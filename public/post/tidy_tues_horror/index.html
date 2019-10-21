@@ -28,7 +28,7 @@
   
     
   
-  <meta name="description" content="Load the Data and Check Duplicates library(tidyverse) library(lubridate) library(kableExtra) # there were complete duplicated rows dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;) %&gt;% distinct(.) # removes complete dups # check duplicates dup_title &lt;- dat %&gt;% filter(duplicated(title) | duplicated(title, fromLast = TRUE)) %&gt;% arrange(title) # examined they seem different movies even though same title dup_title %&gt;% filter(duplicated(plot)) ## # A tibble: 0 x 12 ## # … with 12 variables: title &lt;chr&gt;, genres &lt;chr&gt;, release_date &lt;chr&gt;, ## # release_country &lt;chr&gt;, movie_rating &lt;chr&gt;, review_rating &lt;dbl&gt;, ## # movie_run_time &lt;chr&gt;, plot &lt;chr&gt;, cast &lt;chr&gt;, language &lt;chr&gt;, ## # filming_locations &lt;chr&gt;, budget &lt;chr&gt; dup_title %&gt;% filter(duplicated(release_date)| duplicated(release_date, fromLast = TRUE)) ## # A tibble: 2 x 12 ## title genres release_date release_country movie_rating review_rating ## &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; ## 1 The … Comed… 21-Jul-15 USA &lt;NA&gt; 5.">
+  <meta name="description" content="Load the Data and Check Duplicates library(tidyverse) library(lubridate) library(kableExtra) library(ggridges) # there were complete duplicated rows dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;) %&gt;% distinct(.) # removes complete dups # check duplicates dup_title &lt;- dat %&gt;% filter(duplicated(title) | duplicated(title, fromLast = TRUE)) %&gt;% arrange(title) # examined they seem different movies even though same title dup_title %&gt;% filter(duplicated(plot)) ## # A tibble: 0 x 12 ## # … with 12 variables: title &lt;chr&gt;, genres &lt;chr&gt;, release_date &lt;chr&gt;, ## # release_country &lt;chr&gt;, movie_rating &lt;chr&gt;, review_rating &lt;dbl&gt;, ## # movie_run_time &lt;chr&gt;, plot &lt;chr&gt;, cast &lt;chr&gt;, language &lt;chr&gt;, ## # filming_locations &lt;chr&gt;, budget &lt;chr&gt; dup_title %&gt;% filter(duplicated(release_date)| duplicated(release_date, fromLast = TRUE)) ## # A tibble: 2 x 12 ## title genres release_date release_country movie_rating review_rating ## &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; ## 1 The … Comed… 21-Jul-15 USA &lt;NA&gt; 5.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/tidy_tues_horror/">
@@ -116,7 +116,7 @@
   <meta property="og:site_name" content="Megha">
   <meta property="og:url" content="/post/tidy_tues_horror/">
   <meta property="og:title" content="Tidy Tuesday Horror | Megha">
-  <meta property="og:description" content="Load the Data and Check Duplicates library(tidyverse) library(lubridate) library(kableExtra) # there were complete duplicated rows dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;) %&gt;% distinct(.) # removes complete dups # check duplicates dup_title &lt;- dat %&gt;% filter(duplicated(title) | duplicated(title, fromLast = TRUE)) %&gt;% arrange(title) # examined they seem different movies even though same title dup_title %&gt;% filter(duplicated(plot)) ## # A tibble: 0 x 12 ## # … with 12 variables: title &lt;chr&gt;, genres &lt;chr&gt;, release_date &lt;chr&gt;, ## # release_country &lt;chr&gt;, movie_rating &lt;chr&gt;, review_rating &lt;dbl&gt;, ## # movie_run_time &lt;chr&gt;, plot &lt;chr&gt;, cast &lt;chr&gt;, language &lt;chr&gt;, ## # filming_locations &lt;chr&gt;, budget &lt;chr&gt; dup_title %&gt;% filter(duplicated(release_date)| duplicated(release_date, fromLast = TRUE)) ## # A tibble: 2 x 12 ## title genres release_date release_country movie_rating review_rating ## &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; ## 1 The … Comed… 21-Jul-15 USA &lt;NA&gt; 5."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:description" content="Load the Data and Check Duplicates library(tidyverse) library(lubridate) library(kableExtra) library(ggridges) # there were complete duplicated rows dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;) %&gt;% distinct(.) # removes complete dups # check duplicates dup_title &lt;- dat %&gt;% filter(duplicated(title) | duplicated(title, fromLast = TRUE)) %&gt;% arrange(title) # examined they seem different movies even though same title dup_title %&gt;% filter(duplicated(plot)) ## # A tibble: 0 x 12 ## # … with 12 variables: title &lt;chr&gt;, genres &lt;chr&gt;, release_date &lt;chr&gt;, ## # release_country &lt;chr&gt;, movie_rating &lt;chr&gt;, review_rating &lt;dbl&gt;, ## # movie_run_time &lt;chr&gt;, plot &lt;chr&gt;, cast &lt;chr&gt;, language &lt;chr&gt;, ## # filming_locations &lt;chr&gt;, budget &lt;chr&gt; dup_title %&gt;% filter(duplicated(release_date)| duplicated(release_date, fromLast = TRUE)) ## # A tibble: 2 x 12 ## title genres release_date release_country movie_rating review_rating ## &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; ## 1 The … Comed… 21-Jul-15 USA &lt;NA&gt; 5."><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
@@ -168,7 +168,7 @@
       "url": "/img/icon-512.png"
     }
   },
-  "description": "Load the Data and Check Duplicates library(tidyverse) library(lubridate) library(kableExtra) # there were complete duplicated rows dat \u0026lt;- read_csv(\u0026quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv\u0026quot;) %\u0026gt;% distinct(.) # removes complete dups # check duplicates dup_title \u0026lt;- dat %\u0026gt;% filter(duplicated(title) | duplicated(title, fromLast = TRUE)) %\u0026gt;% arrange(title) # examined they seem different movies even though same title dup_title %\u0026gt;% filter(duplicated(plot)) ## # A tibble: 0 x 12 ## # … with 12 variables: title \u0026lt;chr\u0026gt;, genres \u0026lt;chr\u0026gt;, release_date \u0026lt;chr\u0026gt;, ## # release_country \u0026lt;chr\u0026gt;, movie_rating \u0026lt;chr\u0026gt;, review_rating \u0026lt;dbl\u0026gt;, ## # movie_run_time \u0026lt;chr\u0026gt;, plot \u0026lt;chr\u0026gt;, cast \u0026lt;chr\u0026gt;, language \u0026lt;chr\u0026gt;, ## # filming_locations \u0026lt;chr\u0026gt;, budget \u0026lt;chr\u0026gt; dup_title %\u0026gt;% filter(duplicated(release_date)| duplicated(release_date, fromLast = TRUE)) ## # A tibble: 2 x 12 ## title genres release_date release_country movie_rating review_rating ## \u0026lt;chr\u0026gt; \u0026lt;chr\u0026gt; \u0026lt;chr\u0026gt; \u0026lt;chr\u0026gt; \u0026lt;chr\u0026gt; \u0026lt;dbl\u0026gt; ## 1 The … Comed… 21-Jul-15 USA \u0026lt;NA\u0026gt; 5."
+  "description": "Load the Data and Check Duplicates library(tidyverse) library(lubridate) library(kableExtra) library(ggridges) # there were complete duplicated rows dat \u0026lt;- read_csv(\u0026quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv\u0026quot;) %\u0026gt;% distinct(.) # removes complete dups # check duplicates dup_title \u0026lt;- dat %\u0026gt;% filter(duplicated(title) | duplicated(title, fromLast = TRUE)) %\u0026gt;% arrange(title) # examined they seem different movies even though same title dup_title %\u0026gt;% filter(duplicated(plot)) ## # A tibble: 0 x 12 ## # … with 12 variables: title \u0026lt;chr\u0026gt;, genres \u0026lt;chr\u0026gt;, release_date \u0026lt;chr\u0026gt;, ## # release_country \u0026lt;chr\u0026gt;, movie_rating \u0026lt;chr\u0026gt;, review_rating \u0026lt;dbl\u0026gt;, ## # movie_run_time \u0026lt;chr\u0026gt;, plot \u0026lt;chr\u0026gt;, cast \u0026lt;chr\u0026gt;, language \u0026lt;chr\u0026gt;, ## # filming_locations \u0026lt;chr\u0026gt;, budget \u0026lt;chr\u0026gt; dup_title %\u0026gt;% filter(duplicated(release_date)| duplicated(release_date, fromLast = TRUE)) ## # A tibble: 2 x 12 ## title genres release_date release_country movie_rating review_rating ## \u0026lt;chr\u0026gt; \u0026lt;chr\u0026gt; \u0026lt;chr\u0026gt; \u0026lt;chr\u0026gt; \u0026lt;chr\u0026gt; \u0026lt;dbl\u0026gt; ## 1 The … Comed… 21-Jul-15 USA \u0026lt;NA\u0026gt; 5."
 }
 </script>
 
@@ -406,7 +406,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    3 min read
+    4 min read
   </span>
   
 
@@ -544,6 +544,7 @@
 <pre class="r"><code>library(tidyverse)
 library(lubridate)
 library(kableExtra)
+library(ggridges)
 
 
 # there were complete duplicated rows
@@ -721,6 +722,10 @@ table(is.na(date_dat$yr))</code></pre>
 <pre><code>## 
 ## FALSE 
 ##  3310</code></pre>
+<pre class="r"><code>table(is.na(date_dat$review_rating))</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##  3058   252</code></pre>
 <pre class="r"><code>date_dat %&gt;%
   select(release_date, date, yr) %&gt;%
   filter(is.na(date)) %&gt;%
@@ -742,6 +747,14 @@ table(is.na(date_dat$yr))</code></pre>
   theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/tidy_tues_horror_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Looks like there is a slight increase in ratings for newer films.</p>
+<p>And here is a ridgeline plot :)</p>
+<pre class="r"><code>date_dat %&gt;%  
+  ggplot(aes(y = yr, x = review_rating, fill = yr)) +
+  geom_density_ridges(alpha = .5) + 
+  labs(y = &quot;Release Year&quot;, x = &quot;Review Rating&quot;) +
+  theme_light() + 
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="/post/tidy_tues_horror_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 
     </div>

@@ -13,6 +13,7 @@ tags: ["tidy tuesday", "ggplot", "tidyverse"]
 library(tidyverse)
 library(lubridate)
 library(kableExtra)
+library(ggridges)
 
 
 # there were complete duplicated rows
@@ -94,6 +95,7 @@ date_dat <- dat %>%
          yr = ifelse(is.na(yr), release_date, yr))
 
 table(is.na(date_dat$yr))
+table(is.na(date_dat$review_rating))
 
 date_dat %>%
   select(release_date, date, yr) %>%
@@ -111,3 +113,16 @@ date_dat %>%
 
 
 Looks like there is a slight increase in ratings for newer films.
+
+
+And here is a ridgeline plot :)
+
+```{r, message = FALSE, warning = FALSE}
+date_dat %>%  
+  ggplot(aes(y = yr, x = review_rating, fill = yr)) +
+  geom_density_ridges(alpha = .5) + 
+  labs(y = "Release Year", x = "Review Rating") +
+  theme_light() + 
+  theme(legend.position = "none")
+```
+
