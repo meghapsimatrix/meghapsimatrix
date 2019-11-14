@@ -121,7 +121,7 @@
   <meta property="og:description" content="Doctoral student"><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
-    <meta property="og:updated_time" content="2019-10-28T00:00:00&#43;00:00">
+    <meta property="og:updated_time" content="2019-10-21T00:00:00&#43;00:00">
   
 
   
@@ -342,15 +342,6 @@
   
 
   
-  
-  <div>
-    <h2><a href="/post/tidy_tues_squirrels/">Tidy Tuesday Squirrels</a></h2>
-    <div class="article-style">
-      
-      Data library(tidyverse) library(ggmap) library(plotly) dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-29/nyc_squirrels.csv&quot;) dups &lt;- dat %&gt;% filter(duplicated(unique_squirrel_id)) dat_long &lt;- dat %&gt;% gather(activity, done, running:foraging)   Map # register API register_google(key = &quot;AIzaSyDBvuq3Yw-jlO5gAsN17Du1S8THFCyOD5I &quot;) # Central Park Map central_map &lt;- get_map(&quot;Central Park, New York, NY&quot;, zoom = 14) # Create Map map_squirrel &lt;- ggmap(central_map) + geom_point(data = dat_long %&gt;% filter(done == TRUE), aes(x = long, y = lat, color = activity), alpha = .5)+ theme(axis.
-      
-    </div>
-  </div>
   
   <div>
     <h2><a href="/post/tidy_tues_horror/">Tidy Tuesday Horror</a></h2>
