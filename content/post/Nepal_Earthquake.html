@@ -12,6 +12,7 @@ tags: ["Nepal", "Nepal Earthquake 2015", "gganimate", "ggplot", "leaflet"]
 
 
 <p>I wanted to analyze the data from the <a href="https://en.wikipedia.org/wiki/April_2015_Nepal_earthquake">April 2015 Nepal earthquake</a> that resulted in around 10,000 deaths. I am using a <a href="https://data.world/opennepal/1b7b5d6e-3c98-49f4-a884-a167c4040d3a">dataset</a> that I found in <code>data.world</code>. The data contains date, time, location and magnitude of the earthquake and the many aftershocks that followed. The data is updated as of June 2, 2015.</p>
+<p>Nepal is my birthplace, my homeland. The earthquake was an extremely traumatic event for people who live there. Many people lost family members, their houses. I visited Nepal in 2017 and saw that every other house in Patan, Nepal (close to Kathmandu) was damaged. My relatives would talk about their experience of the earthquakes every day.</p>
 <div id="libraries" class="section level1">
 <h1>Libraries</h1>
 <pre class="r"><code>library(tidyverse)
@@ -21,8 +22,8 @@ library(gganimate)
 library(leaflet)
 library(widgetframe)</code></pre>
 </div>
-<div id="read-in-the-data" class="section level1">
-<h1>Read in the data</h1>
+<div id="read-in-the-data-and-clean" class="section level1">
+<h1>Read in the data and clean</h1>
 <pre class="r"><code>earthquake_dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/meghapsimatrix/Data_Visualization/master/data/earthquake-0-csv-1.csv&quot;) %&gt;%
   mutate(lab = paste0(Epicentre, &quot;; &quot;, &quot;Magnitude(ML): &quot;, `Magnitude(ML)`),
          is_gorkha = if_else(`Magnitude(ML)` == max(`Magnitude(ML)`), &quot;Gorkha&quot;, &quot;Aftershocks&quot;))
@@ -112,9 +113,8 @@ animate(np_animate)</code></pre>
 </div>
 <div id="leaflet" class="section level1">
 <h1>Leaflet</h1>
-<p>Created using the <code>leaflet</code> package (not working yet as intended).</p>
+<p>Created using the <code>leaflet</code> package.</p>
 <pre class="r"><code>np_leaf &lt;- leaflet(earthquake_dat) %&gt;% 
-  addTiles()  %&gt;% 
   setView(lat = 27, lng = 85, zoom = 7) %&gt;%
   addProviderTiles(providers$CartoDB.DarkMatter) %&gt;%
   addCircleMarkers(~Longitude, ~Latitude,

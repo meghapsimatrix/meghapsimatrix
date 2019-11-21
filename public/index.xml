@@ -117,6 +117,7 @@
 
 
 &lt;p&gt;I wanted to analyze the data from the &lt;a href=&#34;https://en.wikipedia.org/wiki/April_2015_Nepal_earthquake&#34;&gt;April 2015 Nepal earthquake&lt;/a&gt; that resulted in around 10,000 deaths. I am using a &lt;a href=&#34;https://data.world/opennepal/1b7b5d6e-3c98-49f4-a884-a167c4040d3a&#34;&gt;dataset&lt;/a&gt; that I found in &lt;code&gt;data.world&lt;/code&gt;. The data contains date, time, location and magnitude of the earthquake and the many aftershocks that followed. The data is updated as of June 2, 2015.&lt;/p&gt;
+&lt;p&gt;Nepal is my birthplace, my homeland. The earthquake was an extremely traumatic event for people who live there. Many people lost family members, their houses. I visited Nepal in 2017 and saw that every other house in Patan, Nepal (close to Kathmandu) was damaged. My relatives would talk about their experience of the earthquakes every day.&lt;/p&gt;
 &lt;div id=&#34;libraries&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Libraries&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
@@ -126,8 +127,8 @@ library(gganimate)
 library(leaflet)
 library(widgetframe)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id=&#34;read-in-the-data&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Read in the data&lt;/h1&gt;
+&lt;div id=&#34;read-in-the-data-and-clean&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Read in the data and clean&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;earthquake_dat &amp;lt;- read_csv(&amp;quot;https://raw.githubusercontent.com/meghapsimatrix/Data_Visualization/master/data/earthquake-0-csv-1.csv&amp;quot;) %&amp;gt;%
   mutate(lab = paste0(Epicentre, &amp;quot;; &amp;quot;, &amp;quot;Magnitude(ML): &amp;quot;, `Magnitude(ML)`),
          is_gorkha = if_else(`Magnitude(ML)` == max(`Magnitude(ML)`), &amp;quot;Gorkha&amp;quot;, &amp;quot;Aftershocks&amp;quot;))
@@ -217,9 +218,8 @@ animate(np_animate)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;leaflet&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Leaflet&lt;/h1&gt;
-&lt;p&gt;Created using the &lt;code&gt;leaflet&lt;/code&gt; package (not working yet as intended).&lt;/p&gt;
+&lt;p&gt;Created using the &lt;code&gt;leaflet&lt;/code&gt; package.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;np_leaf &amp;lt;- leaflet(earthquake_dat) %&amp;gt;% 
-  addTiles()  %&amp;gt;% 
   setView(lat = 27, lng = 85, zoom = 7) %&amp;gt;%
   addProviderTiles(providers$CartoDB.DarkMatter) %&amp;gt;%
   addCircleMarkers(~Longitude, ~Latitude,
