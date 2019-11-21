@@ -28,7 +28,7 @@ library(widgetframe)
 
 ```{r, message=FALSE, warning=FALSE}
 earthquake_dat <- read_csv("https://raw.githubusercontent.com/meghapsimatrix/Data_Visualization/master/data/earthquake-0-csv-1.csv") %>%
-  mutate(lab = paste0(Epicentre, "; ", "Magnitude(ML): ", `Magnitude(ML)`))
+  mutate(lab = paste0(Epicentre, "; ", Date,"; Magnitude(ML): ", `Magnitude(ML)`))
 
 head(earthquake_dat)
 
