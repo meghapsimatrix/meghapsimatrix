@@ -641,7 +641,7 @@ animate(np_animate)</code></pre>
 </div>
 <div id="leaflet" class="section level1">
 <h1>Leaflet</h1>
-<p>Created using the <code>leaflet</code> package.</p>
+<p>Created using the <code>leaflet</code> package. Click on the dots on the map to learn the location, date, and the magnitude of the earthquake or aftershock.</p>
 <pre class="r"><code>np_leaf &lt;- leaflet(earthquake_dat) %&gt;% 
   setView(lat = 27, lng = 85, zoom = 7) %&gt;%
   addProviderTiles(providers$CartoDB.DarkMatter) %&gt;%

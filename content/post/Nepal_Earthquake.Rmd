@@ -107,7 +107,7 @@ animate(np_animate)
 
 # Leaflet 
 
-Created using the `leaflet` package.
+Created using the `leaflet` package. Click on the dots on the map to learn the location, date, and the magnitude of the earthquake or aftershock. 
 
 ```{r}
 np_leaf <- leaflet(earthquake_dat) %>% 
