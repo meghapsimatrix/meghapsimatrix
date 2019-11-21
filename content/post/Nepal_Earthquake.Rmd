@@ -1,7 +1,7 @@
 ---
 title: "Nepal Earthquake"
 author: "Megha Joshi"
-date: 2019-10-09
+date: 2019-11-20
 categories: ["R"]
 tags: ["Nepal", "Nepal Earthquake 2015", "leaflet", "gganimate", "ggplot"]
 ---
