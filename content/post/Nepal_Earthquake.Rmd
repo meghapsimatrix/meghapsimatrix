@@ -105,7 +105,7 @@ animate(np_animate)
 
 # Leaflet 
 
-Created using the `leaflet` package:
+Created using the `leaflet` package (not working yet as intended).
 
 ```{r}
 leaflet(earthquake_dat) %>% 
