@@ -28,8 +28,7 @@ library(widgetframe)
 
 ```{r, message=FALSE, warning=FALSE}
 earthquake_dat <- read_csv("https://raw.githubusercontent.com/meghapsimatrix/Data_Visualization/master/data/earthquake-0-csv-1.csv") %>%
-  mutate(lab = paste0(Epicentre, "; ", "Magnitude(ML): ", `Magnitude(ML)`),
-         is_gorkha = if_else(`Magnitude(ML)` == max(`Magnitude(ML)`), "Gorkha", "Aftershocks"))
+  mutate(lab = paste0(Epicentre, "; ", "Magnitude(ML): ", `Magnitude(ML)`))
 
 head(earthquake_dat)
 
@@ -115,7 +114,8 @@ np_leaf <- leaflet(earthquake_dat) %>%
   setView(lat = 27, lng = 85, zoom = 7) %>%
   addProviderTiles(providers$CartoDB.DarkMatter) %>%
   addCircleMarkers(~Longitude, ~Latitude,
-                   radius = ~`Magnitude(ML)`, popup = ~lab, stroke = FALSE, opacity = 2)
+                   radius = ~`Magnitude(ML)`, fillOpacity = 0.5,
+                   popup = ~lab, stroke = FALSE)
 
 frameWidget(np_leaf)
 ```
