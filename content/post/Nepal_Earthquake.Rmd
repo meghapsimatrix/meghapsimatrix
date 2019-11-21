@@ -17,6 +17,7 @@ library(geojsonio)
 library(broom)
 library(gganimate)
 library(leaflet)
+library(widgetframe)
 ```
 
 
@@ -108,12 +109,14 @@ animate(np_animate)
 Created using the `leaflet` package (not working yet as intended).
 
 ```{r}
-leaflet(earthquake_dat) %>% 
+np_leaf <- leaflet(earthquake_dat) %>% 
   addTiles()  %>% 
   setView(lat = 27, lng = 85, zoom = 7) %>%
   addProviderTiles(providers$CartoDB.DarkMatter) %>%
   addCircleMarkers(~Longitude, ~Latitude,
                    radius = ~`Magnitude(ML)`, popup = ~lab, stroke = FALSE, opacity = 2)
+
+frameWidget(np_leaf)
 ```
 
 
