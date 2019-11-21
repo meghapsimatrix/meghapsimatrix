@@ -3,7 +3,7 @@ title: "Nepal Earthquake"
 author: "Megha Joshi"
 date: 2019-11-20
 categories: ["R"]
-tags: ["Nepal", "Nepal Earthquake 2015", "leaflet", "gganimate", "ggplot"]
+tags: ["Nepal", "Nepal Earthquake 2015", "gganimate", "ggplot", "leaflet"]
 ---
 
 I wanted to analyze the data from the [April 2015 Nepal earthquake](https://en.wikipedia.org/wiki/April_2015_Nepal_earthquake) that resulted in around 10,000 deaths. I am using a [dataset](https://data.world/opennepal/1b7b5d6e-3c98-49f4-a884-a167c4040d3a) that I found in `data.world`. The data contains date, time, location and magnitude of the earthquake and the many aftershocks that followed. The data is updated as of June 2, 2015.
@@ -56,20 +56,6 @@ earthquake_dat <- earthquake_dat %>%
 
 
 
-# Leaflet 
-
-Created using the `leaflet` package:
-
-```{r}
-leaflet(earthquake_dat) %>% 
-  addTiles()  %>% 
-  setView(lat = 27, lng = 85, zoom = 7) %>%
-  addProviderTiles(providers$CartoDB.DarkMatter) %>%
-  addCircleMarkers(~Longitude, ~Latitude,
-                   radius = ~`Magnitude(ML)`, popup = ~lab, stroke = FALSE, opacity = 2)
-```
-
-
 # Make a Map of Nepal
 
 I got the code for the base map from [here](https://stackoverflow.com/questions/50859765/chloropleth-map-with-geojson-and-ggplot2).
@@ -117,6 +103,17 @@ animate(np_animate)
 
 
 
+# Leaflet 
 
+Created using the `leaflet` package:
+
+```{r}
+leaflet(earthquake_dat) %>% 
+  addTiles()  %>% 
+  setView(lat = 27, lng = 85, zoom = 7) %>%
+  addProviderTiles(providers$CartoDB.DarkMatter) %>%
+  addCircleMarkers(~Longitude, ~Latitude,
+                   radius = ~`Magnitude(ML)`, popup = ~lab, stroke = FALSE, opacity = 2)
+```
 
 
