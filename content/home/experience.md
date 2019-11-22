@@ -49,6 +49,21 @@ date_format = "Jan 2006"
   company = "The University of Texas at Austin"
   company_url = ""
   location = "Austin, TX"
+  date_start = "2018-06-01"
+  date_end = "2018-08-30"
+  description = """
+  Responsibilities include:
+  
+  * Analyzed data using propensity score matching to evaluate School of Undergraduate Studies programs. Automated creation of reports using R Markdown.
+  * Conducted a workshop on impact assessment.
+
+  """
+  
+[[experience]]
+  title = "Graduate Research Assistant"
+  company = "The University of Texas at Austin"
+  company_url = ""
+  location = "Austin, TX"
   date_start = "2016-01-01"
   date_end = "2016-08-01"
   description = """
