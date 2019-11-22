@@ -20,7 +20,7 @@ tags:
 title: Direct Ties to a Faculty Mentor Related to Positive Outcomes for Undergraduate Researchers
 url_code: ""
 url_dataset: ""
-url_pdf: https://academic.oup.com/bioscience/article/69/5/389/5487221
+url_pdf: ""
 url_poster: ""
 url_project: ""
 url_slides: ""

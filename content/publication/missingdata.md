@@ -21,7 +21,7 @@ tags:
 title: The Performance of Multivariate Methods for Two-Group Comparisons with Small Samples and Incomplete Data
 url_code: ""
 url_dataset: ""
-url_pdf: https://www-tandfonline-com.ezproxy.lib.utexas.edu/doi/pdf/10.1080/00273171.2019.1667217?needAccess=true
+url_pdf: ""
 url_poster: ""
 url_project: ""
 url_slides: ""
