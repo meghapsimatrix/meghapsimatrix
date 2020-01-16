@@ -27,8 +27,8 @@ date_format = "Jan 2006"
   description = """
   Responsibilities include:
   
-  * Evaluate impact of a college preparatory program using propensity score analysis with generalized boosted modeling.
-  * Work with large datasets, integrating data from multiple sources. 
+  * Developed generalized boosted models to estimate propensity scores to evaluate the impact of a college preparatory program. 
+  * Integrated large relational datasets containing information on all students in Texas schools from multiple sources. Wrangled the data for analysis.
   """
   
 [[experience]]
@@ -42,6 +42,7 @@ date_format = "Jan 2006"
   Responsibilities include:
   
   * Assisted in the following courses: Data Analysis, Simulation, Programming in R, Research Design, Survey of Multivariate Methods, Fundamental Statistics, and Statistics in Market Analysis.
+  * Effectively communicated complex statistical methods to students with little prior background in the field. 
   """
   
 [[experience]]
@@ -54,23 +55,9 @@ date_format = "Jan 2006"
   description = """
   Responsibilities include:
   
-  * Analyzed data using propensity score matching to evaluate School of Undergraduate Studies programs. Automated creation of reports using R Markdown.
-  * Conducted a workshop on impact assessment.
-
-  """
-  
-[[experience]]
-  title = "Graduate Research Assistant"
-  company = "The University of Texas at Austin"
-  company_url = ""
-  location = "Austin, TX"
-  date_start = "2016-01-01"
-  date_end = "2016-08-01"
-  description = """
-  Responsibilities include:
-  
-  * Designed a survey using Qualtrics and recruited over a thousand undergraduates nationwide to participate. 
-  * Analyzed data using structural equation modeling.
+  * Developed propensity score models to evaluate School of Undergraduate Studies programs. 
+  * Created visualizations (R::ggplot) of impact analyses and automated creation of reports using R Markdown.
+  * Led a workshop on impact assessment.
 
   """
 
