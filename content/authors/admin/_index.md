@@ -6,7 +6,7 @@ education:
   courses:
   - course: PhD in Quantitative Methods
     institution: The University of Texas at Austin
-    year: 2021 (expected)
+    year: 2020 (expected)
   - course: BA in Art History and Psychology
     institution: Bryn Mawr College
     year: 2014
