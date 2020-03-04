@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>shiny | Megha</title>
+    <link>/tags/shiny/</link>
+      <atom:link href="/tags/shiny/index.xml" rel="self" type="application/rss+xml" />
+    <description>shiny</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 25 Feb 2018 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/img/icon-192.png</url>
+      <title>shiny</title>
+      <link>/tags/shiny/</link>
+    </image>
+    
+    <item>
+      <title>gem_scd shiny app</title>
+      <link>/project/internal-project/gem-scd-shiny-app/</link>
+      <pubDate>Sun, 25 Feb 2018 00:00:00 +0000</pubDate>
+      <guid>/project/internal-project/gem-scd-shiny-app/</guid>
+      <description>&lt;p&gt;NOTE: This post is quite old, and from a previous version of my website. You can find the published version of this article &lt;a href=&#34;https://www.tandfonline.com/doi/abs/10.1080/00273171.2018.1466681&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I have a paper under submission with James E. Pustejovsky titled &amp;ldquo;A gradual effects model for single-case designs&amp;rdquo; (preprint &lt;a href=&#34;https://psyarxiv.com/vh964/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;). The paper proposes a particular form of nonlinear parametric model for single-case designs that offers some flexibility in functional form and error distribution that many of the other parametric models for single-case designs don&amp;rsquo;t. However, one tricky part of it is that there&amp;rsquo;s not a straightforward way to estimate the particular form of the linear predictor we specify for our proposed model using any of the typical modeling packages in R. To estimate the model we profile the likelihood (or quasi-likelihood), and I wrote functions in R to do that. Those functions can be found in the &lt;a href=&#34;https://github.com/jepusto/SingleCaseES&#34; target=&#34;_blank&#34;&gt;SingleCaseES package&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Even then, it&amp;rsquo;s a worry that applied practitioners might not want to use R functions. Chances are good that single-case researchers have never touched R in their life, and even with step by step instructions they may go out of their way to avoid it. &lt;a href=&#34;https://jepusto.shinyapps.io/gem-scd/&#34; target=&#34;_blank&#34;&gt;So I built a calculator (with some design guidance from James)&lt;/a&gt;. Note: James has a very limited data budget on his shinyapps account so by the mid-to-end of the month the website might not be available. If you want to see it, the following code in R should open it up:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;install.packages(&amp;quot;devtools&amp;quot;)
+install.packages(&amp;quot;sourcetools&amp;quot;)
+install.packages(&amp;quot;shiny&amp;quot;)
+install.packages(&amp;quot;markdown&amp;quot;)
+install.packages(&amp;quot;ggplot2&amp;quot;)
+install.packages(&amp;quot;dplyr&amp;quot;)
+install.packages(&amp;quot;purrrlyr&amp;quot;)
+devtools::install_github(&amp;quot;jepusto/SingleCaseES&amp;quot;)
+library(SingleCaseES)
+shine_gem_scd()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The app has self-contained instructions, a calculator for estimating the model for a single data series, as well as a batch calculator for estimating the model for a dataset containing multiple series.&lt;/p&gt;
+
+&lt;p&gt;If the paper is accepted for publication, I&amp;rsquo;ll probably write a slightly lengthier blog post/tutorial for its use.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
