@@ -19,6 +19,8 @@
       <guid>/project/internal-project/simhelpers/</guid>
       <description>
 
+&lt;p&gt;&lt;a href=&#34;https://meghapsimatrix.github.io/simhelpers/index.html&#34; target=&#34;_blank&#34;&gt;Here&lt;/a&gt; is the website for the package.&lt;/p&gt;
+
 &lt;p&gt;Simulations are experiments to study the performance of statistical methods under known data-generating conditions (Morris, White &amp;amp; Crowther, 2018). Methodologists examine questions like: (1) how does ordinary least squares (OLS) regression perform if errors are heteroskedastic? (2) how does the presence of missing data affect treatment effect estimates from a propensity score analysis? (3) how does robust variance estimation perform when sample size is small? To answer such questions, we conduct experiments by simulating thousands of datasets from pseudo-random sampling (Morris et al., 2018).&lt;/p&gt;
 
 &lt;p&gt;The goal of &lt;a href=&#34;https://meghapsimatrix.github.io/simhelpers/index.html&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;simhelpers&lt;/code&gt;&lt;/a&gt; is to assist in running simulation studies. This package provides a set of functions that calculates various performance measures like bias, root mean squared error, rejection rates, and also calculates the associated Monte Carlo standard errors (MCSE). These functions are divided into broad four categories: absolute criteria, relative criteria, rejection rate, and confidence interval coverage. The functions are created to work with &lt;code&gt;tidyeval&lt;/code&gt; practice using packages like &lt;code&gt;dplyr&lt;/code&gt;.&lt;/p&gt;
