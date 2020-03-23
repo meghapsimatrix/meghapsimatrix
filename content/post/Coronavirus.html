@@ -59,7 +59,7 @@ world_mp &lt;- ggplot() +
 covid_map &lt;- world_mp +
   geom_point(aes(x = Long, y = Lat, size = Confirmed),
              data = dat, 
-             colour = &#39;red&#39;, alpha = .4) +
+             colour = &#39;blue&#39;, alpha = .6) +
   labs(size = &#39;Cases&#39;) +
   theme(legend.position = &quot;none&quot;)
 
@@ -86,7 +86,7 @@ animate(covid_animate)</code></pre>
 
 country_dat %&gt;%
   ggplot(aes(x = Confirmed, y = week)) +
-  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;red4&quot;) + 
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;blue4&quot;) + 
   facet_wrap(~ Country) +
   labs(y = &quot;&quot;) + 
   theme_bw()</code></pre>
@@ -96,7 +96,7 @@ country_dat %&gt;%
 <h2>Deaths</h2>
 <pre class="r"><code>country_dat %&gt;%
   ggplot(aes(x = Deaths, y = week)) +
-  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;slategray&quot;) + 
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;red4&quot;) + 
   facet_wrap(~ Country) +
   labs(y = &quot;&quot;) + 
   theme_bw()</code></pre>

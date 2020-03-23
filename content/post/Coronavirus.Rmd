@@ -67,7 +67,7 @@ world_mp <- ggplot() +
 covid_map <- world_mp +
   geom_point(aes(x = Long, y = Lat, size = Confirmed),
              data = dat, 
-             colour = 'red', alpha = .4) +
+             colour = 'blue', alpha = .6) +
   labs(size = 'Cases') +
   theme(legend.position = "none")
 
@@ -97,7 +97,7 @@ country_dat <- dat %>%
 
 country_dat %>%
   ggplot(aes(x = Confirmed, y = week)) +
-  geom_bar(stat = "identity", position = "dodge", fill = "red4") + 
+  geom_bar(stat = "identity", position = "dodge", fill = "blue4") + 
   facet_wrap(~ Country) +
   labs(y = "") + 
   theme_bw()
@@ -108,7 +108,7 @@ country_dat %>%
 ```{r, fig.width=8, fig.height=6}
 country_dat %>%
   ggplot(aes(x = Deaths, y = week)) +
-  geom_bar(stat = "identity", position = "dodge", fill = "slategray") + 
+  geom_bar(stat = "identity", position = "dodge", fill = "red4") + 
   facet_wrap(~ Country) +
   labs(y = "") + 
   theme_bw()
