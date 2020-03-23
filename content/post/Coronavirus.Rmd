@@ -36,7 +36,7 @@ json_data <- fromJSON(paste(readLines(json_file), collapse=""))
 # get list of all resources:
 # print(json_data$resources$name)
 
-path_to_file = json_data$resources$path[2]
+path_to_file <- json_data$resources$path[2]
 dat <- read_csv(url(path_to_file))
 
 dat <- dat %>%
