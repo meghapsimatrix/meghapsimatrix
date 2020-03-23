@@ -29,7 +29,7 @@
     
   
   <meta name="description" content="Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the data I downloaded the data from DataHub.
-json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse=&quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file = json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0)  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %&gt;% addProviderTiles(providers$CartoDB.DarkMatter) %&gt;% addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = .">
+json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file &lt;- json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0)  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %&gt;% addProviderTiles(providers$CartoDB.DarkMatter) %&gt;% addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = .">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/coronavirus/">
@@ -118,7 +118,7 @@ json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json
   <meta property="og:url" content="/post/coronavirus/">
   <meta property="og:title" content="Coronavirus | Megha">
   <meta property="og:description" content="Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the data I downloaded the data from DataHub.
-json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse=&quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file = json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0)  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %&gt;% addProviderTiles(providers$CartoDB.DarkMatter) %&gt;% addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = ."><meta property="og:image" content="/img/icon-192.png">
+json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file &lt;- json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0)  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %&gt;% addProviderTiles(providers$CartoDB.DarkMatter) %&gt;% addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = ."><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
@@ -170,7 +170,7 @@ json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json
       "url": "/img/icon-512.png"
     }
   },
-  "description": "Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the data I downloaded the data from DataHub.\njson_file \u0026lt;- \u0026#39;https://datahub.io/core/covid-19/datapackage.json\u0026#39; json_data \u0026lt;- fromJSON(paste(readLines(json_file), collapse=\u0026quot;\u0026quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file = json_data$resources$path[2] dat \u0026lt;- read_csv(url(path_to_file)) dat \u0026lt;- dat %\u0026gt;% filter(Confirmed != 0)  Coronavirus Confirmed Cases covid_leaf \u0026lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %\u0026gt;% addProviderTiles(providers$CartoDB.DarkMatter) %\u0026gt;% addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = ."
+  "description": "Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the data I downloaded the data from DataHub.\njson_file \u0026lt;- \u0026#39;https://datahub.io/core/covid-19/datapackage.json\u0026#39; json_data \u0026lt;- fromJSON(paste(readLines(json_file), collapse = \u0026quot;\u0026quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file \u0026lt;- json_data$resources$path[2] dat \u0026lt;- read_csv(url(path_to_file)) dat \u0026lt;- dat %\u0026gt;% filter(Confirmed != 0)  Coronavirus Confirmed Cases covid_leaf \u0026lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %\u0026gt;% addProviderTiles(providers$CartoDB.DarkMatter) %\u0026gt;% addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = ."
 }
 </script>
 
@@ -609,12 +609,12 @@ library(gganimate)</code></pre>
 <h1>Read in the data</h1>
 <p>I downloaded the data from <a href="https://datahub.io/core/covid-19">DataHub</a>.</p>
 <pre class="r"><code>json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39;
-json_data &lt;- fromJSON(paste(readLines(json_file), collapse=&quot;&quot;))
+json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;))
 
 # get list of all resources:
 # print(json_data$resources$name)
 
-path_to_file = json_data$resources$path[2]
+path_to_file &lt;- json_data$resources$path[2]
 dat &lt;- read_csv(url(path_to_file))
 
 dat &lt;- dat %&gt;%
