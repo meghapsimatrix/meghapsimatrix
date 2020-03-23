@@ -142,8 +142,8 @@ dat &amp;lt;- read_csv(url(path_to_file))
 dat &amp;lt;- dat %&amp;gt;%
   filter(Confirmed != 0)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id=&#34;coronavirus-leaflet&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Coronavirus Leaflet&lt;/h1&gt;
+&lt;div id=&#34;coronavirus-confirmed-cases&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Coronavirus Confirmed Cases&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;covid_leaf &amp;lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %&amp;gt;% 
   addProviderTiles(providers$CartoDB.DarkMatter)  %&amp;gt;%
   addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = .2)
