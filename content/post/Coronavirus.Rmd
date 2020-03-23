@@ -45,7 +45,7 @@ dat <- dat %>%
 ```
 
 
-# Coronavirus Leaflet
+# Coronavirus Confirmed Cases
 
 ```{r}
 covid_leaf <- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %>% 
