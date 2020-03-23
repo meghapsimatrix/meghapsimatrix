@@ -1,0 +1,125 @@
+---
+title: "Coronavirus"
+author: "Megha Joshi"
+date: "3/23/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Libraries
+
+```{r message = FALSE, warning = FALSE}
+library(tidyverse)
+library(maps)
+library(ggthemes)
+library(jsonlite)
+library(leaflet)
+library(widgetframe)
+library(lubridate)
+library(gganimate)
+```
+
+
+# Read in the data
+
+I downloaded the data from [DataHub](https://datahub.io/core/covid-19).
+
+```{r, message = F, warning = F}
+json_file <- 'https://datahub.io/core/covid-19/datapackage.json'
+json_data <- fromJSON(paste(readLines(json_file), collapse=""))
+
+# get list of all resources:
+# print(json_data$resources$name)
+
+path_to_file = json_data$resources$path[2]
+dat <- read_csv(url(path_to_file))
+
+dat <- dat %>%
+  filter(Confirmed != 0)
+
+```
+
+
+# Coronavirus Leaflet
+
+```{r}
+covid_leaf <- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %>% 
+  addProviderTiles(providers$CartoDB.DarkMatter)  %>%
+  addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = .2)
+
+frameWidget(covid_leaf)
+```
+
+# Map of Confirmed Cases
+
+```{r, fig.width = 10, fig.height = 6}
+world <- map_data('world') %>% fortify
+
+world_mp <- ggplot() +
+  borders("world", colour = "gray30", fill = "gray24") +
+  theme_map() 
+
+covid_map <- world_mp +
+  geom_point(aes(x = Long, y = Lat, size = Confirmed),
+             data = dat, 
+             colour = 'red', alpha = .4) +
+  labs(size = 'Cases') +
+  theme(legend.position = "none")
+
+covid_map
+```
+
+# Animation of Confirmed Cases
+
+```{r}
+covid_animate <- covid_map +
+  transition_states(Date) +
+  labs(title = 'Date: {closest_state}') 
+
+animate(covid_animate)
+```
+
+
+# Cases by Week
+
+## Confirmed 
+
+```{r, fig.width=8, fig.height=6}
+country_dat <- dat %>%
+  filter(`Country/Region` %in% c("China", "Italy", "Korea, South", "US")) %>%
+  rename(Country = `Country/Region`) %>%
+  mutate(week = cut(Date, "week", start.on.monday = FALSE))
+
+country_dat %>%
+  ggplot(aes(x = Confirmed, y = week)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "red4") + 
+  facet_wrap(~ Country) +
+  labs(y = "") + 
+  theme_bw()
+```
+
+## Deaths
+
+```{r, fig.width=8, fig.height=6}
+country_dat %>%
+  ggplot(aes(x = Deaths, y = week)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "slategray") + 
+  facet_wrap(~ Country) +
+  labs(y = "") + 
+  theme_bw()
+```
+
+
+## Recovered
+
+```{r, fig.width=8, fig.height=6}
+country_dat %>%
+  ggplot(aes(x = Recovered, y = week)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "green4") + 
+  facet_wrap(~ Country) +
+  labs(y = "") + 
+  theme_bw()
+```
