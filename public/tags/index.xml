@@ -5,12 +5,52 @@
     <link>/tags/</link>
       <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 04 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 23 Mar 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
       <title>Tags</title>
       <link>/tags/</link>
     </image>
+    
+    <item>
+      <title>coronavirus</title>
+      <link>/tags/coronavirus/</link>
+      <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/coronavirus/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>COVID-19</title>
+      <link>/tags/covid-19/</link>
+      <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/covid-19/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gganimate</title>
+      <link>/tags/gganimate/</link>
+      <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/gganimate/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ggplot</title>
+      <link>/tags/ggplot/</link>
+      <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/ggplot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>leaflet</title>
+      <link>/tags/leaflet/</link>
+      <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/leaflet/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>package</title>
@@ -25,30 +65,6 @@
       <link>/tags/r/</link>
       <pubDate>Wed, 04 Mar 2020 00:00:00 +0000</pubDate>
       <guid>/tags/r/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>gganimate</title>
-      <link>/tags/gganimate/</link>
-      <pubDate>Wed, 20 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>/tags/gganimate/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ggplot</title>
-      <link>/tags/ggplot/</link>
-      <pubDate>Wed, 20 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>/tags/ggplot/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>leaflet</title>
-      <link>/tags/leaflet/</link>
-      <pubDate>Wed, 20 Nov 2019 00:00:00 +0000</pubDate>
-      <guid>/tags/leaflet/</guid>
       <description></description>
     </item>
     
