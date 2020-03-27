@@ -2436,17 +2436,18 @@ path_to_file &lt;- json_data$resources$path[2]
 dat &lt;- read_csv(url(path_to_file))
 
 dat &lt;- dat %&gt;%
-  filter(Confirmed != 0)</code></pre>
+  filter(Confirmed != 0) %&gt;%
+  mutate(lab = paste0(&quot;Confirmed: &quot;, Confirmed, &quot; ,&quot;, &quot;Deaths: &quot;, Deaths))</code></pre>
 </div>
 <div id="coronavirus-confirmed-cases" class="section level1">
 <h1>Coronavirus Confirmed Cases</h1>
 <pre class="r"><code>covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %&gt;% 
   addProviderTiles(providers$CartoDB.DarkMatter)  %&gt;%
-  addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = .2)
+  addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~lab, fillOpacity = .2)
 
 frameWidget(covid_leaf)</code></pre>
-<div id="htmlwidget-0a486e6a13b647938b31" style="width:100%;height:480px;" class="widgetframe html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0a486e6a13b647938b31">{"x":{"url":"Coronavirus_files/figure-html//widgets/widget_unnamed-chunk-3.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-29896f8fe41f61251b18" style="width:100%;height:480px;" class="widgetframe html-widget"></div>
+<script type="application/json" data-for="htmlwidget-29896f8fe41f61251b18">{"x":{"url":"Coronavirus_files/figure-html//widgets/widget_unnamed-chunk-3.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="cases-by-week" class="section level1">
 <h1>Cases by Week</h1>

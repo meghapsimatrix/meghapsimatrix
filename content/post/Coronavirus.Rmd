@@ -40,7 +40,8 @@ path_to_file <- json_data$resources$path[2]
 dat <- read_csv(url(path_to_file))
 
 dat <- dat %>%
-  filter(Confirmed != 0)
+  filter(Confirmed != 0) %>%
+  mutate(lab = paste0("Confirmed: ", Confirmed, " ,", "Deaths: ", Deaths))
 
 ```
 
@@ -50,7 +51,7 @@ dat <- dat %>%
 ```{r}
 covid_leaf <- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %>% 
   addProviderTiles(providers$CartoDB.DarkMatter)  %>%
-  addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = .2)
+  addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~lab, fillOpacity = .2)
 
 frameWidget(covid_leaf)
 ```
