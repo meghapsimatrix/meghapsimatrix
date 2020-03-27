@@ -29,8 +29,8 @@
     
   
   <meta name="description" content="In this post, I am analyzing data on COVID-19 cases worldwide.
-Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the Data I downloaded the data from DataHub.
-json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file &lt;- json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0) %&gt;% mutate(lab = paste0(&quot;Confirmed: &quot;, Confirmed, &quot; ,&quot;, &quot;Deaths: &quot;, Deaths))  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.">
+Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(scales)  Read in the Data I downloaded the data from DataHub.
+json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file &lt;- json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0) %&gt;% mutate(lab = paste0(&quot;Confirmed: &quot;, Confirmed, &quot; ,&quot;, &quot;Deaths: &quot;, Deaths)) %&gt;% rename(Country = `Country/Region`) date &lt;- tibble(Date = unique(dat$Date)) %&gt;% arrange(Date) %&gt;% mutate(days = row_number()) dat &lt;- dat %&gt;% left_join(date, by = &quot;Date&quot;)  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/coronavirus/">
@@ -119,8 +119,8 @@ json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json
   <meta property="og:url" content="/post/coronavirus/">
   <meta property="og:title" content="Coronavirus | Megha">
   <meta property="og:description" content="In this post, I am analyzing data on COVID-19 cases worldwide.
-Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the Data I downloaded the data from DataHub.
-json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file &lt;- json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0) %&gt;% mutate(lab = paste0(&quot;Confirmed: &quot;, Confirmed, &quot; ,&quot;, &quot;Deaths: &quot;, Deaths))  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1."><meta property="og:image" content="/img/icon-192.png">
+Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(scales)  Read in the Data I downloaded the data from DataHub.
+json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file &lt;- json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0) %&gt;% mutate(lab = paste0(&quot;Confirmed: &quot;, Confirmed, &quot; ,&quot;, &quot;Deaths: &quot;, Deaths)) %&gt;% rename(Country = `Country/Region`) date &lt;- tibble(Date = unique(dat$Date)) %&gt;% arrange(Date) %&gt;% mutate(days = row_number()) dat &lt;- dat %&gt;% left_join(date, by = &quot;Date&quot;)  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1."><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
@@ -172,7 +172,7 @@ json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json
       "url": "/img/icon-512.png"
     }
   },
-  "description": "In this post, I am analyzing data on COVID-19 cases worldwide.\nLibraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the Data I downloaded the data from DataHub.\njson_file \u0026lt;- \u0026#39;https://datahub.io/core/covid-19/datapackage.json\u0026#39; json_data \u0026lt;- fromJSON(paste(readLines(json_file), collapse = \u0026quot;\u0026quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file \u0026lt;- json_data$resources$path[2] dat \u0026lt;- read_csv(url(path_to_file)) dat \u0026lt;- dat %\u0026gt;% filter(Confirmed != 0) %\u0026gt;% mutate(lab = paste0(\u0026quot;Confirmed: \u0026quot;, Confirmed, \u0026quot; ,\u0026quot;, \u0026quot;Deaths: \u0026quot;, Deaths))  Coronavirus Confirmed Cases covid_leaf \u0026lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1."
+  "description": "In this post, I am analyzing data on COVID-19 cases worldwide.\nLibraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(scales)  Read in the Data I downloaded the data from DataHub.\njson_file \u0026lt;- \u0026#39;https://datahub.io/core/covid-19/datapackage.json\u0026#39; json_data \u0026lt;- fromJSON(paste(readLines(json_file), collapse = \u0026quot;\u0026quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file \u0026lt;- json_data$resources$path[2] dat \u0026lt;- read_csv(url(path_to_file)) dat \u0026lt;- dat %\u0026gt;% filter(Confirmed != 0) %\u0026gt;% mutate(lab = paste0(\u0026quot;Confirmed: \u0026quot;, Confirmed, \u0026quot; ,\u0026quot;, \u0026quot;Deaths: \u0026quot;, Deaths)) %\u0026gt;% rename(Country = `Country/Region`) date \u0026lt;- tibble(Date = unique(dat$Date)) %\u0026gt;% arrange(Date) %\u0026gt;% mutate(days = row_number()) dat \u0026lt;- dat %\u0026gt;% left_join(date, by = \u0026quot;Date\u0026quot;)  Coronavirus Confirmed Cases covid_leaf \u0026lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1."
 }
 </script>
 
@@ -461,7 +461,7 @@ json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    1 min read
+    2 min read
   </span>
   
 
@@ -606,7 +606,7 @@ library(jsonlite)
 library(leaflet)
 library(widgetframe)
 library(lubridate)
-library(gganimate)</code></pre>
+library(scales)</code></pre>
 </div>
 <div id="read-in-the-data" class="section level1">
 <h1>Read in the Data</h1>
@@ -622,7 +622,15 @@ dat &lt;- read_csv(url(path_to_file))
 
 dat &lt;- dat %&gt;%
   filter(Confirmed != 0) %&gt;%
-  mutate(lab = paste0(&quot;Confirmed: &quot;, Confirmed, &quot; ,&quot;, &quot;Deaths: &quot;, Deaths))</code></pre>
+  mutate(lab = paste0(&quot;Confirmed: &quot;, Confirmed, &quot; ,&quot;, &quot;Deaths: &quot;, Deaths)) %&gt;%
+  rename(Country = `Country/Region`)
+
+date &lt;- tibble(Date = unique(dat$Date)) %&gt;%
+  arrange(Date) %&gt;%
+  mutate(days = row_number())
+
+dat &lt;- dat %&gt;%
+  left_join(date, by = &quot;Date&quot;)</code></pre>
 </div>
 <div id="coronavirus-confirmed-cases" class="section level1">
 <h1>Coronavirus Confirmed Cases</h1>
@@ -639,15 +647,15 @@ frameWidget(covid_leaf)</code></pre>
 <div id="confirmed" class="section level2">
 <h2>Confirmed</h2>
 <pre class="r"><code>country_dat &lt;- dat %&gt;%
-  filter(`Country/Region` %in% c(&quot;China&quot;, &quot;Italy&quot;, &quot;Korea, South&quot;, &quot;US&quot;)) %&gt;%
-  rename(Country = `Country/Region`) %&gt;%
+  filter(Country %in% c(&quot;China&quot;, &quot;Italy&quot;, &quot;Korea, South&quot;, &quot;US&quot;)) %&gt;%
   mutate(week = cut(Date, &quot;week&quot;, start.on.monday = FALSE))
 
 country_dat %&gt;%
   ggplot(aes(x = Confirmed, y = week)) +
   geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;blue4&quot;) + 
   facet_wrap(~ Country) +
-  labs(y = &quot;&quot;) + 
+  labs(y = &quot;&quot;, x = &quot;Confirmed Cases&quot;) + 
+  scale_x_continuous(labels = comma) +
   theme_bw()</code></pre>
 <p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png" width="768" /></p>
 </div>
@@ -658,9 +666,24 @@ country_dat %&gt;%
   geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;red4&quot;) + 
   facet_wrap(~ Country) +
   labs(y = &quot;&quot;) + 
+  scale_x_continuous(labels = comma) +
   theme_bw()</code></pre>
 <p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png" width="768" /></p>
 </div>
+</div>
+<div id="confirmed-cases-by-days" class="section level1">
+<h1>Confirmed Cases by Days</h1>
+<pre class="r"><code>country_dat %&gt;%
+  group_by(days, Country) %&gt;%
+  summarize(Confirmed = sum(Confirmed)) %&gt;%
+  ungroup() %&gt;%
+  ggplot(aes(x = days, y = Confirmed, color = Country)) +
+  geom_line(size = 1) +
+  scale_y_continuous(labels = comma) +
+  scale_color_brewer(type = &quot;qual&quot;, palette = 6) + 
+  labs(x = &quot;Days&quot;, y = &quot;Confirmed Cases&quot;) + 
+  theme_bw()</code></pre>
+<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 
     </div>

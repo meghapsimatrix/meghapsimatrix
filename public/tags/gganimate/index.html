@@ -399,8 +399,8 @@
     <div class="article-style">
       
       In this post, I am analyzing data on COVID-19 cases worldwide.
-Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the Data I downloaded the data from DataHub.
-json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file &lt;- json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0) %&gt;% mutate(lab = paste0(&quot;Confirmed: &quot;, Confirmed, &quot; ,&quot;, &quot;Deaths: &quot;, Deaths))  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.
+Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(scales)  Read in the Data I downloaded the data from DataHub.
+json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file &lt;- json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0) %&gt;% mutate(lab = paste0(&quot;Confirmed: &quot;, Confirmed, &quot; ,&quot;, &quot;Deaths: &quot;, Deaths)) %&gt;% rename(Country = `Country/Region`) date &lt;- tibble(Date = unique(dat$Date)) %&gt;% arrange(Date) %&gt;% mutate(days = row_number()) dat &lt;- dat %&gt;% left_join(date, by = &quot;Date&quot;)  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.
       
     </div>
   </div>

@@ -33,7 +33,7 @@ library(jsonlite)
 library(leaflet)
 library(widgetframe)
 library(lubridate)
-library(gganimate)&lt;/code&gt;&lt;/pre&gt;
+library(scales)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;read-in-the-data&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Read in the Data&lt;/h1&gt;
@@ -49,7 +49,15 @@ dat &amp;lt;- read_csv(url(path_to_file))
 
 dat &amp;lt;- dat %&amp;gt;%
   filter(Confirmed != 0) %&amp;gt;%
-  mutate(lab = paste0(&amp;quot;Confirmed: &amp;quot;, Confirmed, &amp;quot; ,&amp;quot;, &amp;quot;Deaths: &amp;quot;, Deaths))&lt;/code&gt;&lt;/pre&gt;
+  mutate(lab = paste0(&amp;quot;Confirmed: &amp;quot;, Confirmed, &amp;quot; ,&amp;quot;, &amp;quot;Deaths: &amp;quot;, Deaths)) %&amp;gt;%
+  rename(Country = `Country/Region`)
+
+date &amp;lt;- tibble(Date = unique(dat$Date)) %&amp;gt;%
+  arrange(Date) %&amp;gt;%
+  mutate(days = row_number())
+
+dat &amp;lt;- dat %&amp;gt;%
+  left_join(date, by = &amp;quot;Date&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;coronavirus-confirmed-cases&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Coronavirus Confirmed Cases&lt;/h1&gt;
@@ -66,15 +74,15 @@ frameWidget(covid_leaf)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;confirmed&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Confirmed&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;country_dat &amp;lt;- dat %&amp;gt;%
-  filter(`Country/Region` %in% c(&amp;quot;China&amp;quot;, &amp;quot;Italy&amp;quot;, &amp;quot;Korea, South&amp;quot;, &amp;quot;US&amp;quot;)) %&amp;gt;%
-  rename(Country = `Country/Region`) %&amp;gt;%
+  filter(Country %in% c(&amp;quot;China&amp;quot;, &amp;quot;Italy&amp;quot;, &amp;quot;Korea, South&amp;quot;, &amp;quot;US&amp;quot;)) %&amp;gt;%
   mutate(week = cut(Date, &amp;quot;week&amp;quot;, start.on.monday = FALSE))
 
 country_dat %&amp;gt;%
   ggplot(aes(x = Confirmed, y = week)) +
   geom_bar(stat = &amp;quot;identity&amp;quot;, position = &amp;quot;dodge&amp;quot;, fill = &amp;quot;blue4&amp;quot;) + 
   facet_wrap(~ Country) +
-  labs(y = &amp;quot;&amp;quot;) + 
+  labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Confirmed Cases&amp;quot;) + 
+  scale_x_continuous(labels = comma) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
@@ -85,9 +93,24 @@ country_dat %&amp;gt;%
   geom_bar(stat = &amp;quot;identity&amp;quot;, position = &amp;quot;dodge&amp;quot;, fill = &amp;quot;red4&amp;quot;) + 
   facet_wrap(~ Country) +
   labs(y = &amp;quot;&amp;quot;) + 
+  scale_x_continuous(labels = comma) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;confirmed-cases-by-days&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Confirmed Cases by Days&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;country_dat %&amp;gt;%
+  group_by(days, Country) %&amp;gt;%
+  summarize(Confirmed = sum(Confirmed)) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  ggplot(aes(x = days, y = Confirmed, color = Country)) +
+  geom_line(size = 1) +
+  scale_y_continuous(labels = comma) +
+  scale_color_brewer(type = &amp;quot;qual&amp;quot;, palette = 6) + 
+  labs(x = &amp;quot;Days&amp;quot;, y = &amp;quot;Confirmed Cases&amp;quot;) + 
+  theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
