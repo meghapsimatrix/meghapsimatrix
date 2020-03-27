@@ -23,7 +23,7 @@ library(jsonlite)
 library(leaflet)
 library(widgetframe)
 library(lubridate)
-library(gganimate)
+library(scales)
 ```
 
 
@@ -43,7 +43,15 @@ dat <- read_csv(url(path_to_file))
 
 dat <- dat %>%
   filter(Confirmed != 0) %>%
-  mutate(lab = paste0("Confirmed: ", Confirmed, " ,", "Deaths: ", Deaths))
+  mutate(lab = paste0("Confirmed: ", Confirmed, " ,", "Deaths: ", Deaths)) %>%
+  rename(Country = `Country/Region`)
+
+date <- tibble(Date = unique(dat$Date)) %>%
+  arrange(Date) %>%
+  mutate(days = row_number())
+
+dat <- dat %>%
+  left_join(date, by = "Date")
 
 ```
 
@@ -65,15 +73,15 @@ frameWidget(covid_leaf)
 
 ```{r, fig.width=8, fig.height=6}
 country_dat <- dat %>%
-  filter(`Country/Region` %in% c("China", "Italy", "Korea, South", "US")) %>%
-  rename(Country = `Country/Region`) %>%
+  filter(Country %in% c("China", "Italy", "Korea, South", "US")) %>%
   mutate(week = cut(Date, "week", start.on.monday = FALSE))
 
 country_dat %>%
   ggplot(aes(x = Confirmed, y = week)) +
   geom_bar(stat = "identity", position = "dodge", fill = "blue4") + 
   facet_wrap(~ Country) +
-  labs(y = "") + 
+  labs(y = "", x = "Confirmed Cases") + 
+  scale_x_continuous(labels = comma) +
   theme_bw()
 ```
 
@@ -85,8 +93,22 @@ country_dat %>%
   geom_bar(stat = "identity", position = "dodge", fill = "red4") + 
   facet_wrap(~ Country) +
   labs(y = "") + 
+  scale_x_continuous(labels = comma) +
   theme_bw()
 ```
 
+# Confirmed Cases by Days
 
+```{r}
+country_dat %>%
+  group_by(days, Country) %>%
+  summarize(Confirmed = sum(Confirmed)) %>%
+  ungroup() %>%
+  ggplot(aes(x = days, y = Confirmed, color = Country)) +
+  geom_line(size = 1) +
+  scale_y_continuous(labels = comma) +
+  scale_color_brewer(type = "qual", palette = 6) + 
+  labs(x = "Days", y = "Confirmed Cases") + 
+  theme_bw()
+```
 
