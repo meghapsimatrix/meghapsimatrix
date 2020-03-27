@@ -116,6 +116,7 @@
 &lt;script src=&#34;/rmarkdown-libs/widgetframe-binding/widgetframe.js&#34;&gt;&lt;/script&gt;
 
 
+&lt;p&gt;In this post, I am analyzing data on COVID-19 cases worldwide.&lt;/p&gt;
 &lt;div id=&#34;libraries&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Libraries&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)

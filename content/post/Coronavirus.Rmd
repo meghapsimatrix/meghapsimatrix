@@ -11,6 +11,8 @@ tags: ["coronavirus", "COVID-19", "gganimate", "ggplot", "leaflet"]
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+In this post, I am analyzing data on COVID-19 cases worldwide. 
+
 # Libraries
 
 ```{r message = FALSE, warning = FALSE}
