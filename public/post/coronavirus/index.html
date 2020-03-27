@@ -28,8 +28,8 @@
   
     
   
-  <meta name="description" content="Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the data I downloaded the data from DataHub.
-json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file &lt;- json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0)  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %&gt;% addProviderTiles(providers$CartoDB.DarkMatter) %&gt;% addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = .">
+  <meta name="description" content="Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the Data I downloaded the data from DataHub.
+json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file &lt;- json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0) %&gt;% mutate(lab = paste0(&quot;Confirmed: &quot;, Confirmed, &quot; ,&quot;, &quot;Deaths: &quot;, Deaths))  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/coronavirus/">
@@ -117,14 +117,14 @@ json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json
   <meta property="og:site_name" content="Megha">
   <meta property="og:url" content="/post/coronavirus/">
   <meta property="og:title" content="Coronavirus | Megha">
-  <meta property="og:description" content="Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the data I downloaded the data from DataHub.
-json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file &lt;- json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0)  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %&gt;% addProviderTiles(providers$CartoDB.DarkMatter) %&gt;% addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = ."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:description" content="Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the Data I downloaded the data from DataHub.
+json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file &lt;- json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0) %&gt;% mutate(lab = paste0(&quot;Confirmed: &quot;, Confirmed, &quot; ,&quot;, &quot;Deaths: &quot;, Deaths))  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1."><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
-      <meta property="article:published_time" content="2020-03-23T00:00:00&#43;00:00">
+      <meta property="article:published_time" content="2020-03-27T00:00:00&#43;00:00">
     
-    <meta property="article:modified_time" content="2020-03-23T00:00:00&#43;00:00">
+    <meta property="article:modified_time" content="2020-03-27T00:00:00&#43;00:00">
   
 
   
@@ -154,8 +154,8 @@ json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json
   },
   "headline": "Coronavirus",
   
-  "datePublished": "2020-03-23T00:00:00Z",
-  "dateModified": "2020-03-23T00:00:00Z",
+  "datePublished": "2020-03-27T00:00:00Z",
+  "dateModified": "2020-03-27T00:00:00Z",
   
   "author": {
     "@type": "Person",
@@ -170,7 +170,7 @@ json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json
       "url": "/img/icon-512.png"
     }
   },
-  "description": "Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the data I downloaded the data from DataHub.\njson_file \u0026lt;- \u0026#39;https://datahub.io/core/covid-19/datapackage.json\u0026#39; json_data \u0026lt;- fromJSON(paste(readLines(json_file), collapse = \u0026quot;\u0026quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file \u0026lt;- json_data$resources$path[2] dat \u0026lt;- read_csv(url(path_to_file)) dat \u0026lt;- dat %\u0026gt;% filter(Confirmed != 0)  Coronavirus Confirmed Cases covid_leaf \u0026lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %\u0026gt;% addProviderTiles(providers$CartoDB.DarkMatter) %\u0026gt;% addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = ."
+  "description": "Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the Data I downloaded the data from DataHub.\njson_file \u0026lt;- \u0026#39;https://datahub.io/core/covid-19/datapackage.json\u0026#39; json_data \u0026lt;- fromJSON(paste(readLines(json_file), collapse = \u0026quot;\u0026quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file \u0026lt;- json_data$resources$path[2] dat \u0026lt;- read_csv(url(path_to_file)) dat \u0026lt;- dat %\u0026gt;% filter(Confirmed != 0) %\u0026gt;% mutate(lab = paste0(\u0026quot;Confirmed: \u0026quot;, Confirmed, \u0026quot; ,\u0026quot;, \u0026quot;Deaths: \u0026quot;, Deaths))  Coronavirus Confirmed Cases covid_leaf \u0026lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1."
 }
 </script>
 
@@ -450,7 +450,7 @@ json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json
     
       
     
-    Mar 23, 2020
+    Mar 27, 2020
   </span>
   
 
@@ -459,7 +459,7 @@ json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    2 min read
+    1 min read
   </span>
   
 
@@ -606,7 +606,7 @@ library(lubridate)
 library(gganimate)</code></pre>
 </div>
 <div id="read-in-the-data" class="section level1">
-<h1>Read in the data</h1>
+<h1>Read in the Data</h1>
 <p>I downloaded the data from <a href="https://datahub.io/core/covid-19">DataHub</a>.</p>
 <pre class="r"><code>json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39;
 json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;))
@@ -618,44 +618,18 @@ path_to_file &lt;- json_data$resources$path[2]
 dat &lt;- read_csv(url(path_to_file))
 
 dat &lt;- dat %&gt;%
-  filter(Confirmed != 0)</code></pre>
+  filter(Confirmed != 0) %&gt;%
+  mutate(lab = paste0(&quot;Confirmed: &quot;, Confirmed, &quot; ,&quot;, &quot;Deaths: &quot;, Deaths))</code></pre>
 </div>
 <div id="coronavirus-confirmed-cases" class="section level1">
 <h1>Coronavirus Confirmed Cases</h1>
 <pre class="r"><code>covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %&gt;% 
   addProviderTiles(providers$CartoDB.DarkMatter)  %&gt;%
-  addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = .2)
+  addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~lab, fillOpacity = .2)
 
 frameWidget(covid_leaf)</code></pre>
 <div id="htmlwidget-1" style="width:100%;height:480px;" class="widgetframe html-widget"></div>
 <script type="application/json" data-for="htmlwidget-1">{"x":{"url":"/post/Coronavirus_files/figure-html//widgets/widget_unnamed-chunk-3.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
-</div>
-<div id="map-of-confirmed-cases" class="section level1">
-<h1>Map of Confirmed Cases</h1>
-<pre class="r"><code>world &lt;- map_data(&#39;world&#39;) %&gt;% fortify
-
-world_mp &lt;- ggplot() +
-  borders(&quot;world&quot;, colour = &quot;gray30&quot;, fill = &quot;gray24&quot;) +
-  theme_map() 
-
-covid_map &lt;- world_mp +
-  geom_point(aes(x = Long, y = Lat, size = Confirmed),
-             data = dat, 
-             colour = &#39;blue&#39;, alpha = .6) +
-  labs(size = &#39;Cases&#39;) +
-  theme(legend.position = &quot;none&quot;)
-
-covid_map</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png" width="960" /></p>
-</div>
-<div id="animation-of-confirmed-cases" class="section level1">
-<h1>Animation of Confirmed Cases</h1>
-<pre class="r"><code>covid_animate &lt;- covid_map +
-  transition_states(Date) +
-  labs(title = &#39;Date: {closest_state}&#39;) 
-
-animate(covid_animate)</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.gif" /><!-- --></p>
 </div>
 <div id="cases-by-week" class="section level1">
 <h1>Cases by Week</h1>
@@ -672,7 +646,7 @@ country_dat %&gt;%
   facet_wrap(~ Country) +
   labs(y = &quot;&quot;) + 
   theme_bw()</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png" width="768" /></p>
+<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png" width="768" /></p>
 </div>
 <div id="deaths" class="section level2">
 <h2>Deaths</h2>
@@ -682,17 +656,7 @@ country_dat %&gt;%
   facet_wrap(~ Country) +
   labs(y = &quot;&quot;) + 
   theme_bw()</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png" width="768" /></p>
-</div>
-<div id="recovered" class="section level2">
-<h2>Recovered</h2>
-<pre class="r"><code>country_dat %&gt;%
-  ggplot(aes(x = Recovered, y = week)) +
-  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;green4&quot;) + 
-  facet_wrap(~ Country) +
-  labs(y = &quot;&quot;) + 
-  theme_bw()</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-8-1.png" width="768" /></p>
+<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png" width="768" /></p>
 </div>
 </div>
 

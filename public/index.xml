@@ -108,7 +108,7 @@
     <item>
       <title>Coronavirus</title>
       <link>/post/coronavirus/</link>
-      <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 27 Mar 2020 00:00:00 +0000</pubDate>
       <guid>/post/coronavirus/</guid>
       <description>
 &lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
@@ -128,7 +128,7 @@ library(lubridate)
 library(gganimate)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;read-in-the-data&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Read in the data&lt;/h1&gt;
+&lt;h1&gt;Read in the Data&lt;/h1&gt;
 &lt;p&gt;I downloaded the data from &lt;a href=&#34;https://datahub.io/core/covid-19&#34;&gt;DataHub&lt;/a&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;json_file &amp;lt;- &amp;#39;https://datahub.io/core/covid-19/datapackage.json&amp;#39;
 json_data &amp;lt;- fromJSON(paste(readLines(json_file), collapse = &amp;quot;&amp;quot;))
@@ -140,44 +140,18 @@ path_to_file &amp;lt;- json_data$resources$path[2]
 dat &amp;lt;- read_csv(url(path_to_file))
 
 dat &amp;lt;- dat %&amp;gt;%
-  filter(Confirmed != 0)&lt;/code&gt;&lt;/pre&gt;
+  filter(Confirmed != 0) %&amp;gt;%
+  mutate(lab = paste0(&amp;quot;Confirmed: &amp;quot;, Confirmed, &amp;quot; ,&amp;quot;, &amp;quot;Deaths: &amp;quot;, Deaths))&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;coronavirus-confirmed-cases&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Coronavirus Confirmed Cases&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;covid_leaf &amp;lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %&amp;gt;% 
   addProviderTiles(providers$CartoDB.DarkMatter)  %&amp;gt;%
-  addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = .2)
+  addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~lab, fillOpacity = .2)
 
 frameWidget(covid_leaf)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;htmlwidget-1&#34; style=&#34;width:100%;height:480px;&#34; class=&#34;widgetframe html-widget&#34;&gt;&lt;/div&gt;
 &lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-1&#34;&gt;{&#34;x&#34;:{&#34;url&#34;:&#34;/post/Coronavirus_files/figure-html//widgets/widget_unnamed-chunk-3.html&#34;,&#34;options&#34;:{&#34;xdomain&#34;:&#34;*&#34;,&#34;allowfullscreen&#34;:false,&#34;lazyload&#34;:false}},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
-&lt;/div&gt;
-&lt;div id=&#34;map-of-confirmed-cases&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Map of Confirmed Cases&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;world &amp;lt;- map_data(&amp;#39;world&amp;#39;) %&amp;gt;% fortify
-
-world_mp &amp;lt;- ggplot() +
-  borders(&amp;quot;world&amp;quot;, colour = &amp;quot;gray30&amp;quot;, fill = &amp;quot;gray24&amp;quot;) +
-  theme_map() 
-
-covid_map &amp;lt;- world_mp +
-  geom_point(aes(x = Long, y = Lat, size = Confirmed),
-             data = dat, 
-             colour = &amp;#39;blue&amp;#39;, alpha = .6) +
-  labs(size = &amp;#39;Cases&amp;#39;) +
-  theme(legend.position = &amp;quot;none&amp;quot;)
-
-covid_map&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;animation-of-confirmed-cases&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Animation of Confirmed Cases&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;covid_animate &amp;lt;- covid_map +
-  transition_states(Date) +
-  labs(title = &amp;#39;Date: {closest_state}&amp;#39;) 
-
-animate(covid_animate)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.gif&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;cases-by-week&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Cases by Week&lt;/h1&gt;
@@ -194,7 +168,7 @@ country_dat %&amp;gt;%
   facet_wrap(~ Country) +
   labs(y = &amp;quot;&amp;quot;) + 
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;deaths&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Deaths&lt;/h2&gt;
@@ -204,17 +178,7 @@ country_dat %&amp;gt;%
   facet_wrap(~ Country) +
   labs(y = &amp;quot;&amp;quot;) + 
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;recovered&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Recovered&lt;/h2&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;country_dat %&amp;gt;%
-  ggplot(aes(x = Recovered, y = week)) +
-  geom_bar(stat = &amp;quot;identity&amp;quot;, position = &amp;quot;dodge&amp;quot;, fill = &amp;quot;green4&amp;quot;) + 
-  facet_wrap(~ Country) +
-  labs(y = &amp;quot;&amp;quot;) + 
-  theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 </description>

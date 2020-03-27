@@ -121,7 +121,7 @@
   <meta property="og:description" content="Doctoral student"><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
-    <meta property="og:updated_time" content="2020-03-23T00:00:00&#43;00:00">
+    <meta property="og:updated_time" content="2020-03-27T00:00:00&#43;00:00">
   
 
   
@@ -398,8 +398,8 @@
     <h2><a href="/post/coronavirus/">Coronavirus</a></h2>
     <div class="article-style">
       
-      Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the data I downloaded the data from DataHub.
-json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file &lt;- json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0)  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %&gt;% addProviderTiles(providers$CartoDB.DarkMatter) %&gt;% addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~Confirmed, fillOpacity = .
+      Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(gganimate)  Read in the Data I downloaded the data from DataHub.
+json_file &lt;- &#39;https://datahub.io/core/covid-19/datapackage.json&#39; json_data &lt;- fromJSON(paste(readLines(json_file), collapse = &quot;&quot;)) # get list of all resources: # print(json_data$resources$name) path_to_file &lt;- json_data$resources$path[2] dat &lt;- read_csv(url(path_to_file)) dat &lt;- dat %&gt;% filter(Confirmed != 0) %&gt;% mutate(lab = paste0(&quot;Confirmed: &quot;, Confirmed, &quot; ,&quot;, &quot;Deaths: &quot;, Deaths))  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.
       
     </div>
   </div>
