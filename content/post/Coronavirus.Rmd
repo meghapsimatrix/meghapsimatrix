@@ -29,30 +29,37 @@ library(scales)
 
 # Read in the Data
 
-I downloaded the data from [DataHub](https://datahub.io/core/covid-19).
+I downloaded the data from [here](https://github.com/CSSEGISandData/COVID-19).
 
-```{r, message = F, warning = F}
-json_file <- 'https://datahub.io/core/covid-19/datapackage.json'
-json_data <- fromJSON(paste(readLines(json_file), collapse = ""))
+```{r, warning = FALSE, message = FALSE}
+confirmed <- read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv") %>%
+  pivot_longer(cols = -c(1:4),
+               names_to = "date",
+               values_to = "confirmed")
 
-# get list of all resources:
-# print(json_data$resources$name)
+deaths <- read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv") %>%
+  pivot_longer(cols = -c(1:4),
+               names_to = "date",
+               values_to = "deaths")
 
-path_to_file <- json_data$resources$path[2]
-dat <- read_csv(url(path_to_file))
+recovered <- read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv") %>% pivot_longer(cols = -c(1:4),
+               names_to = "date",
+               values_to = "recoveries")
 
-dat <- dat %>%
-  filter(Confirmed != 0) %>%
-  mutate(lab = paste0("Confirmed: ", Confirmed, " ,", "Deaths: ", Deaths)) %>%
-  rename(Country = `Country/Region`)
 
-date <- tibble(Date = unique(dat$Date)) %>%
-  arrange(Date) %>%
+dat <- left_join(confirmed, deaths) %>%
+  left_join(recovered) %>%
+  mutate(date = mdy(date),
+         lab = paste0("Confirmed: ", confirmed)) %>%
+  rename(country_region = `Country/Region`)
+
+
+date <- tibble(date = unique(dat$date)) %>%
+  arrange(date) %>%
   mutate(days = row_number())
 
 dat <- dat %>%
-  left_join(date, by = "Date")
-
+  left_join(date, by = "date")
 ```
 
 
@@ -61,7 +68,7 @@ dat <- dat %>%
 ```{r}
 covid_leaf <- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %>% 
   addProviderTiles(providers$CartoDB.DarkMatter)  %>%
-  addCircleMarkers(~Long, ~Lat, radius = ~Confirmed/1000, label = ~lab, fillOpacity = .2)
+  addCircleMarkers(~Long, ~Lat, radius = ~confirmed/1000, label = ~lab, fillOpacity = .2)
 
 frameWidget(covid_leaf)
 ```
@@ -73,13 +80,13 @@ frameWidget(covid_leaf)
 
 ```{r, fig.width=8, fig.height=6}
 country_dat <- dat %>%
-  filter(Country %in% c("China", "Italy", "Korea, South", "US")) %>%
-  mutate(week = cut(Date, "week", start.on.monday = FALSE))
+  filter(country_region %in% c("China", "Italy", "Korea, South", "US")) %>%
+  mutate(week = cut(date, "week", start.on.monday = FALSE))
 
 country_dat %>%
-  ggplot(aes(x = Confirmed, y = week)) +
+  ggplot(aes(x = confirmed, y = week)) +
   geom_bar(stat = "identity", position = "dodge", fill = "blue4") + 
-  facet_wrap(~ Country) +
+  facet_wrap(~ country_region) +
   labs(y = "", x = "Confirmed Cases") + 
   scale_x_continuous(labels = comma) +
   theme_bw()
@@ -89,10 +96,22 @@ country_dat %>%
 
 ```{r, fig.width=8, fig.height=6}
 country_dat %>%
-  ggplot(aes(x = Deaths, y = week)) +
+  ggplot(aes(x = deaths, y = week)) +
   geom_bar(stat = "identity", position = "dodge", fill = "red4") + 
-  facet_wrap(~ Country) +
-  labs(y = "") + 
+  facet_wrap(~ country_region) +
+  labs(y = "", x = "Deaths") + 
+  scale_x_continuous(labels = comma) +
+  theme_bw()
+```
+
+## Recoveries
+
+```{r, fig.width=8, fig.height=6}
+country_dat %>%
+  ggplot(aes(x = recoveries, y = week)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "green4") + 
+  facet_wrap(~ country_region) +
+  labs(y = "", x = "Recovered") + 
   scale_x_continuous(labels = comma) +
   theme_bw()
 ```
@@ -101,14 +120,14 @@ country_dat %>%
 
 ```{r}
 country_dat %>%
-  group_by(days, Country) %>%
-  summarize(Confirmed = sum(Confirmed)) %>%
+  group_by(days, country_region) %>%
+  summarize(confirmed = sum(confirmed)) %>%
   ungroup() %>%
-  ggplot(aes(x = days, y = Confirmed, color = Country)) +
+  ggplot(aes(x = days, y = confirmed, color = country_region)) +
   geom_line(size = 1) +
   scale_y_continuous(labels = comma) +
   scale_color_brewer(type = "qual", palette = 6) + 
-  labs(x = "Days", y = "Confirmed Cases") + 
+  labs(x = "Days", y = "Confirmed Cases", color = "Country") + 
   theme_bw()
 ```
 
