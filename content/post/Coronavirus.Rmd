@@ -24,6 +24,7 @@ library(leaflet)
 library(widgetframe)
 library(lubridate)
 library(scales)
+library(ggrepel)
 ```
 
 
@@ -76,51 +77,66 @@ country_dat <- dat %>%
   mutate(week = cut(date, "week", start.on.monday = FALSE))
 
 country_dat %>%
-  ggplot(aes(x = confirmed, y = week)) +
-  geom_bar(stat = "identity", position = "dodge", fill = "blue4") + 
+  ggplot(aes(x = confirmed, y = week, fill = country_region)) +
+  geom_bar(stat = "identity", position = "dodge") + 
   facet_wrap(~ country_region) +
   labs(y = "", x = "Confirmed Cases") + 
   scale_x_continuous(labels = comma) +
-  theme_bw()
+  scale_fill_brewer(type = "qual", palette = 1) + 
+  theme_bw() +
+  theme(legend.position = "none")
 ```
 
 ## Deaths
 
 ```{r, fig.width=9, fig.height=6}
 country_dat %>%
-  ggplot(aes(x = deaths, y = week)) +
-  geom_bar(stat = "identity", position = "dodge", fill = "red4") + 
+  ggplot(aes(x = deaths, y = week, fill = country_region)) +
+  geom_bar(stat = "identity", position = "dodge") + 
   facet_wrap(~ country_region) +
   labs(y = "", x = "Deaths") + 
   scale_x_continuous(labels = comma) +
-  theme_bw()
+  scale_fill_brewer(type = "qual", palette = 1) + 
+  theme_bw() +
+  theme(legend.position = "none")
 ```
 
 ## Recoveries
 
 ```{r, fig.width=9, fig.height=6}
 country_dat %>%
-  ggplot(aes(x = recoveries, y = week)) +
-  geom_bar(stat = "identity", position = "dodge", fill = "green4") + 
+  ggplot(aes(x = recoveries, y = week, fill = country_region)) +
+  geom_bar(stat = "identity", position = "dodge") + 
   facet_wrap(~ country_region) +
   labs(y = "", x = "Recovered") + 
   scale_x_continuous(labels = comma) +
-  theme_bw()
+  scale_fill_brewer(type = "qual", palette = 1) + 
+  theme_bw() +
+  theme(legend.position = "none")
 ```
 
 # Confirmed Cases Trend
 
 ```{r}
-country_dat %>%
+sum_dat <- country_dat %>%
   group_by(date, country_region) %>%
   summarize(confirmed = sum(confirmed)) %>%
   ungroup() %>%
+  mutate(country_region = if_else(country_region == "Korea, South", "S. Korea", country_region))
+  
+sum_dat %>%  
   ggplot(aes(x = date, y = confirmed, color = country_region)) +
   geom_line(size = 1) +
+  geom_text(data = sum_dat %>% filter(date == last(date)), 
+            aes(label = country_region, x = date + .5, 
+                y = confirmed, color = country_region), hjust = -.001) +
   scale_y_continuous(labels = comma) +
-  scale_color_brewer(type = "qual", palette = 1) + 
+  xlim(ymd("2020-01-22"), ymd("2020-04-01")) + 
+  scale_color_brewer(type = "qual", palette = 2) + 
   labs(x = "", y = "Confirmed Cases", color = "Country") + 
   ggtitle("Confirmed Cases as of March 27, 2020") +
-  theme_bw()
+  theme_bw() +
+  theme(legend.position = "none")
+  
 ```
 
