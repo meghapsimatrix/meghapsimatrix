@@ -5,127 +5,12 @@
     <link>/tags/gganimate/</link>
       <atom:link href="/tags/gganimate/index.xml" rel="self" type="application/rss+xml" />
     <description>gganimate</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 27 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 20 Nov 2019 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
       <title>gganimate</title>
       <link>/tags/gganimate/</link>
     </image>
-    
-    <item>
-      <title>Coronavirus</title>
-      <link>/post/coronavirus/</link>
-      <pubDate>Fri, 27 Mar 2020 00:00:00 +0000</pubDate>
-      <guid>/post/coronavirus/</guid>
-      <description>
-&lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
-&lt;script src=&#34;/rmarkdown-libs/pymjs/pym.v1.js&#34;&gt;&lt;/script&gt;
-&lt;script src=&#34;/rmarkdown-libs/widgetframe-binding/widgetframe.js&#34;&gt;&lt;/script&gt;
-
-
-&lt;p&gt;In this post, I am analyzing data on COVID-19 cases worldwide.&lt;/p&gt;
-&lt;div id=&#34;libraries&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Libraries&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
-library(maps)
-library(ggthemes)
-library(jsonlite)
-library(leaflet)
-library(widgetframe)
-library(lubridate)
-library(scales)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;read-in-the-data&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Read in the Data&lt;/h1&gt;
-&lt;p&gt;I downloaded the data from &lt;a href=&#34;https://github.com/CSSEGISandData/COVID-19&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;confirmed &amp;lt;- read_csv(&amp;quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv&amp;quot;) %&amp;gt;%
-  pivot_longer(cols = -c(1:4),
-               names_to = &amp;quot;date&amp;quot;,
-               values_to = &amp;quot;confirmed&amp;quot;)
-
-deaths &amp;lt;- read_csv(&amp;quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv&amp;quot;) %&amp;gt;%
-  pivot_longer(cols = -c(1:4),
-               names_to = &amp;quot;date&amp;quot;,
-               values_to = &amp;quot;deaths&amp;quot;)
-
-recovered &amp;lt;- read_csv(&amp;quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv&amp;quot;) %&amp;gt;% pivot_longer(cols = -c(1:4),
-               names_to = &amp;quot;date&amp;quot;,
-               values_to = &amp;quot;recoveries&amp;quot;)
-
-# Join and Clean 
-dat &amp;lt;- left_join(confirmed, deaths) %&amp;gt;%
-  left_join(recovered) %&amp;gt;%
-  mutate(date = mdy(date),
-         lab = paste0(&amp;quot;Confirmed: &amp;quot;, confirmed, &amp;quot;, &amp;quot;, &amp;quot;Deaths = &amp;quot;, deaths, &amp;quot;, &amp;quot;, &amp;quot;Recovered: &amp;quot;, recoveries)) %&amp;gt;%
-  rename(country_region = `Country/Region`)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;coronavirus-confirmed-cases&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Coronavirus Confirmed Cases&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;covid_leaf &amp;lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %&amp;gt;% 
-  addProviderTiles(providers$CartoDB.DarkMatter)  %&amp;gt;%
-  addCircleMarkers(~Long, ~Lat, radius = ~confirmed/1000, label = ~lab, fillOpacity = .2)
-
-frameWidget(covid_leaf)&lt;/code&gt;&lt;/pre&gt;
-&lt;div id=&#34;htmlwidget-1&#34; style=&#34;width:100%;height:480px;&#34; class=&#34;widgetframe html-widget&#34;&gt;&lt;/div&gt;
-&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-1&#34;&gt;{&#34;x&#34;:{&#34;url&#34;:&#34;/post/Coronavirus_files/figure-html//widgets/widget_unnamed-chunk-3.html&#34;,&#34;options&#34;:{&#34;xdomain&#34;:&#34;*&#34;,&#34;allowfullscreen&#34;:false,&#34;lazyload&#34;:false}},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
-&lt;/div&gt;
-&lt;div id=&#34;cases-by-week&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Cases by Week&lt;/h1&gt;
-&lt;div id=&#34;confirmed&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Confirmed&lt;/h2&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;country_dat &amp;lt;- dat %&amp;gt;%
-  filter(country_region %in% c(&amp;quot;China&amp;quot;, &amp;quot;Italy&amp;quot;, &amp;quot;Iran&amp;quot;, &amp;quot;Korea, South&amp;quot;, &amp;quot;Spain&amp;quot;, &amp;quot;US&amp;quot;)) %&amp;gt;%
-  mutate(week = cut(date, &amp;quot;week&amp;quot;, start.on.monday = FALSE))
-
-country_dat %&amp;gt;%
-  ggplot(aes(x = confirmed, y = week)) +
-  geom_bar(stat = &amp;quot;identity&amp;quot;, position = &amp;quot;dodge&amp;quot;, fill = &amp;quot;blue4&amp;quot;) + 
-  facet_wrap(~ country_region) +
-  labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Confirmed Cases&amp;quot;) + 
-  scale_x_continuous(labels = comma) +
-  theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;deaths&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Deaths&lt;/h2&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;country_dat %&amp;gt;%
-  ggplot(aes(x = deaths, y = week)) +
-  geom_bar(stat = &amp;quot;identity&amp;quot;, position = &amp;quot;dodge&amp;quot;, fill = &amp;quot;red4&amp;quot;) + 
-  facet_wrap(~ country_region) +
-  labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Deaths&amp;quot;) + 
-  scale_x_continuous(labels = comma) +
-  theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;recoveries&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Recoveries&lt;/h2&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;country_dat %&amp;gt;%
-  ggplot(aes(x = recoveries, y = week)) +
-  geom_bar(stat = &amp;quot;identity&amp;quot;, position = &amp;quot;dodge&amp;quot;, fill = &amp;quot;green4&amp;quot;) + 
-  facet_wrap(~ country_region) +
-  labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Recovered&amp;quot;) + 
-  scale_x_continuous(labels = comma) +
-  theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;confirmed-cases-trend&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Confirmed Cases Trend&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;country_dat %&amp;gt;%
-  group_by(date, country_region) %&amp;gt;%
-  summarize(confirmed = sum(confirmed)) %&amp;gt;%
-  ungroup() %&amp;gt;%
-  ggplot(aes(x = date, y = confirmed, color = country_region)) +
-  geom_line(size = 1) +
-  scale_y_continuous(labels = comma) +
-  scale_color_brewer(type = &amp;quot;qual&amp;quot;, palette = 1) + 
-  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Confirmed Cases&amp;quot;, color = &amp;quot;Country&amp;quot;) + 
-  ggtitle(&amp;quot;Confirmed Cases as of March 27, 2020&amp;quot;) +
-  theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
     
     <item>
       <title>Nepal Earthquake</title>

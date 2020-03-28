@@ -121,7 +121,7 @@
   <meta property="og:description" content="Doctoral student"><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
-    <meta property="og:updated_time" content="2020-03-27T00:00:00&#43;00:00">
+    <meta property="og:updated_time" content="2019-11-20T00:00:00&#43;00:00">
   
 
   
@@ -393,17 +393,6 @@
   
 
   
-  
-  <div>
-    <h2><a href="/post/coronavirus/">Coronavirus</a></h2>
-    <div class="article-style">
-      
-      In this post, I am analyzing data on COVID-19 cases worldwide.
-Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(scales)  Read in the Data I downloaded the data from here.
-confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv&quot;) %&gt;% pivot_longer(cols = -c(1:4), names_to = &quot;date&quot;, values_to = &quot;confirmed&quot;) deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv&quot;) %&gt;% pivot_longer(cols = -c(1:4), names_to = &quot;date&quot;, values_to = &quot;deaths&quot;) recovered &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv&quot;) %&gt;% pivot_longer(cols = -c(1:4), names_to = &quot;date&quot;, values_to = &quot;recoveries&quot;) # Join and Clean dat &lt;- left_join(confirmed, deaths) %&gt;% left_join(recovered) %&gt;% mutate(date = mdy(date), lab = paste0(&quot;Confirmed: &quot;, confirmed, &quot;, &quot;, &quot;Deaths = &quot;, deaths, &quot;, &quot;, &quot;Recovered: &quot;, recoveries)) %&gt;% rename(country_region = `Country/Region`)  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.
-      
-    </div>
-  </div>
   
   <div>
     <h2><a href="/post/nepal_earthquake/">Nepal Earthquake</a></h2>

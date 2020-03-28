@@ -29,14 +29,6 @@
     </item>
     
     <item>
-      <title>gganimate</title>
-      <link>/tags/gganimate/</link>
-      <pubDate>Fri, 27 Mar 2020 00:00:00 +0000</pubDate>
-      <guid>/tags/gganimate/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>ggplot</title>
       <link>/tags/ggplot/</link>
       <pubDate>Fri, 27 Mar 2020 00:00:00 +0000</pubDate>
@@ -65,6 +57,14 @@
       <link>/tags/r/</link>
       <pubDate>Wed, 04 Mar 2020 00:00:00 +0000</pubDate>
       <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gganimate</title>
+      <link>/tags/gganimate/</link>
+      <pubDate>Wed, 20 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>/tags/gganimate/</guid>
       <description></description>
     </item>
     
