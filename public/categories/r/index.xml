@@ -84,7 +84,7 @@ country_dat %&amp;gt;%
   facet_wrap(~ country_region) +
   labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Confirmed Cases&amp;quot;) + 
   scale_x_continuous(labels = comma) +
-  scale_fill_brewer(type = &amp;quot;qual&amp;quot;, palette = 1) + 
+  scale_fill_brewer(type = &amp;quot;qual&amp;quot;, palette = 2) + 
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
@@ -97,7 +97,7 @@ country_dat %&amp;gt;%
   facet_wrap(~ country_region) +
   labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Deaths&amp;quot;) + 
   scale_x_continuous(labels = comma) +
-  scale_fill_brewer(type = &amp;quot;qual&amp;quot;, palette = 1) + 
+  scale_fill_brewer(type = &amp;quot;qual&amp;quot;, palette = 2) + 
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
@@ -110,7 +110,7 @@ country_dat %&amp;gt;%
   facet_wrap(~ country_region) +
   labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Recovered&amp;quot;) + 
   scale_x_continuous(labels = comma) +
-  scale_fill_brewer(type = &amp;quot;qual&amp;quot;, palette = 1) + 
+  scale_fill_brewer(type = &amp;quot;qual&amp;quot;, palette = 2) + 
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
