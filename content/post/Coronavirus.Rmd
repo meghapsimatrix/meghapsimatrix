@@ -46,19 +46,12 @@ recovered <- read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19
                names_to = "date",
                values_to = "recoveries")
 
-
+# Join and Clean 
 dat <- left_join(confirmed, deaths) %>%
   left_join(recovered) %>%
   mutate(date = mdy(date),
          lab = paste0("Confirmed: ", confirmed, ", ", "Deaths = ", deaths, ", ", "Recovered: ", recoveries)) %>%
   rename(country_region = `Country/Region`)
-
-date <- tibble(date = unique(dat$date)) %>%
-  arrange(date) %>%
-  mutate(days = row_number())
-
-dat <- dat %>%
-  left_join(date, by = "date")
 ```
 
 
@@ -115,18 +108,18 @@ country_dat %>%
   theme_bw()
 ```
 
-# Confirmed Cases by Days
+# Confirmed Cases Trend
 
 ```{r}
 country_dat %>%
-  group_by(days, country_region) %>%
+  group_by(date, country_region) %>%
   summarize(confirmed = sum(confirmed)) %>%
   ungroup() %>%
-  ggplot(aes(x = days, y = confirmed, color = country_region)) +
+  ggplot(aes(x = date, y = confirmed, color = country_region)) +
   geom_line(size = 1) +
   scale_y_continuous(labels = comma) +
   scale_color_brewer(type = "qual", palette = 6) + 
-  labs(x = "Days", y = "Confirmed Cases", color = "Country") + 
+  labs(x = "", y = "Confirmed Cases", color = "Country") + 
   theme_bw()
 ```
 

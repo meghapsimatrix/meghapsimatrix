@@ -41,19 +41,12 @@ recovered &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
                names_to = &quot;date&quot;,
                values_to = &quot;recoveries&quot;)
 
-
+# Join and Clean 
 dat &lt;- left_join(confirmed, deaths) %&gt;%
   left_join(recovered) %&gt;%
   mutate(date = mdy(date),
          lab = paste0(&quot;Confirmed: &quot;, confirmed, &quot;, &quot;, &quot;Deaths = &quot;, deaths, &quot;, &quot;, &quot;Recovered: &quot;, recoveries)) %&gt;%
-  rename(country_region = `Country/Region`)
-
-date &lt;- tibble(date = unique(dat$date)) %&gt;%
-  arrange(date) %&gt;%
-  mutate(days = row_number())
-
-dat &lt;- dat %&gt;%
-  left_join(date, by = &quot;date&quot;)</code></pre>
+  rename(country_region = `Country/Region`)</code></pre>
 </div>
 <div id="coronavirus-confirmed-cases" class="section level1">
 <h1>Coronavirus Confirmed Cases</h1>
@@ -105,17 +98,17 @@ country_dat %&gt;%
 <p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png" width="768" /></p>
 </div>
 </div>
-<div id="confirmed-cases-by-days" class="section level1">
-<h1>Confirmed Cases by Days</h1>
+<div id="confirmed-cases-trend" class="section level1">
+<h1>Confirmed Cases Trend</h1>
 <pre class="r"><code>country_dat %&gt;%
-  group_by(days, country_region) %&gt;%
+  group_by(date, country_region) %&gt;%
   summarize(confirmed = sum(confirmed)) %&gt;%
   ungroup() %&gt;%
-  ggplot(aes(x = days, y = confirmed, color = country_region)) +
+  ggplot(aes(x = date, y = confirmed, color = country_region)) +
   geom_line(size = 1) +
   scale_y_continuous(labels = comma) +
   scale_color_brewer(type = &quot;qual&quot;, palette = 6) + 
-  labs(x = &quot;Days&quot;, y = &quot;Confirmed Cases&quot;, color = &quot;Country&quot;) + 
+  labs(x = &quot;&quot;, y = &quot;Confirmed Cases&quot;, color = &quot;Country&quot;) + 
   theme_bw()</code></pre>
 <p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>

@@ -52,19 +52,12 @@ recovered &amp;lt;- read_csv(&amp;quot;https://raw.githubusercontent.com/CSSEGIS
                names_to = &amp;quot;date&amp;quot;,
                values_to = &amp;quot;recoveries&amp;quot;)
 
-
+# Join and Clean 
 dat &amp;lt;- left_join(confirmed, deaths) %&amp;gt;%
   left_join(recovered) %&amp;gt;%
   mutate(date = mdy(date),
          lab = paste0(&amp;quot;Confirmed: &amp;quot;, confirmed, &amp;quot;, &amp;quot;, &amp;quot;Deaths = &amp;quot;, deaths, &amp;quot;, &amp;quot;, &amp;quot;Recovered: &amp;quot;, recoveries)) %&amp;gt;%
-  rename(country_region = `Country/Region`)
-
-date &amp;lt;- tibble(date = unique(dat$date)) %&amp;gt;%
-  arrange(date) %&amp;gt;%
-  mutate(days = row_number())
-
-dat &amp;lt;- dat %&amp;gt;%
-  left_join(date, by = &amp;quot;date&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+  rename(country_region = `Country/Region`)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;coronavirus-confirmed-cases&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Coronavirus Confirmed Cases&lt;/h1&gt;
@@ -116,17 +109,17 @@ country_dat %&amp;gt;%
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id=&#34;confirmed-cases-by-days&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Confirmed Cases by Days&lt;/h1&gt;
+&lt;div id=&#34;confirmed-cases-trend&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Confirmed Cases Trend&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;country_dat %&amp;gt;%
-  group_by(days, country_region) %&amp;gt;%
+  group_by(date, country_region) %&amp;gt;%
   summarize(confirmed = sum(confirmed)) %&amp;gt;%
   ungroup() %&amp;gt;%
-  ggplot(aes(x = days, y = confirmed, color = country_region)) +
+  ggplot(aes(x = date, y = confirmed, color = country_region)) +
   geom_line(size = 1) +
   scale_y_continuous(labels = comma) +
   scale_color_brewer(type = &amp;quot;qual&amp;quot;, palette = 6) + 
-  labs(x = &amp;quot;Days&amp;quot;, y = &amp;quot;Confirmed Cases&amp;quot;, color = &amp;quot;Country&amp;quot;) + 
+  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Confirmed Cases&amp;quot;, color = &amp;quot;Country&amp;quot;) + 
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
