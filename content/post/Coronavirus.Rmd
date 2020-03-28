@@ -77,12 +77,11 @@ country_dat <- dat %>%
   mutate(week = cut(date, "week", start.on.monday = FALSE))
 
 country_dat %>%
-  ggplot(aes(x = confirmed, y = week, fill = country_region)) +
-  geom_bar(stat = "identity", position = "dodge") + 
+  ggplot(aes(x = confirmed, y = week)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "blue4") + 
   facet_wrap(~ country_region) +
   labs(y = "", x = "Confirmed Cases") + 
   scale_x_continuous(labels = comma) +
-  scale_fill_brewer(type = "qual", palette = 2) + 
   theme_bw() +
   theme(legend.position = "none")
 ```
@@ -91,12 +90,11 @@ country_dat %>%
 
 ```{r, fig.width=9, fig.height=6}
 country_dat %>%
-  ggplot(aes(x = deaths, y = week, fill = country_region)) +
-  geom_bar(stat = "identity", position = "dodge") + 
+  ggplot(aes(x = deaths, y = week)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "red4") + 
   facet_wrap(~ country_region) +
   labs(y = "", x = "Deaths") + 
   scale_x_continuous(labels = comma) +
-  scale_fill_brewer(type = "qual", palette = 2) + 
   theme_bw() +
   theme(legend.position = "none")
 ```
@@ -105,12 +103,11 @@ country_dat %>%
 
 ```{r, fig.width=9, fig.height=6}
 country_dat %>%
-  ggplot(aes(x = recoveries, y = week, fill = country_region)) +
-  geom_bar(stat = "identity", position = "dodge") + 
+  ggplot(aes(x = recoveries, y = week)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "green4") + 
   facet_wrap(~ country_region) +
   labs(y = "", x = "Recovered") + 
   scale_x_continuous(labels = comma) +
-  scale_fill_brewer(type = "qual", palette = 2) + 
   theme_bw() +
   theme(legend.position = "none")
 ```
