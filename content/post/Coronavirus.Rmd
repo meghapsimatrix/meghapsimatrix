@@ -3,7 +3,7 @@ title: "Coronavirus"
 author: "Megha Joshi"
 date: 2020-03-27
 categories: ["R"]
-tags: ["coronavirus", "COVID-19", "gganimate", "ggplot", "leaflet"]
+tags: ["coronavirus", "COVID-19", "ggplot", "leaflet"]
 
 ---
 
