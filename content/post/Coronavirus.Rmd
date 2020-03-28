@@ -72,7 +72,7 @@ frameWidget(covid_leaf)
 
 ```{r, fig.width=8, fig.height=6}
 country_dat <- dat %>%
-  filter(country_region %in% c("China", "Italy", "Korea, South", "US")) %>%
+  filter(country_region %in% c("China", "Italy", "Iran", "Korea, South", "Spain", "US")) %>%
   mutate(week = cut(date, "week", start.on.monday = FALSE))
 
 country_dat %>%
@@ -118,8 +118,9 @@ country_dat %>%
   ggplot(aes(x = date, y = confirmed, color = country_region)) +
   geom_line(size = 1) +
   scale_y_continuous(labels = comma) +
-  scale_color_brewer(type = "qual", palette = 6) + 
+  scale_color_brewer(type = "qual", palette = 1) + 
   labs(x = "", y = "Confirmed Cases", color = "Country") + 
+  ggtitle("Confirmed Cases as of March 27, 2020") +
   theme_bw()
 ```
 
