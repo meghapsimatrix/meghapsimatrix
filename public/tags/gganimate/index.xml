@@ -74,7 +74,7 @@ frameWidget(covid_leaf)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;confirmed&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Confirmed&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;country_dat &amp;lt;- dat %&amp;gt;%
-  filter(country_region %in% c(&amp;quot;China&amp;quot;, &amp;quot;Italy&amp;quot;, &amp;quot;Korea, South&amp;quot;, &amp;quot;US&amp;quot;)) %&amp;gt;%
+  filter(country_region %in% c(&amp;quot;China&amp;quot;, &amp;quot;Italy&amp;quot;, &amp;quot;Iran&amp;quot;, &amp;quot;Korea, South&amp;quot;, &amp;quot;Spain&amp;quot;, &amp;quot;US&amp;quot;)) %&amp;gt;%
   mutate(week = cut(date, &amp;quot;week&amp;quot;, start.on.monday = FALSE))
 
 country_dat %&amp;gt;%
@@ -84,7 +84,7 @@ country_dat %&amp;gt;%
   labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Confirmed Cases&amp;quot;) + 
   scale_x_continuous(labels = comma) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;deaths&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Deaths&lt;/h2&gt;
@@ -95,7 +95,7 @@ country_dat %&amp;gt;%
   labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Deaths&amp;quot;) + 
   scale_x_continuous(labels = comma) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;recoveries&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Recoveries&lt;/h2&gt;
@@ -106,7 +106,7 @@ country_dat %&amp;gt;%
   labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Recovered&amp;quot;) + 
   scale_x_continuous(labels = comma) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;confirmed-cases-trend&#34; class=&#34;section level1&#34;&gt;
@@ -118,8 +118,9 @@ country_dat %&amp;gt;%
   ggplot(aes(x = date, y = confirmed, color = country_region)) +
   geom_line(size = 1) +
   scale_y_continuous(labels = comma) +
-  scale_color_brewer(type = &amp;quot;qual&amp;quot;, palette = 6) + 
+  scale_color_brewer(type = &amp;quot;qual&amp;quot;, palette = 1) + 
   labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Confirmed Cases&amp;quot;, color = &amp;quot;Country&amp;quot;) + 
+  ggtitle(&amp;quot;Confirmed Cases as of March 27, 2020&amp;quot;) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;

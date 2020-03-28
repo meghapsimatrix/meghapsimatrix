@@ -647,7 +647,7 @@ frameWidget(covid_leaf)</code></pre>
 <div id="confirmed" class="section level2">
 <h2>Confirmed</h2>
 <pre class="r"><code>country_dat &lt;- dat %&gt;%
-  filter(country_region %in% c(&quot;China&quot;, &quot;Italy&quot;, &quot;Korea, South&quot;, &quot;US&quot;)) %&gt;%
+  filter(country_region %in% c(&quot;China&quot;, &quot;Italy&quot;, &quot;Iran&quot;, &quot;Korea, South&quot;, &quot;Spain&quot;, &quot;US&quot;)) %&gt;%
   mutate(week = cut(date, &quot;week&quot;, start.on.monday = FALSE))
 
 country_dat %&gt;%
@@ -657,7 +657,7 @@ country_dat %&gt;%
   labs(y = &quot;&quot;, x = &quot;Confirmed Cases&quot;) + 
   scale_x_continuous(labels = comma) +
   theme_bw()</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png" width="768" /></p>
+<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png" width="864" /></p>
 </div>
 <div id="deaths" class="section level2">
 <h2>Deaths</h2>
@@ -668,7 +668,7 @@ country_dat %&gt;%
   labs(y = &quot;&quot;, x = &quot;Deaths&quot;) + 
   scale_x_continuous(labels = comma) +
   theme_bw()</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png" width="768" /></p>
+<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png" width="864" /></p>
 </div>
 <div id="recoveries" class="section level2">
 <h2>Recoveries</h2>
@@ -679,7 +679,7 @@ country_dat %&gt;%
   labs(y = &quot;&quot;, x = &quot;Recovered&quot;) + 
   scale_x_continuous(labels = comma) +
   theme_bw()</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png" width="768" /></p>
+<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png" width="864" /></p>
 </div>
 </div>
 <div id="confirmed-cases-trend" class="section level1">
@@ -691,8 +691,9 @@ country_dat %&gt;%
   ggplot(aes(x = date, y = confirmed, color = country_region)) +
   geom_line(size = 1) +
   scale_y_continuous(labels = comma) +
-  scale_color_brewer(type = &quot;qual&quot;, palette = 6) + 
+  scale_color_brewer(type = &quot;qual&quot;, palette = 1) + 
   labs(x = &quot;&quot;, y = &quot;Confirmed Cases&quot;, color = &quot;Country&quot;) + 
+  ggtitle(&quot;Confirmed Cases as of March 27, 2020&quot;) +
   theme_bw()</code></pre>
 <p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
