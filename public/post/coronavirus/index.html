@@ -652,12 +652,11 @@ frameWidget(covid_leaf)</code></pre>
   mutate(week = cut(date, &quot;week&quot;, start.on.monday = FALSE))
 
 country_dat %&gt;%
-  ggplot(aes(x = confirmed, y = week, fill = country_region)) +
-  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) + 
+  ggplot(aes(x = confirmed, y = week)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;blue4&quot;) + 
   facet_wrap(~ country_region) +
   labs(y = &quot;&quot;, x = &quot;Confirmed Cases&quot;) + 
   scale_x_continuous(labels = comma) +
-  scale_fill_brewer(type = &quot;qual&quot;, palette = 2) + 
   theme_bw() +
   theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png" width="864" /></p>
@@ -665,12 +664,11 @@ country_dat %&gt;%
 <div id="deaths" class="section level2">
 <h2>Deaths</h2>
 <pre class="r"><code>country_dat %&gt;%
-  ggplot(aes(x = deaths, y = week, fill = country_region)) +
-  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) + 
+  ggplot(aes(x = deaths, y = week)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;red4&quot;) + 
   facet_wrap(~ country_region) +
   labs(y = &quot;&quot;, x = &quot;Deaths&quot;) + 
   scale_x_continuous(labels = comma) +
-  scale_fill_brewer(type = &quot;qual&quot;, palette = 2) + 
   theme_bw() +
   theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png" width="864" /></p>
@@ -678,12 +676,11 @@ country_dat %&gt;%
 <div id="recoveries" class="section level2">
 <h2>Recoveries</h2>
 <pre class="r"><code>country_dat %&gt;%
-  ggplot(aes(x = recoveries, y = week, fill = country_region)) +
-  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) + 
+  ggplot(aes(x = recoveries, y = week)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;green4&quot;) + 
   facet_wrap(~ country_region) +
   labs(y = &quot;&quot;, x = &quot;Recovered&quot;) + 
   scale_x_continuous(labels = comma) +
-  scale_fill_brewer(type = &quot;qual&quot;, palette = 2) + 
   theme_bw() +
   theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png" width="864" /></p>
