@@ -1,7 +1,7 @@
 ---
 title: "Coronavirus"
 author: "Megha Joshi"
-date: 2020-03-27
+date: 2020-03-28
 categories: ["R"]
 tags: ["coronavirus", "COVID-19", "ggplot", "leaflet"]
 
@@ -71,16 +71,16 @@ frameWidget(covid_leaf)
 
 ## Confirmed 
 
-```{r, fig.width=9, fig.height=6}
+```{r, fig.width=10, fig.height=6}
 country_dat <- dat %>%
   filter(country_region %in% c("China", "Italy", "Iran", "Korea, South", "Spain", "US")) %>%
   mutate(week = cut(date, "week", start.on.monday = FALSE))
 
 country_dat %>%
-  ggplot(aes(x = confirmed, y = week)) +
+  ggplot(aes(x = confirmed/1000, y = week)) +
   geom_bar(stat = "identity", position = "dodge", fill = "blue4") + 
   facet_wrap(~ country_region) +
-  labs(y = "", x = "Confirmed Cases") + 
+  labs(y = "", x = "Confirmed Cases (in thousands)") + 
   scale_x_continuous(labels = comma) +
   theme_bw() +
   theme(legend.position = "none")
@@ -88,12 +88,12 @@ country_dat %>%
 
 ## Deaths
 
-```{r, fig.width=9, fig.height=6}
+```{r, fig.width=10, fig.height=6}
 country_dat %>%
-  ggplot(aes(x = deaths, y = week)) +
+  ggplot(aes(x = deaths/1000, y = week)) +
   geom_bar(stat = "identity", position = "dodge", fill = "red4") + 
   facet_wrap(~ country_region) +
-  labs(y = "", x = "Deaths") + 
+  labs(y = "", x = "Deaths (in thousands)") + 
   scale_x_continuous(labels = comma) +
   theme_bw() +
   theme(legend.position = "none")
@@ -101,12 +101,12 @@ country_dat %>%
 
 ## Recoveries
 
-```{r, fig.width=9, fig.height=6}
+```{r, fig.width=10, fig.height=6}
 country_dat %>%
-  ggplot(aes(x = recoveries, y = week)) +
+  ggplot(aes(x = recoveries/1000, y = week)) +
   geom_bar(stat = "identity", position = "dodge", fill = "green4") + 
   facet_wrap(~ country_region) +
-  labs(y = "", x = "Recovered") + 
+  labs(y = "", x = "Recovered (in thousands)") + 
   scale_x_continuous(labels = comma) +
   theme_bw() +
   theme(legend.position = "none")
@@ -131,7 +131,7 @@ sum_dat %>%
   xlim(ymd("2020-01-22"), ymd("2020-04-01")) + 
   scale_color_brewer(type = "qual", palette = 2) + 
   labs(x = "", y = "Confirmed Cases", color = "Country") + 
-  ggtitle("Confirmed Cases as of March 27, 2020") +
+  ggtitle("Confirmed Cases as of March 28, 2020") +
   theme_bw() +
   theme(legend.position = "none")
   
