@@ -114,7 +114,7 @@ country_dat %>%
 
 # Confirmed Cases Trend
 
-```{r}
+```{r, fig.height = 5, fig.width = 7}
 sum_dat <- country_dat %>%
   group_by(date, country_region) %>%
   summarize(confirmed = sum(confirmed)) %>%
@@ -123,10 +123,11 @@ sum_dat <- country_dat %>%
   
 sum_dat %>%  
   ggplot(aes(x = date, y = confirmed, color = country_region)) +
-  geom_line(size = 1) +
+  geom_line(size = .8) +
   geom_text(data = sum_dat %>% filter(date == last(date)), 
-            aes(label = country_region, x = date + .5, 
-                y = confirmed, color = country_region), hjust = -.001) +
+            aes(label = country_region, x = date + .1, 
+                y = confirmed, color = country_region), 
+            hjust = -.01) +
   scale_y_continuous(labels = comma) +
   xlim(ymd("2020-01-22"), ymd("2020-04-01")) + 
   scale_color_brewer(type = "qual", palette = 2) + 
