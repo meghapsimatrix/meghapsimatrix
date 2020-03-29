@@ -124,9 +124,9 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
-      <meta property="article:published_time" content="2020-03-27T00:00:00&#43;00:00">
+      <meta property="article:published_time" content="2020-03-28T00:00:00&#43;00:00">
     
-    <meta property="article:modified_time" content="2020-03-27T00:00:00&#43;00:00">
+    <meta property="article:modified_time" content="2020-03-28T00:00:00&#43;00:00">
   
 
   
@@ -156,8 +156,8 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
   },
   "headline": "Coronavirus",
   
-  "datePublished": "2020-03-27T00:00:00Z",
-  "dateModified": "2020-03-27T00:00:00Z",
+  "datePublished": "2020-03-28T00:00:00Z",
+  "dateModified": "2020-03-28T00:00:00Z",
   
   "author": {
     "@type": "Person",
@@ -452,7 +452,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
     
       
     
-    Mar 27, 2020
+    Mar 28, 2020
   </span>
   
 
@@ -652,38 +652,38 @@ frameWidget(covid_leaf)</code></pre>
   mutate(week = cut(date, &quot;week&quot;, start.on.monday = FALSE))
 
 country_dat %&gt;%
-  ggplot(aes(x = confirmed, y = week)) +
+  ggplot(aes(x = confirmed/1000, y = week)) +
   geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;blue4&quot;) + 
   facet_wrap(~ country_region) +
-  labs(y = &quot;&quot;, x = &quot;Confirmed Cases&quot;) + 
+  labs(y = &quot;&quot;, x = &quot;Confirmed Cases (in thousands)&quot;) + 
   scale_x_continuous(labels = comma) +
   theme_bw() +
   theme(legend.position = &quot;none&quot;)</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png" width="864" /></p>
+<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png" width="960" /></p>
 </div>
 <div id="deaths" class="section level2">
 <h2>Deaths</h2>
 <pre class="r"><code>country_dat %&gt;%
-  ggplot(aes(x = deaths, y = week)) +
+  ggplot(aes(x = deaths/1000, y = week)) +
   geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;red4&quot;) + 
   facet_wrap(~ country_region) +
-  labs(y = &quot;&quot;, x = &quot;Deaths&quot;) + 
+  labs(y = &quot;&quot;, x = &quot;Deaths (in thousands)&quot;) + 
   scale_x_continuous(labels = comma) +
   theme_bw() +
   theme(legend.position = &quot;none&quot;)</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png" width="864" /></p>
+<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png" width="960" /></p>
 </div>
 <div id="recoveries" class="section level2">
 <h2>Recoveries</h2>
 <pre class="r"><code>country_dat %&gt;%
-  ggplot(aes(x = recoveries, y = week)) +
+  ggplot(aes(x = recoveries/1000, y = week)) +
   geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;green4&quot;) + 
   facet_wrap(~ country_region) +
-  labs(y = &quot;&quot;, x = &quot;Recovered&quot;) + 
+  labs(y = &quot;&quot;, x = &quot;Recovered (in thousands)&quot;) + 
   scale_x_continuous(labels = comma) +
   theme_bw() +
   theme(legend.position = &quot;none&quot;)</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png" width="864" /></p>
+<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png" width="960" /></p>
 </div>
 </div>
 <div id="confirmed-cases-trend" class="section level1">
@@ -704,7 +704,7 @@ sum_dat %&gt;%
   xlim(ymd(&quot;2020-01-22&quot;), ymd(&quot;2020-04-01&quot;)) + 
   scale_color_brewer(type = &quot;qual&quot;, palette = 2) + 
   labs(x = &quot;&quot;, y = &quot;Confirmed Cases&quot;, color = &quot;Country&quot;) + 
-  ggtitle(&quot;Confirmed Cases as of March 27, 2020&quot;) +
+  ggtitle(&quot;Confirmed Cases as of March 28, 2020&quot;) +
   theme_bw() +
   theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>

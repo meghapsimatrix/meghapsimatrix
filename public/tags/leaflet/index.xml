@@ -5,7 +5,7 @@
     <link>/tags/leaflet/</link>
       <atom:link href="/tags/leaflet/index.xml" rel="self" type="application/rss+xml" />
     <description>leaflet</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 27 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 28 Mar 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
       <title>leaflet</title>
@@ -15,7 +15,7 @@
     <item>
       <title>Coronavirus</title>
       <link>/post/coronavirus/</link>
-      <pubDate>Fri, 27 Mar 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 28 Mar 2020 00:00:00 +0000</pubDate>
       <guid>/post/coronavirus/</guid>
       <description>
 &lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
@@ -79,38 +79,38 @@ frameWidget(covid_leaf)&lt;/code&gt;&lt;/pre&gt;
   mutate(week = cut(date, &amp;quot;week&amp;quot;, start.on.monday = FALSE))
 
 country_dat %&amp;gt;%
-  ggplot(aes(x = confirmed, y = week)) +
+  ggplot(aes(x = confirmed/1000, y = week)) +
   geom_bar(stat = &amp;quot;identity&amp;quot;, position = &amp;quot;dodge&amp;quot;, fill = &amp;quot;blue4&amp;quot;) + 
   facet_wrap(~ country_region) +
-  labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Confirmed Cases&amp;quot;) + 
+  labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Confirmed Cases (in thousands)&amp;quot;) + 
   scale_x_continuous(labels = comma) +
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;deaths&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Deaths&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;country_dat %&amp;gt;%
-  ggplot(aes(x = deaths, y = week)) +
+  ggplot(aes(x = deaths/1000, y = week)) +
   geom_bar(stat = &amp;quot;identity&amp;quot;, position = &amp;quot;dodge&amp;quot;, fill = &amp;quot;red4&amp;quot;) + 
   facet_wrap(~ country_region) +
-  labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Deaths&amp;quot;) + 
+  labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Deaths (in thousands)&amp;quot;) + 
   scale_x_continuous(labels = comma) +
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;recoveries&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Recoveries&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;country_dat %&amp;gt;%
-  ggplot(aes(x = recoveries, y = week)) +
+  ggplot(aes(x = recoveries/1000, y = week)) +
   geom_bar(stat = &amp;quot;identity&amp;quot;, position = &amp;quot;dodge&amp;quot;, fill = &amp;quot;green4&amp;quot;) + 
   facet_wrap(~ country_region) +
-  labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Recovered&amp;quot;) + 
+  labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Recovered (in thousands)&amp;quot;) + 
   scale_x_continuous(labels = comma) +
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;864&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;confirmed-cases-trend&#34; class=&#34;section level1&#34;&gt;
@@ -131,7 +131,7 @@ sum_dat %&amp;gt;%
   xlim(ymd(&amp;quot;2020-01-22&amp;quot;), ymd(&amp;quot;2020-04-01&amp;quot;)) + 
   scale_color_brewer(type = &amp;quot;qual&amp;quot;, palette = 2) + 
   labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Confirmed Cases&amp;quot;, color = &amp;quot;Country&amp;quot;) + 
-  ggtitle(&amp;quot;Confirmed Cases as of March 27, 2020&amp;quot;) +
+  ggtitle(&amp;quot;Confirmed Cases as of March 28, 2020&amp;quot;) +
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
