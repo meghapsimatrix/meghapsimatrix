@@ -216,10 +216,11 @@ country_dat %&amp;gt;%
   
 sum_dat %&amp;gt;%  
   ggplot(aes(x = date, y = confirmed, color = country_region)) +
-  geom_line(size = 1) +
+  geom_line(size = .8) +
   geom_text(data = sum_dat %&amp;gt;% filter(date == last(date)), 
-            aes(label = country_region, x = date + .5, 
-                y = confirmed, color = country_region), hjust = -.001) +
+            aes(label = country_region, x = date + .1, 
+                y = confirmed, color = country_region), 
+            hjust = -.01) +
   scale_y_continuous(labels = comma) +
   xlim(ymd(&amp;quot;2020-01-22&amp;quot;), ymd(&amp;quot;2020-04-01&amp;quot;)) + 
   scale_color_brewer(type = &amp;quot;qual&amp;quot;, palette = 2) + 
