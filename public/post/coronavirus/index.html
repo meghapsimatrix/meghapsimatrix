@@ -701,7 +701,7 @@ sum_dat %&gt;%
             aes(label = country_region, x = date + .1, 
                 y = confirmed, color = country_region), 
             hjust = -.01) +
-  scale_y_continuous(labels = comma) +
+  scale_y_continuous(labels = comma, breaks = seq(0, 150000, 25000)) +
   xlim(ymd(&quot;2020-01-22&quot;), ymd(&quot;2020-04-03&quot;)) + 
   scale_color_brewer(type = &quot;qual&quot;, palette = 2) + 
   labs(x = &quot;&quot;, y = &quot;Confirmed Cases&quot;, color = &quot;Country&quot;) + 
