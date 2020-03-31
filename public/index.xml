@@ -160,7 +160,8 @@ dat &amp;lt;- left_join(confirmed, deaths) %&amp;gt;%
   addCircleMarkers(~Long, ~Lat, radius = ~confirmed/1000, label = ~lab, fillOpacity = .2)
 
 frameWidget(covid_leaf)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;preserve4ace33c81da08281&lt;/p&gt;
+&lt;div id=&#34;htmlwidget-1&#34; style=&#34;width:100%;height:480px;&#34; class=&#34;widgetframe html-widget&#34;&gt;&lt;/div&gt;
+&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-1&#34;&gt;{&#34;x&#34;:{&#34;url&#34;:&#34;/post/Coronavirus_files/figure-html//widgets/widget_unnamed-chunk-3.html&#34;,&#34;options&#34;:{&#34;xdomain&#34;:&#34;*&#34;,&#34;allowfullscreen&#34;:false,&#34;lazyload&#34;:false}},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
 &lt;/div&gt;
 &lt;div id=&#34;cases-by-week&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Cases by Week&lt;/h1&gt;
