@@ -117,7 +117,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
   
   <meta property="og:site_name" content="Megha">
   <meta property="og:url" content="/post/coronavirus/">
-  <meta property="og:title" content="Coronavirus | Megha">
+  <meta property="og:title" content="COVID-19 | Megha">
   <meta property="og:description" content="In this post, I am analyzing data on COVID-19 cases worldwide.
 Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(scales) library(ggrepel)  Read in the Data I downloaded the data from here.
 confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv&quot;) %&gt;% pivot_longer(cols = -c(1:4), names_to = &quot;date&quot;, values_to = &quot;confirmed&quot;) deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv&quot;) %&gt;% pivot_longer(cols = -c(1:4), names_to = &quot;date&quot;, values_to = &quot;deaths&quot;) recovered &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv&quot;) %&gt;% pivot_longer(cols = -c(1:4), names_to = &quot;date&quot;, values_to = &quot;recoveries&quot;) # Join and Clean dat &lt;- left_join(confirmed, deaths) %&gt;% left_join(recovered) %&gt;% mutate(date = mdy(date), lab = paste0(&quot;Confirmed: &quot;, confirmed, &quot;, &quot;, &quot;Deaths = &quot;, deaths, &quot;, &quot;, &quot;Recovered: &quot;, recoveries)) %&gt;% rename(country_region = `Country/Region`)  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1."><meta property="og:image" content="/img/icon-192.png">
@@ -154,7 +154,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
     "@type": "WebPage",
     "@id": "/post/coronavirus/"
   },
-  "headline": "Coronavirus",
+  "headline": "COVID-19",
   
   "datePublished": "2020-03-31T00:00:00Z",
   "dateModified": "2020-03-31T00:00:00Z",
@@ -190,7 +190,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
 
 
 
-  <title>Coronavirus | Megha</title>
+  <title>COVID-19 | Megha</title>
 
 </head>
 
@@ -432,7 +432,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
   
   
 <div class="article-container pt-3">
-  <h1>Coronavirus</h1>
+  <h1>COVID-19</h1>
 
   
 
@@ -489,7 +489,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=/post/coronavirus/&amp;text=Coronavirus" target="_blank" rel="noopener" class="share-btn-twitter">
+        <a href="https://twitter.com/intent/tweet?url=/post/coronavirus/&amp;text=COVID-19" target="_blank" rel="noopener" class="share-btn-twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -502,7 +502,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=/post/coronavirus/&amp;t=Coronavirus" target="_blank" rel="noopener" class="share-btn-facebook">
+        <a href="https://www.facebook.com/sharer.php?u=/post/coronavirus/&amp;t=COVID-19" target="_blank" rel="noopener" class="share-btn-facebook">
           <i class="fab fa-facebook-f"></i>
         </a>
       </li>
@@ -515,7 +515,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
       
       
       <li>
-        <a href="mailto:?subject=Coronavirus&amp;body=/post/coronavirus/" target="_blank" rel="noopener" class="share-btn-email">
+        <a href="mailto:?subject=COVID-19&amp;body=/post/coronavirus/" target="_blank" rel="noopener" class="share-btn-email">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -528,7 +528,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=/post/coronavirus/&amp;title=Coronavirus" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?url=/post/coronavirus/&amp;title=COVID-19" target="_blank" rel="noopener" class="share-btn-linkedin">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -541,7 +541,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
       
       
       <li>
-        <a href="https://web.whatsapp.com/send?text=Coronavirus%20/post/coronavirus/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <a href="https://web.whatsapp.com/send?text=COVID-19%20/post/coronavirus/" target="_blank" rel="noopener" class="share-btn-whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -554,7 +554,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=/post/coronavirus/&amp;title=Coronavirus" target="_blank" rel="noopener" class="share-btn-weibo">
+        <a href="https://service.weibo.com/share/share.php?url=/post/coronavirus/&amp;title=COVID-19" target="_blank" rel="noopener" class="share-btn-weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>
@@ -640,8 +640,7 @@ dat &lt;- left_join(confirmed, deaths) %&gt;%
   addCircleMarkers(~Long, ~Lat, radius = ~confirmed/1000, label = ~lab, fillOpacity = .2)
 
 frameWidget(covid_leaf)</code></pre>
-<div id="htmlwidget-1" style="width:100%;height:480px;" class="widgetframe html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1">{"x":{"url":"/post/Coronavirus_files/figure-html//widgets/widget_unnamed-chunk-3.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+<p>preserve4ace33c81da08281</p>
 </div>
 <div id="cases-by-week" class="section level1">
 <h1>Cases by Week</h1>
