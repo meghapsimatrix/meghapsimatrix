@@ -1,7 +1,7 @@
 ---
 title: "COVID-19"
 author: "Megha Joshi"
-date: 2020-03-31
+date: 2020-04-01
 categories: ["R"]
 tags: ["coronavirus", "COVID-19", "ggplot", "leaflet"]
 
@@ -43,7 +43,8 @@ deaths <- read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/ma
                names_to = "date",
                values_to = "deaths")
 
-recovered <- read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv") %>% pivot_longer(cols = -c(1:4),
+recovered <- read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv") %>%
+  pivot_longer(cols = -c(1:4),
                names_to = "date",
                values_to = "recoveries")
 
@@ -128,11 +129,11 @@ sum_dat %>%
             aes(label = country_region, x = date + .1, 
                 y = confirmed, color = country_region), 
             hjust = -.01) +
-  scale_y_continuous(labels = comma, breaks = seq(0, 150000, 25000)) +
-  xlim(ymd("2020-01-22"), ymd("2020-04-04")) + 
+  scale_y_continuous(labels = comma, breaks = seq(0, 180000, 25000)) +
+  xlim(ymd("2020-01-22"), ymd("2020-04-05")) + 
   scale_color_brewer(type = "qual", palette = 2) + 
   labs(x = "", y = "Confirmed Cases", color = "Country") + 
-  ggtitle("Confirmed Cases as of March 31, 2020") +
+  ggtitle("Confirmed Cases as of April 1, 2020") +
   theme_bw() +
   theme(legend.position = "none")
   
