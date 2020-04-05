@@ -124,9 +124,9 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
-      <meta property="article:published_time" content="2020-04-04T00:00:00&#43;00:00">
+      <meta property="article:published_time" content="2020-04-05T00:00:00&#43;00:00">
     
-    <meta property="article:modified_time" content="2020-04-04T00:00:00&#43;00:00">
+    <meta property="article:modified_time" content="2020-04-05T00:00:00&#43;00:00">
   
 
   
@@ -156,8 +156,8 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
   },
   "headline": "COVID-19",
   
-  "datePublished": "2020-04-04T00:00:00Z",
-  "dateModified": "2020-04-04T00:00:00Z",
+  "datePublished": "2020-04-05T00:00:00Z",
+  "dateModified": "2020-04-05T00:00:00Z",
   
   "author": {
     "@type": "Person",
@@ -452,7 +452,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
     
       
     
-    Apr 4, 2020
+    Apr 5, 2020
   </span>
   
 
@@ -702,11 +702,11 @@ sum_dat %&gt;%
             aes(label = country_region, x = date + .1, 
                 y = confirmed, color = country_region), 
             hjust = -.01) +
-  scale_y_continuous(labels = comma, breaks = seq(0, 325000, 25000)) +
-  xlim(ymd(&quot;2020-01-22&quot;), ymd(&quot;2020-04-08&quot;)) + 
+  scale_y_continuous(labels = comma, breaks = seq(0, 400000, 25000)) +
+  xlim(ymd(&quot;2020-01-22&quot;), ymd(&quot;2020-04-09&quot;)) + 
   scale_color_brewer(type = &quot;qual&quot;, palette = 2) + 
   labs(x = &quot;&quot;, y = &quot;Confirmed Cases&quot;, color = &quot;Country&quot;) + 
-  ggtitle(&quot;Confirmed Cases as of April 4, 2020&quot;) +
+  ggtitle(&quot;Confirmed Cases as of April 5, 2020&quot;) +
   theme_bw() +
   theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
