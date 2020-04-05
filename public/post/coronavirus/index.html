@@ -636,9 +636,13 @@ dat &lt;- left_join(confirmed, deaths) %&gt;%
 </div>
 <div id="coronavirus-confirmed-cases" class="section level1">
 <h1>Coronavirus Confirmed Cases</h1>
-<pre class="r"><code>covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.5)) %&gt;% 
+<pre class="r"><code>covid_leaf &lt;- leaflet(data = dat, 
+                      options = leafletOptions(minZoom = 1.5)) %&gt;% 
   addProviderTiles(providers$CartoDB.DarkMatter)  %&gt;%
-  addCircleMarkers(~Long, ~Lat, radius = ~confirmed/1000, label = ~lab, fillOpacity = .2)
+  addCircleMarkers(~Long, ~Lat, 
+                   radius = ~confirmed/10000, 
+                   label = ~lab, 
+                   fillOpacity = .2)
 
 frameWidget(covid_leaf)</code></pre>
 <div id="htmlwidget-1" style="width:100%;height:480px;" class="widgetframe html-widget"></div>
