@@ -28,9 +28,7 @@
   
     
   
-  <meta name="description" content="In this post, I am analyzing data on COVID-19 cases worldwide.
-Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(scales) library(ggrepel)  Read in the Data I downloaded the data from here.
-confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv&quot;) %&gt;% pivot_longer(cols = -c(1:4), names_to = &quot;date&quot;, values_to = &quot;confirmed&quot;) deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv&quot;) %&gt;% pivot_longer(cols = -c(1:4), names_to = &quot;date&quot;, values_to = &quot;deaths&quot;) recovered &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv&quot;) %&gt;% pivot_longer(cols = -c(1:4), names_to = &quot;date&quot;, values_to = &quot;recoveries&quot;) # Join and Clean dat &lt;- left_join(confirmed, deaths) %&gt;% left_join(recovered) %&gt;% mutate(date = mdy(date), lab = paste0(&quot;Confirmed: &quot;, confirmed, &quot;, &quot;, &quot;Deaths = &quot;, deaths, &quot;, &quot;, &quot;Recovered: &quot;, recoveries)) %&gt;% rename(country_region = `Country/Region`)  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1.">
+  <meta name="description" content="In this post, I am analyzing data on COVID-19 cases worldwide. The data that I am analyzing only accounts for reported cases. Due to the lack of availablity and accessibility of testing in countries like the US, the numbers may be an underestimate of the actual number of cases, number of deaths, and number of recoveries. The data does not account for any other errors of measurement.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/coronavirus/">
@@ -118,15 +116,13 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
   <meta property="og:site_name" content="Megha">
   <meta property="og:url" content="/post/coronavirus/">
   <meta property="og:title" content="COVID-19 | Megha">
-  <meta property="og:description" content="In this post, I am analyzing data on COVID-19 cases worldwide.
-Libraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(scales) library(ggrepel)  Read in the Data I downloaded the data from here.
-confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv&quot;) %&gt;% pivot_longer(cols = -c(1:4), names_to = &quot;date&quot;, values_to = &quot;confirmed&quot;) deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv&quot;) %&gt;% pivot_longer(cols = -c(1:4), names_to = &quot;date&quot;, values_to = &quot;deaths&quot;) recovered &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv&quot;) %&gt;% pivot_longer(cols = -c(1:4), names_to = &quot;date&quot;, values_to = &quot;recoveries&quot;) # Join and Clean dat &lt;- left_join(confirmed, deaths) %&gt;% left_join(recovered) %&gt;% mutate(date = mdy(date), lab = paste0(&quot;Confirmed: &quot;, confirmed, &quot;, &quot;, &quot;Deaths = &quot;, deaths, &quot;, &quot;, &quot;Recovered: &quot;, recoveries)) %&gt;% rename(country_region = `Country/Region`)  Coronavirus Confirmed Cases covid_leaf &lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:description" content="In this post, I am analyzing data on COVID-19 cases worldwide. The data that I am analyzing only accounts for reported cases. Due to the lack of availablity and accessibility of testing in countries like the US, the numbers may be an underestimate of the actual number of cases, number of deaths, and number of recoveries. The data does not account for any other errors of measurement."><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
-      <meta property="article:published_time" content="2020-04-08T00:00:00&#43;00:00">
+      <meta property="article:published_time" content="2020-04-09T00:00:00&#43;00:00">
     
-    <meta property="article:modified_time" content="2020-04-08T00:00:00&#43;00:00">
+    <meta property="article:modified_time" content="2020-04-09T00:00:00&#43;00:00">
   
 
   
@@ -156,8 +152,8 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
   },
   "headline": "COVID-19",
   
-  "datePublished": "2020-04-08T00:00:00Z",
-  "dateModified": "2020-04-08T00:00:00Z",
+  "datePublished": "2020-04-09T00:00:00Z",
+  "dateModified": "2020-04-09T00:00:00Z",
   
   "author": {
     "@type": "Person",
@@ -172,7 +168,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
       "url": "/img/icon-512.png"
     }
   },
-  "description": "In this post, I am analyzing data on COVID-19 cases worldwide.\nLibraries library(tidyverse) library(maps) library(ggthemes) library(jsonlite) library(leaflet) library(widgetframe) library(lubridate) library(scales) library(ggrepel)  Read in the Data I downloaded the data from here.\nconfirmed \u0026lt;- read_csv(\u0026quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv\u0026quot;) %\u0026gt;% pivot_longer(cols = -c(1:4), names_to = \u0026quot;date\u0026quot;, values_to = \u0026quot;confirmed\u0026quot;) deaths \u0026lt;- read_csv(\u0026quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv\u0026quot;) %\u0026gt;% pivot_longer(cols = -c(1:4), names_to = \u0026quot;date\u0026quot;, values_to = \u0026quot;deaths\u0026quot;) recovered \u0026lt;- read_csv(\u0026quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv\u0026quot;) %\u0026gt;% pivot_longer(cols = -c(1:4), names_to = \u0026quot;date\u0026quot;, values_to = \u0026quot;recoveries\u0026quot;) # Join and Clean dat \u0026lt;- left_join(confirmed, deaths) %\u0026gt;% left_join(recovered) %\u0026gt;% mutate(date = mdy(date), lab = paste0(\u0026quot;Confirmed: \u0026quot;, confirmed, \u0026quot;, \u0026quot;, \u0026quot;Deaths = \u0026quot;, deaths, \u0026quot;, \u0026quot;, \u0026quot;Recovered: \u0026quot;, recoveries)) %\u0026gt;% rename(country_region = `Country/Region`)  Coronavirus Confirmed Cases covid_leaf \u0026lt;- leaflet(data = dat, options = leafletOptions(minZoom = 1."
+  "description": "In this post, I am analyzing data on COVID-19 cases worldwide. The data that I am analyzing only accounts for reported cases. Due to the lack of availablity and accessibility of testing in countries like the US, the numbers may be an underestimate of the actual number of cases, number of deaths, and number of recoveries. The data does not account for any other errors of measurement."
 }
 </script>
 
@@ -452,7 +448,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
     
       
     
-    Apr 8, 2020
+    Apr 9, 2020
   </span>
   
 
@@ -461,7 +457,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    2 min read
+    3 min read
   </span>
   
 
@@ -596,7 +592,7 @@ confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/
 <script src="/rmarkdown-libs/widgetframe-binding/widgetframe.js"></script>
 
 
-<p>In this post, I am analyzing data on COVID-19 cases worldwide.</p>
+<p>In this post, I am analyzing data on COVID-19 cases worldwide. The data that I am analyzing only accounts for reported cases. Due to the lack of availablity and accessibility of testing in countries like the US, the numbers may be an underestimate of the actual number of cases, number of deaths, and number of recoveries. The data does not account for any other errors of measurement.</p>
 <div id="libraries" class="section level1">
 <h1>Libraries</h1>
 <pre class="r"><code>library(tidyverse)
@@ -706,11 +702,11 @@ sum_dat %&gt;%
             aes(label = country_region, x = date + .1, 
                 y = confirmed, color = country_region), 
             hjust = -.01) +
-  scale_y_continuous(labels = comma, breaks = seq(0, 400000, 50000)) +
-  xlim(ymd(&quot;2020-01-22&quot;), ymd(&quot;2020-04-13&quot;)) + 
+  scale_y_continuous(labels = comma, breaks = seq(0, 600000, 50000)) +
+  xlim(ymd(&quot;2020-01-22&quot;), ymd(&quot;2020-04-14&quot;)) + 
   scale_color_brewer(type = &quot;qual&quot;, palette = 2) + 
   labs(x = &quot;&quot;, y = &quot;Confirmed Cases&quot;, color = &quot;Country&quot;) + 
-  ggtitle(&quot;Confirmed Cases as of April 8, 2020&quot;) +
+  ggtitle(&quot;Confirmed Cases as of April 9, 2020&quot;) +
   theme_bw() +
   theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>

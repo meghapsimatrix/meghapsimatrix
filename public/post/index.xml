@@ -5,7 +5,7 @@
     <link>/post/</link>
       <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 08 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 09 Apr 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
       <title>Posts</title>
@@ -15,7 +15,7 @@
     <item>
       <title>COVID-19</title>
       <link>/post/coronavirus/</link>
-      <pubDate>Wed, 08 Apr 2020 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 09 Apr 2020 00:00:00 +0000</pubDate>
       <guid>/post/coronavirus/</guid>
       <description>
 &lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
@@ -23,7 +23,7 @@
 &lt;script src=&#34;/rmarkdown-libs/widgetframe-binding/widgetframe.js&#34;&gt;&lt;/script&gt;
 
 
-&lt;p&gt;In this post, I am analyzing data on COVID-19 cases worldwide.&lt;/p&gt;
+&lt;p&gt;In this post, I am analyzing data on COVID-19 cases worldwide. The data that I am analyzing only accounts for reported cases. Due to the lack of availablity and accessibility of testing in countries like the US, the numbers may be an underestimate of the actual number of cases, number of deaths, and number of recoveries. The data does not account for any other errors of measurement.&lt;/p&gt;
 &lt;div id=&#34;libraries&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Libraries&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
@@ -133,11 +133,11 @@ sum_dat %&amp;gt;%
             aes(label = country_region, x = date + .1, 
                 y = confirmed, color = country_region), 
             hjust = -.01) +
-  scale_y_continuous(labels = comma, breaks = seq(0, 400000, 50000)) +
-  xlim(ymd(&amp;quot;2020-01-22&amp;quot;), ymd(&amp;quot;2020-04-13&amp;quot;)) + 
+  scale_y_continuous(labels = comma, breaks = seq(0, 600000, 50000)) +
+  xlim(ymd(&amp;quot;2020-01-22&amp;quot;), ymd(&amp;quot;2020-04-14&amp;quot;)) + 
   scale_color_brewer(type = &amp;quot;qual&amp;quot;, palette = 2) + 
   labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Confirmed Cases&amp;quot;, color = &amp;quot;Country&amp;quot;) + 
-  ggtitle(&amp;quot;Confirmed Cases as of April 8, 2020&amp;quot;) +
+  ggtitle(&amp;quot;Confirmed Cases as of April 9, 2020&amp;quot;) +
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
