@@ -52,7 +52,7 @@ recovered <- read_csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19
 dat <- left_join(confirmed, deaths) %>%
   left_join(recovered) %>%
   mutate(date = mdy(date),
-         lab = paste0("Confirmed: ", confirmed, ", ", "Deaths = ", deaths, ", ", "Recovered: ", recoveries)) %>%
+         lab = paste0("Confirmed: ", confirmed, ", ", "Deaths: ", deaths, ", ", "Recovered: ", recoveries)) %>%
   rename(country_region = `Country/Region`)
 ```
 
