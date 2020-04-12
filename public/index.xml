@@ -151,7 +151,7 @@ recovered &amp;lt;- read_csv(&amp;quot;https://raw.githubusercontent.com/CSSEGIS
 dat &amp;lt;- left_join(confirmed, deaths) %&amp;gt;%
   left_join(recovered) %&amp;gt;%
   mutate(date = mdy(date),
-         lab = paste0(&amp;quot;Confirmed: &amp;quot;, confirmed, &amp;quot;, &amp;quot;, &amp;quot;Deaths = &amp;quot;, deaths, &amp;quot;, &amp;quot;, &amp;quot;Recovered: &amp;quot;, recoveries)) %&amp;gt;%
+         lab = paste0(&amp;quot;Confirmed: &amp;quot;, confirmed, &amp;quot;, &amp;quot;, &amp;quot;Deaths: &amp;quot;, deaths, &amp;quot;, &amp;quot;, &amp;quot;Recovered: &amp;quot;, recoveries)) %&amp;gt;%
   rename(country_region = `Country/Region`)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;coronavirus-confirmed-cases&#34; class=&#34;section level1&#34;&gt;
