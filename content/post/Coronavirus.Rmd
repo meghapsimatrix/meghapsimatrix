@@ -1,7 +1,7 @@
 ---
 title: "COVID-19"
 author: "Megha Joshi"
-date: 2020-04-12
+date: 2020-04-13
 categories: ["R"]
 tags: ["coronavirus", "COVID-19", "ggplot", "leaflet"]
 
@@ -76,7 +76,7 @@ frameWidget(covid_leaf)
 
 ## Confirmed 
 
-```{r, fig.width=10, fig.height=6}
+```{r, fig.width=10, fig.height=7}
 country_dat <- dat %>%
   filter(country_region %in% c("China", "Italy", "Iran", "Korea, South", "Spain", "US")) %>%
   mutate(week = cut(date, "week", start.on.monday = FALSE))
@@ -93,7 +93,7 @@ country_dat %>%
 
 ## Deaths
 
-```{r, fig.width=10, fig.height=6}
+```{r, fig.width=10, fig.height=7}
 country_dat %>%
   ggplot(aes(x = deaths/1000, y = week)) +
   geom_bar(stat = "identity", position = "dodge", fill = "red4") + 
@@ -106,7 +106,7 @@ country_dat %>%
 
 ## Recoveries
 
-```{r, fig.width=10, fig.height=6}
+```{r, fig.width=10, fig.height=7}
 country_dat %>%
   ggplot(aes(x = recoveries/1000, y = week)) +
   geom_bar(stat = "identity", position = "dodge", fill = "green4") + 
@@ -133,11 +133,11 @@ sum_dat %>%
             aes(label = country_region, x = date + .1, 
                 y = confirmed, color = country_region), 
             hjust = -.01) +
-  scale_y_continuous(labels = comma, breaks = seq(0, 600000, 50000)) +
-  xlim(ymd("2020-01-22"), ymd("2020-04-17")) + 
+  scale_y_continuous(labels = comma, breaks = seq(0, 700000, 50000)) +
+  xlim(ymd("2020-01-22"), ymd("2020-04-18")) + 
   scale_color_brewer(type = "qual", palette = 2) + 
   labs(x = "", y = "Confirmed Cases", color = "Country") + 
-  ggtitle("Confirmed Cases as of April 12, 2020") +
+  ggtitle("Confirmed Cases as of April 13, 2020") +
   theme_bw() +
   theme(legend.position = "none")
   
