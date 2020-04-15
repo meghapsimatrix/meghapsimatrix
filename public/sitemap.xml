@@ -38,6 +38,11 @@
   </url>
   
   <url>
+    <loc>/tags/causal-inference/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tags/coronavirus/</loc>
     <lastmod>2020-04-15T00:00:00+00:00</lastmod>
   </url>
@@ -63,7 +68,22 @@
   </url>
   
   <url>
+    <loc>/tags/missing-data/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/missing_dat/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/</loc>
+    <lastmod>2020-04-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/propensity-score/</loc>
     <lastmod>2020-04-15T00:00:00+00:00</lastmod>
   </url>
   
@@ -138,11 +158,6 @@
   </url>
   
   <url>
-    <loc>/tags/causal-inference/</loc>
-    <lastmod>2019-10-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/continuous-treatment/</loc>
     <lastmod>2019-10-09T00:00:00+00:00</lastmod>
   </url>
@@ -211,10 +226,6 @@
   
   <url>
     <loc>/tags/mentoring-structures/</loc>
-  </url>
-  
-  <url>
-    <loc>/tags/missing-data/</loc>
   </url>
   
   <url>
