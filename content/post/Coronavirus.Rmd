@@ -1,7 +1,7 @@
 ---
 title: "COVID-19"
 author: "Megha Joshi"
-date: 2020-04-16
+date: 2020-04-17
 categories: ["R"]
 tags: ["coronavirus", "COVID-19", "ggplot", "leaflet"]
 
@@ -25,6 +25,7 @@ library(widgetframe)
 library(lubridate)
 library(scales)
 library(ggrepel)
+library(tidyquant)
 ```
 
 
@@ -134,12 +135,60 @@ sum_dat %>%
                 y = confirmed, color = country_region), 
             hjust = -.01) +
   scale_y_continuous(labels = comma, breaks = seq(0, 800000, 50000)) +
-  xlim(ymd("2020-01-22"), ymd("2020-04-21")) + 
+  xlim(ymd("2020-01-22"), ymd("2020-04-22")) + 
   scale_color_brewer(type = "qual", palette = 2) + 
   labs(x = "", y = "Confirmed Cases", color = "Country") + 
-  ggtitle("Confirmed Cases as of April 16, 2020") +
+  ggtitle("Confirmed Cases as of April 17, 2020") +
   theme_bw() +
   theme(legend.position = "none")
   
+```
+
+# Unemployment Claims
+
+I am retrieving the data from the `tidyquant` package. 
+
+```{r}
+icsa_dat <- "ICSA" %>%
+  tq_get(get = "economic.data",  
+         from = "1967-01-07") %>%
+  rename(claims = price)
+
+
+glimpse(icsa_dat)
+
+
+icsa_dat %>%
+  ggplot(aes(x = date, y = claims)) + 
+  geom_line(color = "blue") + 
+  scale_y_continuous(labels = comma) +
+  labs(x = "Date", y = "Claims") + 
+  ggtitle("Unemployment Claims: 1967 to 2020") +
+  theme_bw()
+```
+
+```{r}
+icsa_dat %>%
+  mutate(year = year(date)) %>%
+  filter(year > 2007) %>%
+  ggplot(aes(x = date, y = claims)) + 
+  geom_line(color = "blue") + 
+  scale_y_continuous(labels = comma) +
+  labs(x = "Date", y = "Claims") + 
+  ggtitle("Unemployment Claims: 2008 to 2020") +
+  theme_bw()
+  
+```
+
+```{r}
+icsa_dat %>%
+  mutate(year = year(date)) %>%
+  filter(year > 2018) %>%
+  ggplot(aes(x = date, y = claims)) + 
+  geom_line(color = "blue") + 
+  scale_y_continuous(labels = comma) +
+  labs(x = "Date", y = "Claims") + 
+  ggtitle("Unemployment Claims: 2019 to 2020") +
+  theme_bw()
 ```
 
