@@ -108,7 +108,7 @@
     <item>
       <title>COVID-19</title>
       <link>/post/coronavirus/</link>
-      <pubDate>Thu, 16 Apr 2020 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
       <guid>/post/coronavirus/</guid>
       <description>
 &lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
@@ -127,7 +127,8 @@ library(leaflet)
 library(widgetframe)
 library(lubridate)
 library(scales)
-library(ggrepel)&lt;/code&gt;&lt;/pre&gt;
+library(ggrepel)
+library(tidyquant)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;read-in-the-data&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Read in the Data&lt;/h1&gt;
@@ -227,13 +228,57 @@ sum_dat %&amp;gt;%
                 y = confirmed, color = country_region), 
             hjust = -.01) +
   scale_y_continuous(labels = comma, breaks = seq(0, 800000, 50000)) +
-  xlim(ymd(&amp;quot;2020-01-22&amp;quot;), ymd(&amp;quot;2020-04-21&amp;quot;)) + 
+  xlim(ymd(&amp;quot;2020-01-22&amp;quot;), ymd(&amp;quot;2020-04-22&amp;quot;)) + 
   scale_color_brewer(type = &amp;quot;qual&amp;quot;, palette = 2) + 
   labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Confirmed Cases&amp;quot;, color = &amp;quot;Country&amp;quot;) + 
-  ggtitle(&amp;quot;Confirmed Cases as of April 16, 2020&amp;quot;) +
+  ggtitle(&amp;quot;Confirmed Cases as of April 17, 2020&amp;quot;) +
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;unemployment-claims&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Unemployment Claims&lt;/h1&gt;
+&lt;p&gt;I am retrieving the data from the &lt;code&gt;tidyquant&lt;/code&gt; package.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat &amp;lt;- &amp;quot;ICSA&amp;quot; %&amp;gt;%
+  tq_get(get = &amp;quot;economic.data&amp;quot;,  
+         from = &amp;quot;1967-01-07&amp;quot;) %&amp;gt;%
+  rename(claims = price)
+
+
+glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Rows: 2,780
+## Columns: 3
+## $ symbol &amp;lt;chr&amp;gt; &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;…
+## $ date   &amp;lt;date&amp;gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1…
+## $ claims &amp;lt;int&amp;gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000…&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
+  ggplot(aes(x = date, y = claims)) + 
+  geom_line(color = &amp;quot;blue&amp;quot;) + 
+  scale_y_continuous(labels = comma) +
+  labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
+  ggtitle(&amp;quot;Unemployment Claims: 1967 to 2020&amp;quot;) +
+  theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
+  mutate(year = year(date)) %&amp;gt;%
+  filter(year &amp;gt; 2007) %&amp;gt;%
+  ggplot(aes(x = date, y = claims)) + 
+  geom_line(color = &amp;quot;blue&amp;quot;) + 
+  scale_y_continuous(labels = comma) +
+  labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
+  ggtitle(&amp;quot;Unemployment Claims: 2008 to 2020&amp;quot;) +
+  theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
+  mutate(year = year(date)) %&amp;gt;%
+  filter(year &amp;gt; 2018) %&amp;gt;%
+  ggplot(aes(x = date, y = claims)) + 
+  geom_line(color = &amp;quot;blue&amp;quot;) + 
+  scale_y_continuous(labels = comma) +
+  labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
+  ggtitle(&amp;quot;Unemployment Claims: 2019 to 2020&amp;quot;) +
+  theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>

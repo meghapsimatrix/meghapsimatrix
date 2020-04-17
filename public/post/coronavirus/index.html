@@ -120,9 +120,9 @@
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
-      <meta property="article:published_time" content="2020-04-16T00:00:00&#43;00:00">
+      <meta property="article:published_time" content="2020-04-17T00:00:00&#43;00:00">
     
-    <meta property="article:modified_time" content="2020-04-16T00:00:00&#43;00:00">
+    <meta property="article:modified_time" content="2020-04-17T00:00:00&#43;00:00">
   
 
   
@@ -152,8 +152,8 @@
   },
   "headline": "COVID-19",
   
-  "datePublished": "2020-04-16T00:00:00Z",
-  "dateModified": "2020-04-16T00:00:00Z",
+  "datePublished": "2020-04-17T00:00:00Z",
+  "dateModified": "2020-04-17T00:00:00Z",
   
   "author": {
     "@type": "Person",
@@ -448,7 +448,7 @@
     
       
     
-    Apr 16, 2020
+    Apr 17, 2020
   </span>
   
 
@@ -603,7 +603,8 @@ library(leaflet)
 library(widgetframe)
 library(lubridate)
 library(scales)
-library(ggrepel)</code></pre>
+library(ggrepel)
+library(tidyquant)</code></pre>
 </div>
 <div id="read-in-the-data" class="section level1">
 <h1>Read in the Data</h1>
@@ -703,13 +704,57 @@ sum_dat %&gt;%
                 y = confirmed, color = country_region), 
             hjust = -.01) +
   scale_y_continuous(labels = comma, breaks = seq(0, 800000, 50000)) +
-  xlim(ymd(&quot;2020-01-22&quot;), ymd(&quot;2020-04-21&quot;)) + 
+  xlim(ymd(&quot;2020-01-22&quot;), ymd(&quot;2020-04-22&quot;)) + 
   scale_color_brewer(type = &quot;qual&quot;, palette = 2) + 
   labs(x = &quot;&quot;, y = &quot;Confirmed Cases&quot;, color = &quot;Country&quot;) + 
-  ggtitle(&quot;Confirmed Cases as of April 16, 2020&quot;) +
+  ggtitle(&quot;Confirmed Cases as of April 17, 2020&quot;) +
   theme_bw() +
   theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="unemployment-claims" class="section level1">
+<h1>Unemployment Claims</h1>
+<p>I am retrieving the data from the <code>tidyquant</code> package.</p>
+<pre class="r"><code>icsa_dat &lt;- &quot;ICSA&quot; %&gt;%
+  tq_get(get = &quot;economic.data&quot;,  
+         from = &quot;1967-01-07&quot;) %&gt;%
+  rename(claims = price)
+
+
+glimpse(icsa_dat)</code></pre>
+<pre><code>## Rows: 2,780
+## Columns: 3
+## $ symbol &lt;chr&gt; &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;…
+## $ date   &lt;date&gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1…
+## $ claims &lt;int&gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000…</code></pre>
+<pre class="r"><code>icsa_dat %&gt;%
+  ggplot(aes(x = date, y = claims)) + 
+  geom_line(color = &quot;blue&quot;) + 
+  scale_y_continuous(labels = comma) +
+  labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) + 
+  ggtitle(&quot;Unemployment Claims: 1967 to 2020&quot;) +
+  theme_bw()</code></pre>
+<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>icsa_dat %&gt;%
+  mutate(year = year(date)) %&gt;%
+  filter(year &gt; 2007) %&gt;%
+  ggplot(aes(x = date, y = claims)) + 
+  geom_line(color = &quot;blue&quot;) + 
+  scale_y_continuous(labels = comma) +
+  labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) + 
+  ggtitle(&quot;Unemployment Claims: 2008 to 2020&quot;) +
+  theme_bw()</code></pre>
+<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>icsa_dat %&gt;%
+  mutate(year = year(date)) %&gt;%
+  filter(year &gt; 2018) %&gt;%
+  ggplot(aes(x = date, y = claims)) + 
+  geom_line(color = &quot;blue&quot;) + 
+  scale_y_continuous(labels = comma) +
+  labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) + 
+  ggtitle(&quot;Unemployment Claims: 2019 to 2020&quot;) +
+  theme_bw()</code></pre>
+<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 
     </div>
