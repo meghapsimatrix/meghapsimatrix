@@ -120,9 +120,9 @@
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
-      <meta property="article:published_time" content="2020-04-15T00:00:00&#43;00:00">
+      <meta property="article:published_time" content="2020-04-16T00:00:00&#43;00:00">
     
-    <meta property="article:modified_time" content="2020-04-15T00:00:00&#43;00:00">
+    <meta property="article:modified_time" content="2020-04-16T00:00:00&#43;00:00">
   
 
   
@@ -152,8 +152,8 @@
   },
   "headline": "Missing Data in Propensity Score Analysis",
   
-  "datePublished": "2020-04-15T00:00:00Z",
-  "dateModified": "2020-04-15T00:00:00Z",
+  "datePublished": "2020-04-16T00:00:00Z",
+  "dateModified": "2020-04-16T00:00:00Z",
   
   "author": {
     "@type": "Person",
@@ -448,7 +448,7 @@
     
       
     
-    Apr 15, 2020
+    Apr 16, 2020
   </span>
   
 
@@ -457,7 +457,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    25 min read
+    19 min read
   </span>
   
 
@@ -589,52 +589,7 @@
       
 
 
-<p>Theories behind propensity score analysis assume that the covariates are fully observed <span class="citation">(Rosenbaum &amp; Rubin, 1983, 1984)</span>. However, in practice, observational analyses require large administrative databases or surveys, which inevitably will have missingness in the covariates. The response patterns of people with missing covariates may be different than those of people with observed data <span class="citation">(Mohan, Pearl, &amp; Tian, 2013)</span>. Therefore, ways to handle missing covariate data need to be examined. The basic estimation of propensity scores using logistic regression will delete cases with missing data, which can be problematic as it can cause bias in the treatment effect estimates <span class="citation">(Baraldi &amp; Enders, 2010)</span>. Below, I review the three missing data mechanisms introduced by <span class="citation">Rubin (1976)</span> that provide the foundation for how missing data is handled in applied research.</p>
-<div id="missing-data-mechanisms" class="section level2">
-<h2>Missing Data Mechanisms</h2>
-<p><span class="citation">Mohan et al. (2013)</span> and <span class="citation">Thoemmes &amp; Mohan (2015)</span> used conditional independence statements to define each of the missing data mechanisms. I describe the mechanisms using the conditional independence notations as they help clarify relationships between missing data, missingness patterns, and observed study variables. Let <span class="math inline">\(X\)</span> denote an <span class="math inline">\(n \times k\)</span> matrix of study variables, that can be partitioned into <span class="math inline">\(X_{obs}\)</span>, representing the observed part of the variables, and <span class="math inline">\(X_{mis}\)</span>, representing the unobserved part. Let <span class="math inline">\(R\)</span> denote an <span class="math inline">\(n \times k\)</span> matrix of binary missingness indicators, equal to 1 if a variable is missing and 0 if the variable is observed. Let <span class="math inline">\(X_j\)</span> denote the <span class="math inline">\(j^{th}\)</span> variable in <span class="math inline">\(X\)</span>.</p>
-<div id="missing-completely-at-random" class="section level3">
-<h3>Missing Completely at Random</h3>
-<p>The Missing Completely at Random (MCAR) condition requires the probability of missingness on a variable, <span class="math inline">\(X_j\)</span>, to be unrelated to other observed variables and to the hypothetically complete values of <span class="math inline">\(X_j\)</span> <span class="citation">(Baraldi &amp; Enders, 2010)</span>. Under MCAR,
-<span class="math display">\[\begin{equation}
-\label{eq:mcar1}
-P(R|X) = P(R|X_{obs}, X_{mis}) = P(R)
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-\label{eq:mcar2}
-R \perp\!\!\!\perp (X_{obs}, X_{mis})
-\end{equation}\]</span>
-The unconditional distribution of missingness, <span class="math inline">\(P(R)\)</span>, equals the distribution of <span class="math inline">\(R\)</span> conditioned on the observed and unobserved parts of <span class="math inline">\(X\)</span> <span class="citation">(Mohan et al., 2013; Thoemmes &amp; Mohan, 2015)</span>. Missingness is independent of both the observed and unobserved parts of <span class="math inline">\(X\)</span> <span class="citation">(Mohan et al., 2013; Thoemmes &amp; Mohan, 2015)</span>. If the MCAR assumption holds, the sample without missing values is a random subsample of the original full-data sample <span class="citation">(Baraldi &amp; Enders, 2010)</span>.</p>
-<p><span class="citation">Thoemmes &amp; Mohan (2015)</span> note that, under MCAR, missingness occurs due to accidental reasons. Examples of MCAR include participants neglecting to answer items on a survey randomly and random data reading errors that generate missing values <span class="citation">(Baraldi &amp; Enders, 2010; Thoemmes &amp; Mohan, 2015)</span>. The MCAR assumption is very restrictive and also unlikely to be met in applied research <span class="citation">(Baraldi &amp; Enders, 2010; Thoemmes &amp; Mohan, 2015)</span>. Although tests can verify that the data are not MCAR, tests cannot conclusively prove that the data are MCAR because the complete dataset is not observed <span class="citation">(Baraldi &amp; Enders, 2010; Thoemmes &amp; Mohan, 2015)</span>. Complete case analysis, which entails deleting any case with missing data, will provide unbiased estimates if the data are MCAR <span class="citation">(Thoemmes &amp; Mohan, 2015)</span>. However, if large proportion of the data are missing, deleting cases can result in loss of power.</p>
-</div>
-<div id="missing-at-random" class="section level3">
-<h3>Missing at Random</h3>
-<p>The Missing at Random (MAR) condition, which is less restrictive than the MCAR assumption, requires that the probability of missingness on <span class="math inline">\(X_j\)</span> is not related to the hypothetically complete values of <span class="math inline">\(X_j\)</span> after controlling for the other observed variables <span class="citation">(Baraldi &amp; Enders, 2010)</span>. Under MAR,
-<span class="math display">\[\begin{equation}
-\label{eq:mar1}
-P(R|X) = P(R|X_{obs}, X_{mis}) = P(R|X_{obs}) 
-\end{equation}\]</span>
-<span class="math display">\[\begin{equation}
-\label{eq:mar2}
-R \perp\!\!\!\perp X_{mis}|X_{obs}
-\end{equation}\]</span>
-The distribution of missingness given observed and unobserved parts of <span class="math inline">\(X\)</span> equals the distribution of <span class="math inline">\(R\)</span> conditioned on the observed parts of <span class="math inline">\(X\)</span> <span class="citation">(Thoemmes &amp; Mohan, 2015)</span>. Missingness is independent of the unobserved parts of <span class="math inline">\(X\)</span> given the observed data <span class="citation">(Mohan et al., 2013; Thoemmes &amp; Mohan, 2015)</span>.</p>
-<p>An example of MAR would be if students who have higher student residential mobility are less likely to report prior math achievement scores. These students are also likely to have lower achievement scores. After controlling for residential mobility which is observed in the study data, missingness in achievement is no longer related to the hypothetically complete values of achievement. The MAR assumption is untestable as the hypothetically complete values of the variables would not be observed. Full information maximum likelihood estimation and multiple imputation, which make use of the information available in <span class="math inline">\(X_{obs}\)</span>, are appropriate methods to use when the data are MAR or MCAR <span class="citation">(Thoemmes &amp; Mohan, 2015)</span>.</p>
-</div>
-<div id="missing-not-at-random" class="section level3">
-<h3>Missing Not at Random</h3>
-<p>The Missing Not at Random (MNAR) condition implies that the probability of missingness on a variable depends on the hypothetically complete variable even after controlling for other observed variables <span class="citation">(Baraldi &amp; Enders, 2010)</span>. Neither of the independences implied by MCAR or MAR apply for data that are MNAR <span class="citation">(Thoemmes &amp; Mohan, 2015)</span>:
-<span class="math display">\[\begin{equation}
-\label{eq:mnar1}
-P(R|X_{obs}, X_{mis}) \neq P(R|X_{obs}) 
-\end{equation}\]</span></p>
-<p>An example of MNAR would be students of lower socioeconomic status (SES) not reporting their SES. If, even after controlling for other predictors of SES like race and parent’s education level, missingness in SES is still related to SES, then the data are MNAR. MNAR can also occur if missingness is related to an unobserved variable that is correlated with the hypothetically complete values of <span class="math inline">\(X\)</span> <span class="citation">(Thoemmes &amp; Mohan, 2015)</span>. In the case of the achievement and residential mobility example for MAR, if residential mobility is not observed, a dependency is introduced between achievement and its missingness. Like the prior two mechanisms, MNAR is also unverifiable. Analysis methods that try to address MNAR include selection models and pattern mixture models. Selection models include a model to predict <span class="math inline">\(R\)</span> combined with a model to predict <span class="math inline">\(X\)</span> <span class="citation">(Little, 2008)</span>. Pattern mixture models estimate parameters separately for each missing data pattern and then average the estimates across the patterns to derive the final estimate <span class="citation">(Little, 2008)</span>. These methods rely on heavy assumptions like multivariate normality and may result in severely biased parameter estimates when these assumptions are not met <span class="citation">(Baraldi &amp; Enders, 2010)</span>.</p>
-</div>
-</div>
-<div id="missing-potential-outcomes" class="section level2">
-<h2>Missing Potential Outcomes</h2>
-<p>Here, I briefly connect the other underlying layer of missing data in causal inference, the missing potential outcomes, to the missing data mechanisms. In the context of randomized experiments, potential outcomes can be thought of as being MCAR. A simple randomized experiment ensures that the treatment groups are not systematically different in terms of any variables and that the potential outcomes are independent of treatment group. Therefore, the parts of the population that have observed <span class="math inline">\(Y(1)\)</span> and <span class="math inline">\(Y(0)\)</span>, the treated and the untreated group respectively, can be considered as a simple random sample of the full population <span class="citation">(Gerber &amp; Green, 2012)</span>. Because MCAR can be assumed, taking the simple average of the outcome in each of the group, deleting the cases that do not have observed potential outcomes, and taking the difference of the averages lets us retrieve the causal effect estimate <span class="citation">(Gerber &amp; Green, 2012; Schafer &amp; Kang, 2008)</span>. In context of observational studies, potential outcomes can be thought of as being MAR. The difference in the means of the potential outcomes can be retrieved after conditioning on the fully observed <span class="math inline">\(X\)</span> <span class="citation">(Schafer &amp; Kang, 2008)</span>. This paper focuses on situations when <span class="math inline">\(X\)</span> is not fully observed and how to properly handle missingness in <span class="math inline">\(X\)</span>.</p>
-</div>
+<p>Theories behind propensity score analysis assume that the covariates are fully observed <span class="citation">(Rosenbaum &amp; Rubin, 1983, 1984)</span>. However, in practice, observational analyses require large administrative databases or surveys, which inevitably will have missingness in the covariates. The response patterns of people with missing covariates may be different than those of people with observed data <span class="citation">(Mohan, Pearl, &amp; Tian, 2013)</span>. Therefore, ways to handle missing covariate data need to be examined. The basic estimation of propensity scores using logistic regression will delete cases with missing data, which can be problematic as it can cause bias in the treatment effect estimates <span class="citation">(Baraldi &amp; Enders, 2010)</span>.</p>
 <div id="missing-data-methods-in-propensity-score-analysis" class="section level2">
 <h2>Missing Data Methods in Propensity Score Analysis</h2>
 <p>Below I explain three major methods used in the applied propensity score analysis literature when <span class="math inline">\(X\)</span> is not fully observed. I also explain three other methods to handle missing data that are not commonly used in applied literature but have been proposed theoretically. I also describe the assumptions about missing data and strong ignorability underlying each of the methods. Let <span class="math inline">\(X_{obs}\)</span> indicate the observed parts of <span class="math inline">\(X\)</span> and <span class="math inline">\(X_{mis}\)</span> indicate the missing parts of <span class="math inline">\(X\)</span>. <span class="math inline">\(D\)</span> indicates the fully observed treatment indicator and <span class="math inline">\(Y\)</span> indicates a fully observed outcome variable.</p>
@@ -721,7 +676,6 @@ P(X| X_{obs}, R = 1) \neq P(X| X_{obs}, R = 0)
 <p><span class="citation">Qu &amp; Lipkovich (2009)</span> compared the MIMP approach that they introduced to complete case analysis, the MI method, and a pattern mixture (MP) method that is similar to the GPS except the authors combined patterns that contained few cases. Twelve covariates were generated from a compound symmetric multivariate normal distribution. The treatment assignment indicator was generated as a linear function of the covariates. The outcome was generated as a linear function of the covariates and the treatment indicator variable. Ignorable (MCAR and MAR) and non-ignorable (MNAR) missingness were simulated based on linear combinations of the covariates. The number of simulation iterations conducted was 5000 and the number of imputations generated for MI was 5. The results showed that the complete case analysis removed bias under all three missingness conditions. I note that this result is counter-intuitive as theoretically, complete case analysis should introduce bias especially under MNAR. Under MAR, all the methods showed low bias. Under MNAR, MP and MIMP showed lower bias than MI.</p>
 <p><span class="citation">Leyrat et al. (2019)</span> compared complete case analysis, GPS, the two MI methods, and an MI approach that averages the covariate values across the imputed datasets and then estimates the propensity scores. For MI, they experimented including the outcome and not including the outcome in the imputation model, similar to <span class="citation">Hill (2004)</span>. The authors generated three covariates from a multivariate normal distribution, with one dichotomized. Treatment assignment was generated as a linear function of all three covariates. A binary outcome was generated as a linear function of the covariates and the treatment assignment indicator. The authors calculated log relative risk, log odds ratio and risk difference using IPW to condition on the propensity scores. MAR missingness was generated in the first and the third (binary) covariate as a function of the fully observed second covariate, treatment indicator and the outcome. The authors experimented with making missingness dependent and independent of the outcome. The authors did not include any covariates in the outcome model. For each condition, 5000 datasets with a sample size of 2000 (30% in the treatment group) each were generated. The results indicated that complete case analysis and GPS resulted in strong absolute bias in the treatment effect estimates. MI methods showed lower bias. Including the outcome in imputation model resulted in lower absolute bias even in cases where the outcome did not predict missingness. MI Across with the outcome included showed the lowest absolute bias (near zero). All of the MI methods showed adequate coverage rates whereas the complete case and GPS methods showed very large bias so their coverage rates were also inadequate. The authors recommended MI Across with the outcome included in the imputation model.</p>
 <p><span class="citation">Crowe, Lipkovich, &amp; Wang (2010)</span> conducted a simulation study comparing complete case analysis, treatment mean imputation (imputing missing values with the mean of the variable in the treatment group), and three types of MI Within. The three types entailed: (1) including only the covariates in the imputation model; (2) including the covariates and the treatment indicator in the imputation model; (3) including the covariates, treatment indicator and the outcome variable in the imputation model. The authors generated data for 2000 subjects with six continuous covariates from a compound symmetric multivariate normal distribution, with correlation between covariates equal to 0.3. The treatment assignment indicator was generated as a linear function of only one of the covariates and a binary outcome was generated as a linear function of that covariate and the treatment assignment indicator. MCAR and MAR missingness were generated that affected three of the covariates including the one that influenced both treatment assignment and outcome. The number of simulation iterations per condition was 3000. Results showed bias in treatment effect estimates even in conditions with no missing data and no confounding. This result is odd as theoretically there should be no bias in these conditions. Complete case analysis and MI that included all covariates, the treatment indicator and the outcome variable produced estimates that were not significantly different from estimates obtained under no missing data condition. Treatment mean imputation produced slightly larger bias under MCAR, and even larger bias under MAR. The other two MI methods (including covariates only, and including covariates and the treatment indicator) resulted in substantial bias.</p>
-<div style="page-break-after: always;"></div>
 <p><span class="citation">Leyrat et al. (2019)</span> and <span class="citation">Crowe et al. (2010)</span> examined missing data methods to estimate treatment effects for a binary outcome variable. The effect estimation procedure for a binary outcome is different from that for a continuous outcome, which is the focus of the present study. Therefore, the results from these studies may not generalize to the context of my study. The results from <span class="citation">Hill (2004)</span>, <span class="citation">Mitra &amp; Reiter (2016)</span>, and <span class="citation">Qu &amp; Lipkovich (2009)</span> are more relevant.</p>
 <p><span class="citation">Hill (2004)</span> and <span class="citation">Mitra &amp; Reiter (2016)</span> did not compare MI techniques to the other competing missing data technique of using GPS. All of the articles reviewed also generated the treatment indicator variable as a linear additive function of the covariates, estimated propensity scores using logistic regression, and estimated the treatment effect using multiple linear regression or just taking the plain difference in the means of the outcomes of the treated and untreated groups after matching or weighting. As I noted above, in applied settings, it is common to encounter large sets of covariates which may not have a linear additive relationship with the treatment assignment <span class="citation">(Lee, Lessler, &amp; Stuart, 2009)</span>. Using logistic regression to estimate propensity scores requires the functional form of the model to be specified correctly. Mis-specification can result in imbalanced covariates which can then result in biased treatment effect estimates.</p>
 <p>In addition to reviewing the methodological studies above, I also conducted an analysis of 66 applied research articles using propensity scores across three journals focused on educational evaluation: Educational Evaluation and Policy Analysis (n = 38), American Educational Research Journal (n = 18), and Journal of Research on Educational Effectiveness (n = 10). I searched for the term “propensity score analysis” in the webpages of each of the journals and reviewed all of the articles that used propensity score analysis. The articles were from 2003 to 2019; I omitted one study published in the 1990s. Of these articles, 15% used complete case analysis, 14% used GPS, 36% used MI Within, 18% did not specify clearly how missing data were handled, and 17% used other techniques (e.g., hot-deck imputation, mean imputation without indicators). Three of the articles ran MI but only used one of the imputed datasets to conduct the analysis. None used MI Across even though <span class="citation">Hill (2004)</span> and <span class="citation">Mitra &amp; Reiter (2016)</span> recommended it. Moreover, only one of these studies used machine learning algorithm, random forest, to estimate propensity scores <span class="citation">(Im, Hughes, Cao, &amp; Kwok, 2016)</span>. The examination of applied educational research using propensity scores and methodological studies on missing data methods for propensity score analysis poses the need to study missing data methods, especially GPS and MI, and how they perform with flexible propensity score estimation, especially in the context of educational research.</p>
@@ -745,9 +699,6 @@ P(X| X_{obs}, R = 1) \neq P(X| X_{obs}, R = 0)
 <div id="ref-frangakis_addressing_1999">
 <p>Frangakis, C., &amp; Rubin, D. B. (1999). Addressing complications of intention-to-treat analysis in the combined presence of all-or-none treatment-noncompliance and subsequent missing outcomes. <em>Biometrika</em>, <em>86</em>(2), 365–379. <a href="https://doi.org/10.1093/biomet/86.2.365">https://doi.org/10.1093/biomet/86.2.365</a></p>
 </div>
-<div id="ref-gerber_field_2012">
-<p>Gerber, A. S., &amp; Green, D. P. (2012). <em>Field experiments: Design, analysis, and interpretation</em> (1st ed). New York: W. W. Norton.</p>
-</div>
 <div id="ref-hill_2004">
 <p>Hill, J. (2004). <em>Reducing bias in treatment effect estimation in observational studies suffering from missing data</em>. Columbia University Institute for Social &amp; Economic Research &amp; Policy (ISERP).</p>
 </div>
@@ -759,9 +710,6 @@ P(X| X_{obs}, R = 1) \neq P(X| X_{obs}, R = 0)
 </div>
 <div id="ref-leyrat_propensity_2019">
 <p>Leyrat, C., Seaman, S. R., White, I. R., Douglas, I., Smeeth, L., Kim, J., … Williamson, E. J. (2019). Propensity score analysis with partially observed covariates: How should multiple imputation be used? <em>Statistical Methods in Medical Research</em>, <em>28</em>(1), 3–19. <a href="https://doi.org/10.1177/0962280217713032">https://doi.org/10.1177/0962280217713032</a></p>
-</div>
-<div id="ref-little2008selection">
-<p>Little, R. J. (2008). Selection and pattern-mixture models. <em>Longitudinal Data Analysis</em>, 409–431.</p>
 </div>
 <div id="ref-mitra_comparison_2016">
 <p>Mitra, R., &amp; Reiter, J. P. (2016). A comparison of two methods of estimating propensity scores after multiple imputation. <em>Statistical Methods in Medical Research</em>, <em>25</em>(1), 188–204. <a href="https://doi.org/10.1177/0962280212445945">https://doi.org/10.1177/0962280212445945</a></p>
@@ -781,20 +729,11 @@ P(X| X_{obs}, R = 1) \neq P(X| X_{obs}, R = 0)
 <div id="ref-rosenbaum_reducing_1984">
 <p>Rosenbaum, P. R., &amp; Rubin, D. B. (1984). Reducing Bias in Observational Studies Using Subclassification on the Propensity Score. <em>Journal of the American Statistical Association</em>, <em>79</em>(387), 516. <a href="https://doi.org/10.2307/2288398">https://doi.org/10.2307/2288398</a></p>
 </div>
-<div id="ref-rubin_inference_1976">
-<p>Rubin, D. B. (1976). Inference and Missing Data. <em>Biometrika</em>, <em>63</em>(3), 581. <a href="https://doi.org/10.2307/2335739">https://doi.org/10.2307/2335739</a></p>
-</div>
 <div id="ref-rubin_multiple_1987">
 <p>Rubin, D. B. (1987). <em>Multiple imputation for nonresponse in surveys</em>. New York: Wiley.</p>
 </div>
-<div id="ref-schafer_average_2008">
-<p>Schafer, J. L., &amp; Kang, J. (2008). Average causal effects from nonrandomized studies: A practical guide and simulated example. <em>Psychological Methods</em>, <em>13</em>(4), 279–313. <a href="https://doi.org/10.1037/a0014268">https://doi.org/10.1037/a0014268</a></p>
-</div>
 <div id="ref-stuart_matching_2010">
 <p>Stuart, E. A. (2010). Matching Methods for Causal Inference: A Review and a Look Forward. <em>Statistical Science</em>, <em>25</em>(1), 1–21. <a href="https://doi.org/10.1214/09-STS313">https://doi.org/10.1214/09-STS313</a></p>
-</div>
-<div id="ref-thoemmes_graphical_2015">
-<p>Thoemmes, F., &amp; Mohan, K. (2015). Graphical Representation of Missing Data Problems. <em>Structural Equation Modeling: A Multidisciplinary Journal</em>, <em>22</em>(4), 631–642. <a href="https://doi.org/10.1080/10705511.2014.937378">https://doi.org/10.1080/10705511.2014.937378</a></p>
 </div>
 <div id="ref-van2018flexible">
 <p>van Buuren, S. (2018). <em>Flexible imputation of missing data</em>. Chapman; Hall/CRC.</p>

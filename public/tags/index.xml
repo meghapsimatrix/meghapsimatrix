@@ -13,6 +13,14 @@
     </image>
     
     <item>
+      <title>causal inference</title>
+      <link>/tags/causal-inference/</link>
+      <pubDate>Thu, 16 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/causal-inference/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>coronavirus</title>
       <link>/tags/coronavirus/</link>
       <pubDate>Thu, 16 Apr 2020 00:00:00 +0000</pubDate>
@@ -45,17 +53,9 @@
     </item>
     
     <item>
-      <title>causal inference</title>
-      <link>/tags/causal-inference/</link>
-      <pubDate>Wed, 15 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>/tags/causal-inference/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>missing data</title>
       <link>/tags/missing-data/</link>
-      <pubDate>Wed, 15 Apr 2020 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 16 Apr 2020 00:00:00 +0000</pubDate>
       <guid>/tags/missing-data/</guid>
       <description></description>
     </item>
@@ -63,7 +63,7 @@
     <item>
       <title>propensity score</title>
       <link>/tags/propensity-score/</link>
-      <pubDate>Wed, 15 Apr 2020 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 16 Apr 2020 00:00:00 +0000</pubDate>
       <guid>/tags/propensity-score/</guid>
       <description></description>
     </item>
