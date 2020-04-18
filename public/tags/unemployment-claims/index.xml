@@ -44,7 +44,7 @@ glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
   labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
   ggtitle(&amp;quot;Unemployment Claims: 1967 to 2020&amp;quot;) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;unemployment_claims_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
   mutate(year = year(date)) %&amp;gt;%
   filter(year &amp;gt; 2007) %&amp;gt;%
@@ -54,7 +54,7 @@ glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
   labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
   ggtitle(&amp;quot;Unemployment Claims: 2008 to 2020&amp;quot;) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;unemployment_claims_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
   mutate(year = year(date)) %&amp;gt;%
   filter(year &amp;gt; 2018) %&amp;gt;%
@@ -64,7 +64,7 @@ glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
   labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
   ggtitle(&amp;quot;Unemployment Claims: 2019 to 2020&amp;quot;) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;unemployment_claims_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;div id=&#34;causal-inference-on-impact-of-covid-19-lockdowns-on-unemployment-claims&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Causal Inference on Impact of COVID-19 Lockdowns on Unemployment Claims&lt;/h1&gt;
 &lt;blockquote class=&#34;twitter-tweet&#34;&gt;
