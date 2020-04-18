@@ -1,5 +1,5 @@
 ---
-title: "Unemployment Claims COVID 19"
+title: "Unemployment Claims COVID-19"
 author: "Megha Joshi"
 date: 2020-04-18
 categories: ["R"]

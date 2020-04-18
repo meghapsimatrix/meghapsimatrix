@@ -76,7 +76,7 @@ frameWidget(covid_leaf)
 
 ## Confirmed 
 
-```{r, fig.width=10, fig.height=7}
+```{r, fig.width=10, fig.height=8}
 country_dat <- dat %>%
   filter(country_region %in% c("China", "Italy", "Iran", "Korea, South", "Spain", "US")) %>%
   mutate(week = cut(date, "week", start.on.monday = FALSE))
@@ -93,7 +93,7 @@ country_dat %>%
 
 ## Deaths
 
-```{r, fig.width=10, fig.height=7}
+```{r, fig.width=10, fig.height=8}
 country_dat %>%
   ggplot(aes(x = deaths/1000, y = week)) +
   geom_bar(stat = "identity", position = "dodge", fill = "red4") + 
@@ -106,7 +106,7 @@ country_dat %>%
 
 ## Recoveries
 
-```{r, fig.width=10, fig.height=7}
+```{r, fig.width=10, fig.height=8}
 country_dat %>%
   ggplot(aes(x = recoveries/1000, y = week)) +
   geom_bar(stat = "identity", position = "dodge", fill = "green4") + 
@@ -119,7 +119,7 @@ country_dat %>%
 
 # Confirmed Cases Trend
 
-```{r, fig.height = 5, fig.width = 7}
+```{r, fig.height = 5, fig.width = 8}
 sum_dat <- country_dat %>%
   group_by(date, country_region) %>%
   summarize(confirmed = sum(confirmed)) %>%
