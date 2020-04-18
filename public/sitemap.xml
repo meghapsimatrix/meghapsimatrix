@@ -38,6 +38,11 @@
   </url>
   
   <url>
+    <loc>/tags/causal/</loc>
+    <lastmod>2020-04-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tags/coronavirus/</loc>
     <lastmod>2020-04-17T00:00:00+00:00</lastmod>
   </url>
@@ -74,6 +79,16 @@
   
   <url>
     <loc>/tags/</loc>
+    <lastmod>2020-04-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/time-series/</loc>
+    <lastmod>2020-04-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/unemployment-claims/</loc>
     <lastmod>2020-04-17T00:00:00+00:00</lastmod>
   </url>
   

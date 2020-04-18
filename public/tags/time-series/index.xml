@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>coronavirus | Megha</title>
-    <link>/tags/coronavirus/</link>
-      <atom:link href="/tags/coronavirus/index.xml" rel="self" type="application/rss+xml" />
-    <description>coronavirus</description>
+    <title>time-series | Megha</title>
+    <link>/tags/time-series/</link>
+      <atom:link href="/tags/time-series/index.xml" rel="self" type="application/rss+xml" />
+    <description>time-series</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 17 Apr 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
-      <title>coronavirus</title>
-      <link>/tags/coronavirus/</link>
+      <title>time-series</title>
+      <link>/tags/time-series/</link>
     </image>
     
     <item>
