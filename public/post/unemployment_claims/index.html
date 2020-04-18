@@ -28,10 +28,11 @@
   
     
   
-  <meta name="description" content="In this post, I am analyzing data on COVID-19 cases worldwide. The data that I am analyzing only accounts for reported cases. Due to the lack of availability and accessibility of testing in countries like the US, the numbers may be an underestimate of the actual number of cases, number of deaths, and number of recoveries. The data does not account for any other errors of measurement.">
+  <meta name="description" content="In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the tidyquant package.
+library(CausalImpact) library(tidyverse) library(scales) library(tidyquant) icsa_dat &lt;- &quot;ICSA&quot; %&gt;% tq_get(get = &quot;economic.data&quot;, from = &quot;1967-01-07&quot;) %&gt;% rename(claims = price) glimpse(icsa_dat) ## Rows: 2,780 ## Columns: 3 ## $ symbol &lt;chr&gt; &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;… ## $ date &lt;date&gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1… ## $ claims &lt;int&gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000… icsa_dat %&gt;% ggplot(aes(x = date, y = claims)) &#43; geom_line(color = &quot;blue&quot;) &#43; scale_y_continuous(labels = comma) &#43; labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) &#43; ggtitle(&quot;Unemployment Claims: 1967 to 2020&quot;) &#43; theme_bw() icsa_dat %&gt;% mutate(year = year(date)) %&gt;% filter(year &gt; 2007) %&gt;% ggplot(aes(x = date, y = claims)) &#43; geom_line(color = &quot;blue&quot;) &#43; scale_y_continuous(labels = comma) &#43; labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) &#43; ggtitle(&quot;Unemployment Claims: 2008 to 2020&quot;) &#43; theme_bw() icsa_dat %&gt;% mutate(year = year(date)) %&gt;% filter(year &gt; 2018) %&gt;% ggplot(aes(x = date, y = claims)) &#43; geom_line(color = &quot;blue&quot;) &#43; scale_y_continuous(labels = comma) &#43; labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) &#43; ggtitle(&quot;Unemployment Claims: 2019 to 2020&quot;) &#43; theme_bw() Causal Inference on Impact of COVID-19 Lockdowns on Unemployment Claims Sometimes #causalinference is simple.">
 
   
-  <link rel="alternate" hreflang="en-us" href="/post/coronavirus/">
+  <link rel="alternate" hreflang="en-us" href="/post/unemployment_claims/">
 
   
 
@@ -101,7 +102,7 @@
   <link rel="icon" type="image/png" href="/img/icon-32.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="/post/coronavirus/">
+  <link rel="canonical" href="/post/unemployment_claims/">
 
   
   
@@ -114,9 +115,10 @@
   <meta property="twitter:card" content="summary">
   
   <meta property="og:site_name" content="Megha">
-  <meta property="og:url" content="/post/coronavirus/">
-  <meta property="og:title" content="COVID-19 | Megha">
-  <meta property="og:description" content="In this post, I am analyzing data on COVID-19 cases worldwide. The data that I am analyzing only accounts for reported cases. Due to the lack of availability and accessibility of testing in countries like the US, the numbers may be an underestimate of the actual number of cases, number of deaths, and number of recoveries. The data does not account for any other errors of measurement."><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:url" content="/post/unemployment_claims/">
+  <meta property="og:title" content="Unemployment Claims COVID 19 | Megha">
+  <meta property="og:description" content="In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the tidyquant package.
+library(CausalImpact) library(tidyverse) library(scales) library(tidyquant) icsa_dat &lt;- &quot;ICSA&quot; %&gt;% tq_get(get = &quot;economic.data&quot;, from = &quot;1967-01-07&quot;) %&gt;% rename(claims = price) glimpse(icsa_dat) ## Rows: 2,780 ## Columns: 3 ## $ symbol &lt;chr&gt; &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;… ## $ date &lt;date&gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1… ## $ claims &lt;int&gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000… icsa_dat %&gt;% ggplot(aes(x = date, y = claims)) &#43; geom_line(color = &quot;blue&quot;) &#43; scale_y_continuous(labels = comma) &#43; labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) &#43; ggtitle(&quot;Unemployment Claims: 1967 to 2020&quot;) &#43; theme_bw() icsa_dat %&gt;% mutate(year = year(date)) %&gt;% filter(year &gt; 2007) %&gt;% ggplot(aes(x = date, y = claims)) &#43; geom_line(color = &quot;blue&quot;) &#43; scale_y_continuous(labels = comma) &#43; labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) &#43; ggtitle(&quot;Unemployment Claims: 2008 to 2020&quot;) &#43; theme_bw() icsa_dat %&gt;% mutate(year = year(date)) %&gt;% filter(year &gt; 2018) %&gt;% ggplot(aes(x = date, y = claims)) &#43; geom_line(color = &quot;blue&quot;) &#43; scale_y_continuous(labels = comma) &#43; labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) &#43; ggtitle(&quot;Unemployment Claims: 2019 to 2020&quot;) &#43; theme_bw() Causal Inference on Impact of COVID-19 Lockdowns on Unemployment Claims Sometimes #causalinference is simple."><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
@@ -148,9 +150,9 @@
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "/post/coronavirus/"
+    "@id": "/post/unemployment_claims/"
   },
-  "headline": "COVID-19",
+  "headline": "Unemployment Claims COVID 19",
   
   "datePublished": "2020-04-18T00:00:00Z",
   "dateModified": "2020-04-18T00:00:00Z",
@@ -168,7 +170,7 @@
       "url": "/img/icon-512.png"
     }
   },
-  "description": "In this post, I am analyzing data on COVID-19 cases worldwide. The data that I am analyzing only accounts for reported cases. Due to the lack of availability and accessibility of testing in countries like the US, the numbers may be an underestimate of the actual number of cases, number of deaths, and number of recoveries. The data does not account for any other errors of measurement."
+  "description": "In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the tidyquant package.\nlibrary(CausalImpact) library(tidyverse) library(scales) library(tidyquant) icsa_dat \u0026lt;- \u0026quot;ICSA\u0026quot; %\u0026gt;% tq_get(get = \u0026quot;economic.data\u0026quot;, from = \u0026quot;1967-01-07\u0026quot;) %\u0026gt;% rename(claims = price) glimpse(icsa_dat) ## Rows: 2,780 ## Columns: 3 ## $ symbol \u0026lt;chr\u0026gt; \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;… ## $ date \u0026lt;date\u0026gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1… ## $ claims \u0026lt;int\u0026gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000… icsa_dat %\u0026gt;% ggplot(aes(x = date, y = claims)) + geom_line(color = \u0026quot;blue\u0026quot;) + scale_y_continuous(labels = comma) + labs(x = \u0026quot;Date\u0026quot;, y = \u0026quot;Claims\u0026quot;) + ggtitle(\u0026quot;Unemployment Claims: 1967 to 2020\u0026quot;) + theme_bw() icsa_dat %\u0026gt;% mutate(year = year(date)) %\u0026gt;% filter(year \u0026gt; 2007) %\u0026gt;% ggplot(aes(x = date, y = claims)) + geom_line(color = \u0026quot;blue\u0026quot;) + scale_y_continuous(labels = comma) + labs(x = \u0026quot;Date\u0026quot;, y = \u0026quot;Claims\u0026quot;) + ggtitle(\u0026quot;Unemployment Claims: 2008 to 2020\u0026quot;) + theme_bw() icsa_dat %\u0026gt;% mutate(year = year(date)) %\u0026gt;% filter(year \u0026gt; 2018) %\u0026gt;% ggplot(aes(x = date, y = claims)) + geom_line(color = \u0026quot;blue\u0026quot;) + scale_y_continuous(labels = comma) + labs(x = \u0026quot;Date\u0026quot;, y = \u0026quot;Claims\u0026quot;) + ggtitle(\u0026quot;Unemployment Claims: 2019 to 2020\u0026quot;) + theme_bw() Causal Inference on Impact of COVID-19 Lockdowns on Unemployment Claims Sometimes #causalinference is simple."
 }
 </script>
 
@@ -186,7 +188,7 @@
 
 
 
-  <title>COVID-19 | Megha</title>
+  <title>Unemployment Claims COVID 19 | Megha</title>
 
 </head>
 
@@ -428,7 +430,7 @@
   
   
 <div class="article-container pt-3">
-  <h1>COVID-19</h1>
+  <h1>Unemployment Claims COVID 19</h1>
 
   
 
@@ -485,7 +487,7 @@
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=/post/coronavirus/&amp;text=COVID-19" target="_blank" rel="noopener" class="share-btn-twitter">
+        <a href="https://twitter.com/intent/tweet?url=/post/unemployment_claims/&amp;text=Unemployment%20Claims%20COVID%2019" target="_blank" rel="noopener" class="share-btn-twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -498,7 +500,7 @@
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=/post/coronavirus/&amp;t=COVID-19" target="_blank" rel="noopener" class="share-btn-facebook">
+        <a href="https://www.facebook.com/sharer.php?u=/post/unemployment_claims/&amp;t=Unemployment%20Claims%20COVID%2019" target="_blank" rel="noopener" class="share-btn-facebook">
           <i class="fab fa-facebook-f"></i>
         </a>
       </li>
@@ -511,7 +513,7 @@
       
       
       <li>
-        <a href="mailto:?subject=COVID-19&amp;body=/post/coronavirus/" target="_blank" rel="noopener" class="share-btn-email">
+        <a href="mailto:?subject=Unemployment%20Claims%20COVID%2019&amp;body=/post/unemployment_claims/" target="_blank" rel="noopener" class="share-btn-email">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -524,7 +526,7 @@
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=/post/coronavirus/&amp;title=COVID-19" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?url=/post/unemployment_claims/&amp;title=Unemployment%20Claims%20COVID%2019" target="_blank" rel="noopener" class="share-btn-linkedin">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -537,7 +539,7 @@
       
       
       <li>
-        <a href="https://web.whatsapp.com/send?text=COVID-19%20/post/coronavirus/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <a href="https://web.whatsapp.com/send?text=Unemployment%20Claims%20COVID%2019%20/post/unemployment_claims/" target="_blank" rel="noopener" class="share-btn-whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -550,7 +552,7 @@
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=/post/coronavirus/&amp;title=COVID-19" target="_blank" rel="noopener" class="share-btn-weibo">
+        <a href="https://service.weibo.com/share/share.php?url=/post/unemployment_claims/&amp;title=Unemployment%20Claims%20COVID%2019" target="_blank" rel="noopener" class="share-btn-weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>
@@ -587,129 +589,83 @@
 
     <div class="article-style">
       
-<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
-<script src="/rmarkdown-libs/pymjs/pym.v1.js"></script>
-<script src="/rmarkdown-libs/widgetframe-binding/widgetframe.js"></script>
 
 
-<p>In this post, I am analyzing data on COVID-19 cases worldwide. The data that I am analyzing only accounts for reported cases. Due to the lack of availability and accessibility of testing in countries like the US, the numbers may be an underestimate of the actual number of cases, number of deaths, and number of recoveries. The data does not account for any other errors of measurement.</p>
-<div id="libraries" class="section level1">
-<h1>Libraries</h1>
-<pre class="r"><code>library(tidyverse)
-library(maps)
-library(ggthemes)
-library(jsonlite)
-library(leaflet)
-library(widgetframe)
-library(lubridate)
+<p>In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the <code>tidyquant</code> package.</p>
+<pre class="r"><code>library(CausalImpact)
+library(tidyverse)
 library(scales)
-library(ggrepel)</code></pre>
-</div>
-<div id="read-in-the-data" class="section level1">
-<h1>Read in the Data</h1>
-<p>I downloaded the data from <a href="https://github.com/CSSEGISandData/COVID-19">here</a>.</p>
-<pre class="r"><code>confirmed &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv&quot;) %&gt;%
-  pivot_longer(cols = -c(1:4),
-               names_to = &quot;date&quot;,
-               values_to = &quot;confirmed&quot;)
+library(tidyquant)</code></pre>
+<pre class="r"><code>icsa_dat &lt;- &quot;ICSA&quot; %&gt;%
+  tq_get(get = &quot;economic.data&quot;,  
+         from = &quot;1967-01-07&quot;) %&gt;%
+  rename(claims = price)
 
-deaths &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv&quot;) %&gt;%
-  pivot_longer(cols = -c(1:4),
-               names_to = &quot;date&quot;,
-               values_to = &quot;deaths&quot;)
 
-recovered &lt;- read_csv(&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv&quot;) %&gt;%
-  pivot_longer(cols = -c(1:4),
-               names_to = &quot;date&quot;,
-               values_to = &quot;recoveries&quot;)
+glimpse(icsa_dat)</code></pre>
+<pre><code>## Rows: 2,780
+## Columns: 3
+## $ symbol &lt;chr&gt; &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;…
+## $ date   &lt;date&gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1…
+## $ claims &lt;int&gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000…</code></pre>
+<pre class="r"><code>icsa_dat %&gt;%
+  ggplot(aes(x = date, y = claims)) + 
+  geom_line(color = &quot;blue&quot;) + 
+  scale_y_continuous(labels = comma) +
+  labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) + 
+  ggtitle(&quot;Unemployment Claims: 1967 to 2020&quot;) +
+  theme_bw()</code></pre>
+<p><img src="/post/unemployment_claims_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>icsa_dat %&gt;%
+  mutate(year = year(date)) %&gt;%
+  filter(year &gt; 2007) %&gt;%
+  ggplot(aes(x = date, y = claims)) + 
+  geom_line(color = &quot;blue&quot;) + 
+  scale_y_continuous(labels = comma) +
+  labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) + 
+  ggtitle(&quot;Unemployment Claims: 2008 to 2020&quot;) +
+  theme_bw()</code></pre>
+<p><img src="/post/unemployment_claims_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>icsa_dat %&gt;%
+  mutate(year = year(date)) %&gt;%
+  filter(year &gt; 2018) %&gt;%
+  ggplot(aes(x = date, y = claims)) + 
+  geom_line(color = &quot;blue&quot;) + 
+  scale_y_continuous(labels = comma) +
+  labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) + 
+  ggtitle(&quot;Unemployment Claims: 2019 to 2020&quot;) +
+  theme_bw()</code></pre>
+<p><img src="/post/unemployment_claims_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div id="causal-inference-on-impact-of-covid-19-lockdowns-on-unemployment-claims" class="section level1">
+<h1>Causal Inference on Impact of COVID-19 Lockdowns on Unemployment Claims</h1>
+<blockquote class="twitter-tweet">
+<p lang="en" dir="ltr">
+Sometimes <a href="https://twitter.com/hashtag/causalinference?src=hash&amp;ref_src=twsrc%5Etfw">#causalinference</a> is simple.<br><br>“What's the immediate causal effect of the <a href="https://twitter.com/hashtag/COVID19?src=hash&amp;ref_src=twsrc%5Etfw">#COVID19</a> lockdowns on unemployment?”<br><br>The answer is “Unprecedented”. <br><br>We know we're in deep trouble when a time series is all we need. <a href="https://t.co/cXK0wLw3no">https://t.co/cXK0wLw3no</a> <a href="https://t.co/kS4PvVwihM">pic.twitter.com/kS4PvVwihM</a>
+</p>
+— Miguel Hernán (<span class="citation">@_MiguelHernan</span>) <a href="https://twitter.com/_MiguelHernan/status/1244215937978576898?ref_src=twsrc%5Etfw">March 29, 2020</a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>Below, I use the <code>CausalImpact</code> package to run a Bayesian structural time-series analysis. For more information on the package, please see this <a href="https://cran.r-project.org/web/packages/CausalImpact/vignettes/CausalImpact.html">vignette</a>.</p>
+<pre class="r"><code>dates &lt;- icsa_dat %&gt;% 
+  pull(date)
 
-# Join and Clean 
-dat &lt;- left_join(confirmed, deaths) %&gt;%
-  left_join(recovered) %&gt;%
-  mutate(date = mdy(date),
-         lab = paste0(&quot;Confirmed: &quot;, confirmed, &quot;, &quot;, &quot;Deaths: &quot;, deaths, &quot;, &quot;, &quot;Recovered: &quot;, recoveries)) %&gt;%
-  rename(country_region = `Country/Region`)</code></pre>
-</div>
-<div id="coronavirus-confirmed-cases" class="section level1">
-<h1>Coronavirus Confirmed Cases</h1>
-<pre class="r"><code>covid_leaf &lt;- leaflet(data = dat, 
-                      options = leafletOptions(minZoom = 1.5)) %&gt;% 
-  addProviderTiles(providers$CartoDB.DarkMatter)  %&gt;%
-  addCircleMarkers(~Long, ~Lat, 
-                   radius = ~confirmed/10000, 
-                   label = ~lab, 
-                   fillOpacity = .2)
+pre_period &lt;- c(dates[1], dates[2776])
+post_period &lt;- c(dates[2777], dates[2780])
 
-frameWidget(covid_leaf)</code></pre>
-<div id="htmlwidget-1" style="width:100%;height:480px;" class="widgetframe html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1">{"x":{"url":"/post/Coronavirus_files/figure-html//widgets/widget_unnamed-chunk-3.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
-</div>
-<div id="cases-by-week" class="section level1">
-<h1>Cases by Week</h1>
-<div id="confirmed" class="section level2">
-<h2>Confirmed</h2>
-<pre class="r"><code>country_dat &lt;- dat %&gt;%
-  filter(country_region %in% c(&quot;China&quot;, &quot;Italy&quot;, &quot;Iran&quot;, &quot;Korea, South&quot;, &quot;Spain&quot;, &quot;US&quot;)) %&gt;%
-  mutate(week = cut(date, &quot;week&quot;, start.on.monday = FALSE))
+dat &lt;- icsa_dat %&gt;%
+  select(date, y = claims)
 
-country_dat %&gt;%
-  ggplot(aes(x = confirmed/1000, y = week)) +
-  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;blue4&quot;) + 
-  facet_wrap(~ country_region) +
-  labs(y = &quot;&quot;, x = &quot;Confirmed Cases (in thousands)&quot;) + 
-  scale_x_continuous(labels = comma) +
-  theme_bw() +
-  theme(legend.position = &quot;none&quot;)</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-4-1.png" width="960" /></p>
+impact &lt;- CausalImpact(dat, pre_period, post_period)
+
+# summary(impact, &quot;report&quot;)  # this creates the following report :)</code></pre>
+<div id="analysis-report-causalimpact" class="section level2">
+<h2>Analysis report: CausalImpact</h2>
+<p>Below is the report generated by <code>CausalImpact</code> with some edits by me.</p>
+<p>During the post-COVID lockdown period, the average number of unemployment claims filed was approximately 5.51M. By contrast, in the absence of the lockdown, we would have expected an average number of claims of 0.25M. The 95% interval of this counterfactual prediction is [0.22M, 0.29M]. Subtracting this prediction from the observed response yields an estimate of the causal effect the intervention had on the response variable. This effect is 5.25M with a 95% interval of [5.22M, 5.29M].</p>
+<p>Summing up the individual data points during the post-lockdown period, the total number of unemployment claims filed equaled 22.03M. By contrast, had the intervention not taken place, we would have expected a sum of 1.01M. The 95% interval of this prediction is [0.88M, 1.15M].</p>
+<p>The above results are given in terms of absolute numbers. In relative terms, the number of unemployment claims showed an increase of +2073%. The 95% interval of this percentage is [+2059%, +2086%].</p>
+<p>The probability of obtaining this effect by chance is very small (Bayesian one-sided tail-area probability p = 0.001). This means the causal effect can be considered statistically significant.</p>
 </div>
-<div id="deaths" class="section level2">
-<h2>Deaths</h2>
-<pre class="r"><code>country_dat %&gt;%
-  ggplot(aes(x = deaths/1000, y = week)) +
-  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;red4&quot;) + 
-  facet_wrap(~ country_region) +
-  labs(y = &quot;&quot;, x = &quot;Deaths (in thousands)&quot;) + 
-  scale_x_continuous(labels = comma) +
-  theme_bw() +
-  theme(legend.position = &quot;none&quot;)</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-5-1.png" width="960" /></p>
-</div>
-<div id="recoveries" class="section level2">
-<h2>Recoveries</h2>
-<pre class="r"><code>country_dat %&gt;%
-  ggplot(aes(x = recoveries/1000, y = week)) +
-  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, fill = &quot;green4&quot;) + 
-  facet_wrap(~ country_region) +
-  labs(y = &quot;&quot;, x = &quot;Recovered (in thousands)&quot;) + 
-  scale_x_continuous(labels = comma) +
-  theme_bw() +
-  theme(legend.position = &quot;none&quot;)</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png" width="960" /></p>
-</div>
-</div>
-<div id="confirmed-cases-trend" class="section level1">
-<h1>Confirmed Cases Trend</h1>
-<pre class="r"><code>sum_dat &lt;- country_dat %&gt;%
-  group_by(date, country_region) %&gt;%
-  summarize(confirmed = sum(confirmed)) %&gt;%
-  ungroup() %&gt;%
-  mutate(country_region = if_else(country_region == &quot;Korea, South&quot;, &quot;S. Korea&quot;, country_region))
-  
-sum_dat %&gt;%  
-  ggplot(aes(x = date, y = confirmed, color = country_region)) +
-  geom_line(size = .8) +
-  geom_text(data = sum_dat %&gt;% filter(date == last(date)), 
-            aes(label = country_region, x = date + .1, 
-                y = confirmed, color = country_region), 
-            hjust = -.01) +
-  scale_y_continuous(labels = comma, breaks = seq(0, 800000, 50000)) +
-  xlim(ymd(&quot;2020-01-22&quot;), ymd(&quot;2020-04-23&quot;)) + 
-  scale_color_brewer(type = &quot;qual&quot;, palette = 2) + 
-  labs(x = &quot;&quot;, y = &quot;Confirmed Cases&quot;, color = &quot;Country&quot;) + 
-  ggtitle(&quot;Confirmed Cases as of April 18, 2020&quot;) +
-  theme_bw() +
-  theme(legend.position = &quot;none&quot;)</code></pre>
-<p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 
     </div>
@@ -727,9 +683,15 @@ sum_dat %&gt;%
   
   <a class="badge badge-light" href="/tags/covid-19/">COVID-19</a>
   
+  <a class="badge badge-light" href="/tags/lockdown/">lockdown</a>
+  
   <a class="badge badge-light" href="/tags/ggplot/">ggplot</a>
   
-  <a class="badge badge-light" href="/tags/leaflet/">leaflet</a>
+  <a class="badge badge-light" href="/tags/unemployment-claims/">unemployment claims</a>
+  
+  <a class="badge badge-light" href="/tags/time-series/">time-series</a>
+  
+  <a class="badge badge-light" href="/tags/causal/">causal</a>
   
 </div>
 
@@ -833,7 +795,7 @@ sum_dat %&gt;%
         <h3>Related</h3>
         <ul>
           
-          <li><a href="/post/unemployment_claims/">Unemployment Claims COVID 19</a></li>
+          <li><a href="/post/coronavirus/">COVID-19</a></li>
           
           <li><a href="/post/nepal_earthquake/">Nepal Earthquake</a></li>
           

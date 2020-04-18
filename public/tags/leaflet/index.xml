@@ -5,7 +5,7 @@
     <link>/tags/leaflet/</link>
       <atom:link href="/tags/leaflet/index.xml" rel="self" type="application/rss+xml" />
     <description>leaflet</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 17 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 18 Apr 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
       <title>leaflet</title>
@@ -15,7 +15,7 @@
     <item>
       <title>COVID-19</title>
       <link>/post/coronavirus/</link>
-      <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 18 Apr 2020 00:00:00 +0000</pubDate>
       <guid>/post/coronavirus/</guid>
       <description>
 &lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
@@ -26,8 +26,7 @@
 &lt;p&gt;In this post, I am analyzing data on COVID-19 cases worldwide. The data that I am analyzing only accounts for reported cases. Due to the lack of availability and accessibility of testing in countries like the US, the numbers may be an underestimate of the actual number of cases, number of deaths, and number of recoveries. The data does not account for any other errors of measurement.&lt;/p&gt;
 &lt;div id=&#34;libraries&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Libraries&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(CausalImpact)
-library(tidyverse)
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
 library(maps)
 library(ggthemes)
 library(jsonlite)
@@ -35,8 +34,7 @@ library(leaflet)
 library(widgetframe)
 library(lubridate)
 library(scales)
-library(ggrepel)
-library(tidyquant)&lt;/code&gt;&lt;/pre&gt;
+library(ggrepel)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;read-in-the-data&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Read in the Data&lt;/h1&gt;
@@ -136,88 +134,13 @@ sum_dat %&amp;gt;%
                 y = confirmed, color = country_region), 
             hjust = -.01) +
   scale_y_continuous(labels = comma, breaks = seq(0, 800000, 50000)) +
-  xlim(ymd(&amp;quot;2020-01-22&amp;quot;), ymd(&amp;quot;2020-04-22&amp;quot;)) + 
+  xlim(ymd(&amp;quot;2020-01-22&amp;quot;), ymd(&amp;quot;2020-04-23&amp;quot;)) + 
   scale_color_brewer(type = &amp;quot;qual&amp;quot;, palette = 2) + 
   labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Confirmed Cases&amp;quot;, color = &amp;quot;Country&amp;quot;) + 
-  ggtitle(&amp;quot;Confirmed Cases as of April 17, 2020&amp;quot;) +
+  ggtitle(&amp;quot;Confirmed Cases as of April 18, 2020&amp;quot;) +
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;unemployment-claims-in-the-us&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Unemployment Claims in the US&lt;/h1&gt;
-&lt;p&gt;I am retrieving the data from the &lt;code&gt;tidyquant&lt;/code&gt; package.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat &amp;lt;- &amp;quot;ICSA&amp;quot; %&amp;gt;%
-  tq_get(get = &amp;quot;economic.data&amp;quot;,  
-         from = &amp;quot;1967-01-07&amp;quot;) %&amp;gt;%
-  rename(claims = price)
-
-
-glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Rows: 2,780
-## Columns: 3
-## $ symbol &amp;lt;chr&amp;gt; &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;…
-## $ date   &amp;lt;date&amp;gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1…
-## $ claims &amp;lt;int&amp;gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000…&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
-  ggplot(aes(x = date, y = claims)) + 
-  geom_line(color = &amp;quot;blue&amp;quot;) + 
-  scale_y_continuous(labels = comma) +
-  labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
-  ggtitle(&amp;quot;Unemployment Claims: 1967 to 2020&amp;quot;) +
-  theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
-  mutate(year = year(date)) %&amp;gt;%
-  filter(year &amp;gt; 2007) %&amp;gt;%
-  ggplot(aes(x = date, y = claims)) + 
-  geom_line(color = &amp;quot;blue&amp;quot;) + 
-  scale_y_continuous(labels = comma) +
-  labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
-  ggtitle(&amp;quot;Unemployment Claims: 2008 to 2020&amp;quot;) +
-  theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
-  mutate(year = year(date)) %&amp;gt;%
-  filter(year &amp;gt; 2018) %&amp;gt;%
-  ggplot(aes(x = date, y = claims)) + 
-  geom_line(color = &amp;quot;blue&amp;quot;) + 
-  scale_y_continuous(labels = comma) +
-  labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
-  ggtitle(&amp;quot;Unemployment Claims: 2019 to 2020&amp;quot;) +
-  theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;causal-inference-on-impact-of-covid-19-lockdowns-on-unemployment-claims&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Causal Inference on Impact of COVID-19 Lockdowns on Unemployment Claims&lt;/h1&gt;
-&lt;blockquote class=&#34;twitter-tweet&#34;&gt;
-&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;
-Sometimes &lt;a href=&#34;https://twitter.com/hashtag/causalinference?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#causalinference&lt;/a&gt; is simple.&lt;br&gt;&lt;br&gt;“What&#39;s the immediate causal effect of the &lt;a href=&#34;https://twitter.com/hashtag/COVID19?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#COVID19&lt;/a&gt; lockdowns on unemployment?”&lt;br&gt;&lt;br&gt;The answer is “Unprecedented”. &lt;br&gt;&lt;br&gt;We know we&#39;re in deep trouble when a time series is all we need. &lt;a href=&#34;https://t.co/cXK0wLw3no&#34;&gt;https://t.co/cXK0wLw3no&lt;/a&gt; &lt;a href=&#34;https://t.co/kS4PvVwihM&#34;&gt;pic.twitter.com/kS4PvVwihM&lt;/a&gt;
-&lt;/p&gt;
-— Miguel Hernán (&lt;span class=&#34;citation&#34;&gt;@_MiguelHernan&lt;/span&gt;) &lt;a href=&#34;https://twitter.com/_MiguelHernan/status/1244215937978576898?ref_src=twsrc%5Etfw&#34;&gt;March 29, 2020&lt;/a&gt;
-&lt;/blockquote&gt;
-&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
-&lt;p&gt;Below, I use the &lt;code&gt;CausalImpact&lt;/code&gt; package to run a Bayesian structural time-series analysis. For more information on the package, please see this &lt;a href=&#34;https://cran.r-project.org/web/packages/CausalImpact/vignettes/CausalImpact.html&#34;&gt;vignette&lt;/a&gt;.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dates &amp;lt;- icsa_dat %&amp;gt;% 
-  pull(date)
-
-pre_period &amp;lt;- c(dates[1], dates[2776])
-post_period &amp;lt;- c(dates[2777], dates[2780])
-
-dat &amp;lt;- icsa_dat %&amp;gt;%
-  select(date, y = claims)
-
-impact &amp;lt;- CausalImpact(dat, pre_period, post_period)
-
-# summary(impact, &amp;quot;report&amp;quot;)  # this creates the following report :)&lt;/code&gt;&lt;/pre&gt;
-&lt;div id=&#34;analysis-report-causalimpact&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Analysis report: CausalImpact&lt;/h2&gt;
-&lt;p&gt;Below is the report generated by &lt;code&gt;CausalImpact&lt;/code&gt; with some edits by me.&lt;/p&gt;
-&lt;p&gt;During the post-COVID lockdown period, the average number of unemployment claims filed was approximately 5.51M. By contrast, in the absence of the lockdown, we would have expected an average number of claims of 0.25M. The 95% interval of this counterfactual prediction is [0.22M, 0.29M]. Subtracting this prediction from the observed response yields an estimate of the causal effect the intervention had on the response variable. This effect is 5.25M with a 95% interval of [5.22M, 5.29M].&lt;/p&gt;
-&lt;p&gt;Summing up the individual data points during the post-lockdown period, the total number of unemployment claims filed equaled 22.03M. By contrast, had the intervention not taken place, we would have expected a sum of 1.01M. The 95% interval of this prediction is [0.88M, 1.15M].&lt;/p&gt;
-&lt;p&gt;The above results are given in terms of absolute numbers. In relative terms, the number of unemployment claims showed an increase of +2073%. The 95% interval of this percentage is [+2059%, +2086%].&lt;/p&gt;
-&lt;p&gt;The probability of obtaining this effect by chance is very small (Bayesian one-sided tail-area probability p = 0.001). This means the causal effect can be considered statistically significant.&lt;/p&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 </description>
     </item>

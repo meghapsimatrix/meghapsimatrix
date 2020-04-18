@@ -5,7 +5,7 @@
     <link>/tags/coronavirus/</link>
       <atom:link href="/tags/coronavirus/index.xml" rel="self" type="application/rss+xml" />
     <description>coronavirus</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 17 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 18 Apr 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
       <title>coronavirus</title>
@@ -15,7 +15,7 @@
     <item>
       <title>COVID-19</title>
       <link>/post/coronavirus/</link>
-      <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 18 Apr 2020 00:00:00 +0000</pubDate>
       <guid>/post/coronavirus/</guid>
       <description>
 &lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
@@ -26,8 +26,7 @@
 &lt;p&gt;In this post, I am analyzing data on COVID-19 cases worldwide. The data that I am analyzing only accounts for reported cases. Due to the lack of availability and accessibility of testing in countries like the US, the numbers may be an underestimate of the actual number of cases, number of deaths, and number of recoveries. The data does not account for any other errors of measurement.&lt;/p&gt;
 &lt;div id=&#34;libraries&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Libraries&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(CausalImpact)
-library(tidyverse)
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
 library(maps)
 library(ggthemes)
 library(jsonlite)
@@ -35,8 +34,7 @@ library(leaflet)
 library(widgetframe)
 library(lubridate)
 library(scales)
-library(ggrepel)
-library(tidyquant)&lt;/code&gt;&lt;/pre&gt;
+library(ggrepel)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;read-in-the-data&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Read in the Data&lt;/h1&gt;
@@ -136,17 +134,30 @@ sum_dat %&amp;gt;%
                 y = confirmed, color = country_region), 
             hjust = -.01) +
   scale_y_continuous(labels = comma, breaks = seq(0, 800000, 50000)) +
-  xlim(ymd(&amp;quot;2020-01-22&amp;quot;), ymd(&amp;quot;2020-04-22&amp;quot;)) + 
+  xlim(ymd(&amp;quot;2020-01-22&amp;quot;), ymd(&amp;quot;2020-04-23&amp;quot;)) + 
   scale_color_brewer(type = &amp;quot;qual&amp;quot;, palette = 2) + 
   labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Confirmed Cases&amp;quot;, color = &amp;quot;Country&amp;quot;) + 
-  ggtitle(&amp;quot;Confirmed Cases as of April 17, 2020&amp;quot;) +
+  ggtitle(&amp;quot;Confirmed Cases as of April 18, 2020&amp;quot;) +
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id=&#34;unemployment-claims-in-the-us&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Unemployment Claims in the US&lt;/h1&gt;
-&lt;p&gt;I am retrieving the data from the &lt;code&gt;tidyquant&lt;/code&gt; package.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Unemployment Claims COVID 19</title>
+      <link>/post/unemployment_claims/</link>
+      <pubDate>Sat, 18 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>/post/unemployment_claims/</guid>
+      <description>
+
+
+&lt;p&gt;In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the &lt;code&gt;tidyquant&lt;/code&gt; package.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(CausalImpact)
+library(tidyverse)
+library(scales)
+library(tidyquant)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat &amp;lt;- &amp;quot;ICSA&amp;quot; %&amp;gt;%
   tq_get(get = &amp;quot;economic.data&amp;quot;,  
          from = &amp;quot;1967-01-07&amp;quot;) %&amp;gt;%
@@ -166,7 +177,7 @@ glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
   labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
   ggtitle(&amp;quot;Unemployment Claims: 1967 to 2020&amp;quot;) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
   mutate(year = year(date)) %&amp;gt;%
   filter(year &amp;gt; 2007) %&amp;gt;%
@@ -176,7 +187,7 @@ glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
   labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
   ggtitle(&amp;quot;Unemployment Claims: 2008 to 2020&amp;quot;) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
   mutate(year = year(date)) %&amp;gt;%
   filter(year &amp;gt; 2018) %&amp;gt;%
@@ -186,8 +197,7 @@ glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
   labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
   ggtitle(&amp;quot;Unemployment Claims: 2019 to 2020&amp;quot;) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;div id=&#34;causal-inference-on-impact-of-covid-19-lockdowns-on-unemployment-claims&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Causal Inference on Impact of COVID-19 Lockdowns on Unemployment Claims&lt;/h1&gt;
 &lt;blockquote class=&#34;twitter-tweet&#34;&gt;

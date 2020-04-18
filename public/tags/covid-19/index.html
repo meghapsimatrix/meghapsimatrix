@@ -121,7 +121,7 @@
   <meta property="og:description" content="Doctoral student"><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
-    <meta property="og:updated_time" content="2020-04-17T00:00:00&#43;00:00">
+    <meta property="og:updated_time" content="2020-04-18T00:00:00&#43;00:00">
   
 
   
@@ -399,6 +399,16 @@
     <div class="article-style">
       
       In this post, I am analyzing data on COVID-19 cases worldwide. The data that I am analyzing only accounts for reported cases. Due to the lack of availability and accessibility of testing in countries like the US, the numbers may be an underestimate of the actual number of cases, number of deaths, and number of recoveries. The data does not account for any other errors of measurement.
+      
+    </div>
+  </div>
+  
+  <div>
+    <h2><a href="/post/unemployment_claims/">Unemployment Claims COVID 19</a></h2>
+    <div class="article-style">
+      
+      In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the tidyquant package.
+library(CausalImpact) library(tidyverse) library(scales) library(tidyquant) icsa_dat &lt;- &quot;ICSA&quot; %&gt;% tq_get(get = &quot;economic.data&quot;, from = &quot;1967-01-07&quot;) %&gt;% rename(claims = price) glimpse(icsa_dat) ## Rows: 2,780 ## Columns: 3 ## $ symbol &lt;chr&gt; &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;… ## $ date &lt;date&gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1… ## $ claims &lt;int&gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000… icsa_dat %&gt;% ggplot(aes(x = date, y = claims)) + geom_line(color = &quot;blue&quot;) + scale_y_continuous(labels = comma) + labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) + ggtitle(&quot;Unemployment Claims: 1967 to 2020&quot;) + theme_bw() icsa_dat %&gt;% mutate(year = year(date)) %&gt;% filter(year &gt; 2007) %&gt;% ggplot(aes(x = date, y = claims)) + geom_line(color = &quot;blue&quot;) + scale_y_continuous(labels = comma) + labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) + ggtitle(&quot;Unemployment Claims: 2008 to 2020&quot;) + theme_bw() icsa_dat %&gt;% mutate(year = year(date)) %&gt;% filter(year &gt; 2018) %&gt;% ggplot(aes(x = date, y = claims)) + geom_line(color = &quot;blue&quot;) + scale_y_continuous(labels = comma) + labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) + ggtitle(&quot;Unemployment Claims: 2019 to 2020&quot;) + theme_bw() Causal Inference on Impact of COVID-19 Lockdowns on Unemployment Claims Sometimes #causalinference is simple.
       
     </div>
   </div>
