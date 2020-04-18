@@ -140,13 +140,13 @@ sum_dat %&amp;gt;%
   ggtitle(&amp;quot;Confirmed Cases as of April 18, 2020&amp;quot;) +
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
     
     <item>
-      <title>Unemployment Claims COVID 19</title>
+      <title>Unemployment Claims COVID-19</title>
       <link>/post/unemployment_claims/</link>
       <pubDate>Sat, 18 Apr 2020 00:00:00 +0000</pubDate>
       <guid>/post/unemployment_claims/</guid>
