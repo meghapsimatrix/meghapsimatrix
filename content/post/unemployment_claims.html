@@ -32,7 +32,7 @@ glimpse(icsa_dat)</code></pre>
   labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) + 
   ggtitle(&quot;Unemployment Claims: 1967 to 2020&quot;) +
   theme_bw()</code></pre>
-<p><img src="/post/unemployment_claims_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="unemployment_claims_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <pre class="r"><code>icsa_dat %&gt;%
   mutate(year = year(date)) %&gt;%
   filter(year &gt; 2007) %&gt;%
@@ -42,7 +42,7 @@ glimpse(icsa_dat)</code></pre>
   labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) + 
   ggtitle(&quot;Unemployment Claims: 2008 to 2020&quot;) +
   theme_bw()</code></pre>
-<p><img src="/post/unemployment_claims_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="unemployment_claims_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <pre class="r"><code>icsa_dat %&gt;%
   mutate(year = year(date)) %&gt;%
   filter(year &gt; 2018) %&gt;%
@@ -52,7 +52,7 @@ glimpse(icsa_dat)</code></pre>
   labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) + 
   ggtitle(&quot;Unemployment Claims: 2019 to 2020&quot;) +
   theme_bw()</code></pre>
-<p><img src="/post/unemployment_claims_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="unemployment_claims_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <div id="causal-inference-on-impact-of-covid-19-lockdowns-on-unemployment-claims" class="section level1">
 <h1>Causal Inference on Impact of COVID-19 Lockdowns on Unemployment Claims</h1>
 <blockquote class="twitter-tweet">
@@ -62,7 +62,7 @@ Sometimes <a href="https://twitter.com/hashtag/causalinference?src=hash&amp;ref_
 — Miguel Hernán (<span class="citation">@_MiguelHernan</span>) <a href="https://twitter.com/_MiguelHernan/status/1244215937978576898?ref_src=twsrc%5Etfw">March 29, 2020</a>
 </blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<p>Below, I use the <code>CausalImpact</code> package to run a Bayesian structural time-series analysis. For more information on the package, please see this <a href="https://cran.r-project.org/web/packages/CausalImpact/vignettes/CausalImpact.html">vignette</a>.</p>
+<p>Below, I use the <code>CausalImpact</code> package to run a Bayesian structural time-series analysis. For more information on the package, please see this <a href="https://cran.r-project.org/web/packages/CausalImpact/vignettes/CausalImpact.html">vignette</a>. Typically, it would be good to add covariates in the analysis but the data does not have any and given the rate of increase, I highly doubt that the inclusion of covariates would matter much. It would be interesting to compare the number of claims filed in US versus the number of claims filed in country with better social and economic security systems in place (perhaps Netherlands).</p>
 <pre class="r"><code>dates &lt;- icsa_dat %&gt;% 
   pull(date)
 

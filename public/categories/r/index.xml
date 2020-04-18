@@ -177,7 +177,7 @@ glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
   labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
   ggtitle(&amp;quot;Unemployment Claims: 1967 to 2020&amp;quot;) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;unemployment_claims_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
   mutate(year = year(date)) %&amp;gt;%
   filter(year &amp;gt; 2007) %&amp;gt;%
@@ -187,7 +187,7 @@ glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
   labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
   ggtitle(&amp;quot;Unemployment Claims: 2008 to 2020&amp;quot;) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;unemployment_claims_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
   mutate(year = year(date)) %&amp;gt;%
   filter(year &amp;gt; 2018) %&amp;gt;%
@@ -197,7 +197,7 @@ glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
   labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
   ggtitle(&amp;quot;Unemployment Claims: 2019 to 2020&amp;quot;) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;unemployment_claims_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;div id=&#34;causal-inference-on-impact-of-covid-19-lockdowns-on-unemployment-claims&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Causal Inference on Impact of COVID-19 Lockdowns on Unemployment Claims&lt;/h1&gt;
 &lt;blockquote class=&#34;twitter-tweet&#34;&gt;
@@ -207,7 +207,7 @@ Sometimes &lt;a href=&#34;https://twitter.com/hashtag/causalinference?src=hash&a
 — Miguel Hernán (&lt;span class=&#34;citation&#34;&gt;@_MiguelHernan&lt;/span&gt;) &lt;a href=&#34;https://twitter.com/_MiguelHernan/status/1244215937978576898?ref_src=twsrc%5Etfw&#34;&gt;March 29, 2020&lt;/a&gt;
 &lt;/blockquote&gt;
 &lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
-&lt;p&gt;Below, I use the &lt;code&gt;CausalImpact&lt;/code&gt; package to run a Bayesian structural time-series analysis. For more information on the package, please see this &lt;a href=&#34;https://cran.r-project.org/web/packages/CausalImpact/vignettes/CausalImpact.html&#34;&gt;vignette&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Below, I use the &lt;code&gt;CausalImpact&lt;/code&gt; package to run a Bayesian structural time-series analysis. For more information on the package, please see this &lt;a href=&#34;https://cran.r-project.org/web/packages/CausalImpact/vignettes/CausalImpact.html&#34;&gt;vignette&lt;/a&gt;. Typically, it would be good to add covariates in the analysis but the data does not have any and given the rate of increase, I highly doubt that the inclusion of covariates would matter much. It would be interesting to compare the number of claims filed in US versus the number of claims filed in country with better social and economic security systems in place (perhaps Netherlands).&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dates &amp;lt;- icsa_dat %&amp;gt;% 
   pull(date)
 
