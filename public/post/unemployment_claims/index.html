@@ -29,7 +29,8 @@
     
   
   <meta name="description" content="In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the tidyquant package.
-library(CausalImpact) library(tidyverse) library(scales) library(tidyquant) icsa_dat &lt;- &quot;ICSA&quot; %&gt;% tq_get(get = &quot;economic.data&quot;, from = &quot;1967-01-07&quot;) %&gt;% rename(claims = price) glimpse(icsa_dat) ## Rows: 2,780 ## Columns: 3 ## $ symbol &lt;chr&gt; &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;… ## $ date &lt;date&gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1… ## $ claims &lt;int&gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000… icsa_dat %&gt;% ggplot(aes(x = date, y = claims)) &#43; geom_line(color = &quot;blue&quot;) &#43; scale_y_continuous(labels = comma) &#43; labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) &#43; ggtitle(&quot;Unemployment Claims: 1967 to 2020&quot;) &#43; theme_bw() icsa_dat %&gt;% mutate(year = year(date)) %&gt;% filter(year &gt; 2007) %&gt;% ggplot(aes(x = date, y = claims)) &#43; geom_line(color = &quot;blue&quot;) &#43; scale_y_continuous(labels = comma) &#43; labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) &#43; ggtitle(&quot;Unemployment Claims: 2008 to 2020&quot;) &#43; theme_bw() icsa_dat %&gt;% mutate(year = year(date)) %&gt;% filter(year &gt; 2018) %&gt;% ggplot(aes(x = date, y = claims)) &#43; geom_line(color = &quot;blue&quot;) &#43; scale_y_continuous(labels = comma) &#43; labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) &#43; ggtitle(&quot;Unemployment Claims: 2019 to 2020&quot;) &#43; theme_bw() Causal Inference on Impact of COVID-19 Lockdowns on Unemployment Claims Sometimes #causalinference is simple.">
+library(CausalImpact) library(tidyverse) library(scales) library(tidyquant) ICSA Data Initial unemployment claims from the first date available, 1967:
+icsa_dat &lt;- &quot;ICSA&quot; %&gt;% tq_get(get = &quot;economic.data&quot;, from = &quot;1967-01-07&quot;) %&gt;% rename(claims = price) glimpse(icsa_dat) ## Rows: 2,780 ## Columns: 3 ## $ symbol &lt;chr&gt; &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;… ## $ date &lt;date&gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1… ## $ claims &lt;int&gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000… icsa_dat %&gt;% ggplot(aes(x = date, y = claims)) &#43; geom_line(color = &quot;blue&quot;) &#43; scale_y_continuous(labels = comma) &#43; labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) &#43; ggtitle(&quot;Unemployment Claims: 1967 to 2020&quot;) &#43; theme_bw()  Comparison to 2008 Recession In the graph below, I only selected 2008 to 2020.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/unemployment_claims/">
@@ -118,7 +119,8 @@ library(CausalImpact) library(tidyverse) library(scales) library(tidyquant) icsa
   <meta property="og:url" content="/post/unemployment_claims/">
   <meta property="og:title" content="Unemployment Claims COVID-19 | Megha">
   <meta property="og:description" content="In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the tidyquant package.
-library(CausalImpact) library(tidyverse) library(scales) library(tidyquant) icsa_dat &lt;- &quot;ICSA&quot; %&gt;% tq_get(get = &quot;economic.data&quot;, from = &quot;1967-01-07&quot;) %&gt;% rename(claims = price) glimpse(icsa_dat) ## Rows: 2,780 ## Columns: 3 ## $ symbol &lt;chr&gt; &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;… ## $ date &lt;date&gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1… ## $ claims &lt;int&gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000… icsa_dat %&gt;% ggplot(aes(x = date, y = claims)) &#43; geom_line(color = &quot;blue&quot;) &#43; scale_y_continuous(labels = comma) &#43; labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) &#43; ggtitle(&quot;Unemployment Claims: 1967 to 2020&quot;) &#43; theme_bw() icsa_dat %&gt;% mutate(year = year(date)) %&gt;% filter(year &gt; 2007) %&gt;% ggplot(aes(x = date, y = claims)) &#43; geom_line(color = &quot;blue&quot;) &#43; scale_y_continuous(labels = comma) &#43; labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) &#43; ggtitle(&quot;Unemployment Claims: 2008 to 2020&quot;) &#43; theme_bw() icsa_dat %&gt;% mutate(year = year(date)) %&gt;% filter(year &gt; 2018) %&gt;% ggplot(aes(x = date, y = claims)) &#43; geom_line(color = &quot;blue&quot;) &#43; scale_y_continuous(labels = comma) &#43; labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) &#43; ggtitle(&quot;Unemployment Claims: 2019 to 2020&quot;) &#43; theme_bw() Causal Inference on Impact of COVID-19 Lockdowns on Unemployment Claims Sometimes #causalinference is simple."><meta property="og:image" content="/img/icon-192.png">
+library(CausalImpact) library(tidyverse) library(scales) library(tidyquant) ICSA Data Initial unemployment claims from the first date available, 1967:
+icsa_dat &lt;- &quot;ICSA&quot; %&gt;% tq_get(get = &quot;economic.data&quot;, from = &quot;1967-01-07&quot;) %&gt;% rename(claims = price) glimpse(icsa_dat) ## Rows: 2,780 ## Columns: 3 ## $ symbol &lt;chr&gt; &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;… ## $ date &lt;date&gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1… ## $ claims &lt;int&gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000… icsa_dat %&gt;% ggplot(aes(x = date, y = claims)) &#43; geom_line(color = &quot;blue&quot;) &#43; scale_y_continuous(labels = comma) &#43; labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) &#43; ggtitle(&quot;Unemployment Claims: 1967 to 2020&quot;) &#43; theme_bw()  Comparison to 2008 Recession In the graph below, I only selected 2008 to 2020."><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
@@ -170,7 +172,7 @@ library(CausalImpact) library(tidyverse) library(scales) library(tidyquant) icsa
       "url": "/img/icon-512.png"
     }
   },
-  "description": "In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the tidyquant package.\nlibrary(CausalImpact) library(tidyverse) library(scales) library(tidyquant) icsa_dat \u0026lt;- \u0026quot;ICSA\u0026quot; %\u0026gt;% tq_get(get = \u0026quot;economic.data\u0026quot;, from = \u0026quot;1967-01-07\u0026quot;) %\u0026gt;% rename(claims = price) glimpse(icsa_dat) ## Rows: 2,780 ## Columns: 3 ## $ symbol \u0026lt;chr\u0026gt; \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;… ## $ date \u0026lt;date\u0026gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1… ## $ claims \u0026lt;int\u0026gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000… icsa_dat %\u0026gt;% ggplot(aes(x = date, y = claims)) + geom_line(color = \u0026quot;blue\u0026quot;) + scale_y_continuous(labels = comma) + labs(x = \u0026quot;Date\u0026quot;, y = \u0026quot;Claims\u0026quot;) + ggtitle(\u0026quot;Unemployment Claims: 1967 to 2020\u0026quot;) + theme_bw() icsa_dat %\u0026gt;% mutate(year = year(date)) %\u0026gt;% filter(year \u0026gt; 2007) %\u0026gt;% ggplot(aes(x = date, y = claims)) + geom_line(color = \u0026quot;blue\u0026quot;) + scale_y_continuous(labels = comma) + labs(x = \u0026quot;Date\u0026quot;, y = \u0026quot;Claims\u0026quot;) + ggtitle(\u0026quot;Unemployment Claims: 2008 to 2020\u0026quot;) + theme_bw() icsa_dat %\u0026gt;% mutate(year = year(date)) %\u0026gt;% filter(year \u0026gt; 2018) %\u0026gt;% ggplot(aes(x = date, y = claims)) + geom_line(color = \u0026quot;blue\u0026quot;) + scale_y_continuous(labels = comma) + labs(x = \u0026quot;Date\u0026quot;, y = \u0026quot;Claims\u0026quot;) + ggtitle(\u0026quot;Unemployment Claims: 2019 to 2020\u0026quot;) + theme_bw() Causal Inference on Impact of COVID-19 Lockdowns on Unemployment Claims Sometimes #causalinference is simple."
+  "description": "In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the tidyquant package.\nlibrary(CausalImpact) library(tidyverse) library(scales) library(tidyquant) ICSA Data Initial unemployment claims from the first date available, 1967:\nicsa_dat \u0026lt;- \u0026quot;ICSA\u0026quot; %\u0026gt;% tq_get(get = \u0026quot;economic.data\u0026quot;, from = \u0026quot;1967-01-07\u0026quot;) %\u0026gt;% rename(claims = price) glimpse(icsa_dat) ## Rows: 2,780 ## Columns: 3 ## $ symbol \u0026lt;chr\u0026gt; \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;, \u0026quot;ICSA\u0026quot;… ## $ date \u0026lt;date\u0026gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1… ## $ claims \u0026lt;int\u0026gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000… icsa_dat %\u0026gt;% ggplot(aes(x = date, y = claims)) + geom_line(color = \u0026quot;blue\u0026quot;) + scale_y_continuous(labels = comma) + labs(x = \u0026quot;Date\u0026quot;, y = \u0026quot;Claims\u0026quot;) + ggtitle(\u0026quot;Unemployment Claims: 1967 to 2020\u0026quot;) + theme_bw()  Comparison to 2008 Recession In the graph below, I only selected 2008 to 2020."
 }
 </script>
 
@@ -596,6 +598,9 @@ library(CausalImpact) library(tidyverse) library(scales) library(tidyquant) icsa
 library(tidyverse)
 library(scales)
 library(tidyquant)</code></pre>
+<div id="icsa-data" class="section level2">
+<h2>ICSA Data</h2>
+<p>Initial unemployment claims from the first date available, 1967:</p>
 <pre class="r"><code>icsa_dat &lt;- &quot;ICSA&quot; %&gt;%
   tq_get(get = &quot;economic.data&quot;,  
          from = &quot;1967-01-07&quot;) %&gt;%
@@ -616,6 +621,10 @@ glimpse(icsa_dat)</code></pre>
   ggtitle(&quot;Unemployment Claims: 1967 to 2020&quot;) +
   theme_bw()</code></pre>
 <p><img src="/post/unemployment_claims_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="comparison-to-2008-recession" class="section level2">
+<h2>Comparison to 2008 Recession</h2>
+<p>In the graph below, I only selected 2008 to 2020. We can compare the unemployment claims during the 2008 recession to the number of claims filed during the COVID-19 lockdown. What is happening now is preposterous.</p>
 <pre class="r"><code>icsa_dat %&gt;%
   mutate(year = year(date)) %&gt;%
   filter(year &gt; 2007) %&gt;%
@@ -626,18 +635,9 @@ glimpse(icsa_dat)</code></pre>
   ggtitle(&quot;Unemployment Claims: 2008 to 2020&quot;) +
   theme_bw()</code></pre>
 <p><img src="/post/unemployment_claims_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<pre class="r"><code>icsa_dat %&gt;%
-  mutate(year = year(date)) %&gt;%
-  filter(year &gt; 2018) %&gt;%
-  ggplot(aes(x = date, y = claims)) + 
-  geom_line(color = &quot;blue&quot;) + 
-  scale_y_continuous(labels = comma) +
-  labs(x = &quot;Date&quot;, y = &quot;Claims&quot;) + 
-  ggtitle(&quot;Unemployment Claims: 2019 to 2020&quot;) +
-  theme_bw()</code></pre>
-<p><img src="/post/unemployment_claims_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<div id="causal-inference-on-impact-of-covid-19-lockdowns-on-unemployment-claims" class="section level1">
-<h1>Causal Inference on Impact of COVID-19 Lockdowns on Unemployment Claims</h1>
+</div>
+<div id="causal-inference" class="section level2">
+<h2>Causal Inference</h2>
 <blockquote class="twitter-tweet">
 <p lang="en" dir="ltr">
 Sometimes <a href="https://twitter.com/hashtag/causalinference?src=hash&amp;ref_src=twsrc%5Etfw">#causalinference</a> is simple.<br><br>“What's the immediate causal effect of the <a href="https://twitter.com/hashtag/COVID19?src=hash&amp;ref_src=twsrc%5Etfw">#COVID19</a> lockdowns on unemployment?”<br><br>The answer is “Unprecedented”. <br><br>We know we're in deep trouble when a time series is all we need. <a href="https://t.co/cXK0wLw3no">https://t.co/cXK0wLw3no</a> <a href="https://t.co/kS4PvVwihM">pic.twitter.com/kS4PvVwihM</a>
@@ -658,6 +658,7 @@ dat &lt;- icsa_dat %&gt;%
 impact &lt;- CausalImpact(dat, pre_period, post_period)
 
 # summary(impact, &quot;report&quot;)  # this creates the following report :)</code></pre>
+</div>
 <div id="analysis-report-causalimpact" class="section level2">
 <h2>Analysis report: CausalImpact</h2>
 <p>Below is the report generated by <code>CausalImpact</code> with some edits by me.</p>
@@ -665,7 +666,6 @@ impact &lt;- CausalImpact(dat, pre_period, post_period)
 <p>Summing up the individual data points during the post-lockdown period, the total number of unemployment claims filed equaled 22.03M. By contrast, had the intervention not taken place, we would have expected a sum of 1.01M. The 95% interval of this prediction is [0.88M, 1.15M].</p>
 <p>The above results are given in terms of absolute numbers. In relative terms, the number of unemployment claims showed an increase of +2073%. The 95% interval of this percentage is [+2059%, +2086%].</p>
 <p>The probability of obtaining this effect by chance is very small (Bayesian one-sided tail-area probability p = 0.001). This means the causal effect can be considered statistically significant.</p>
-</div>
 </div>
 
     </div>
