@@ -1,7 +1,7 @@
 ---
 title: "COVID-19"
 author: "Megha Joshi"
-date: 2020-04-18
+date: 2020-04-19
 categories: ["R"]
 tags: ["coronavirus", "COVID-19", "ggplot", "leaflet"]
 
@@ -133,11 +133,11 @@ sum_dat %>%
             aes(label = country_region, x = date + .1, 
                 y = confirmed, color = country_region), 
             hjust = -.01) +
-  scale_y_continuous(labels = comma, breaks = seq(0, 800000, 50000)) +
-  xlim(ymd("2020-01-22"), ymd("2020-04-23")) + 
+  scale_y_continuous(labels = comma, breaks = seq(0, 900000, 50000)) +
+  xlim(ymd("2020-01-22"), ymd("2020-04-24")) + 
   scale_color_brewer(type = "qual", palette = 2) + 
   labs(x = "", y = "Confirmed Cases", color = "Country") + 
-  ggtitle("Confirmed Cases as of April 18, 2020") +
+  ggtitle("Confirmed Cases as of April 19, 2020") +
   theme_bw() +
   theme(legend.position = "none")
   
