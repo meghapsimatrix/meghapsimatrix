@@ -1,7 +1,7 @@
 ---
 authors:
 - admin
-bio: ""
+bio: "she,her,hers"
 education:
   courses:
   - course: PhD in Quantitative Methods
