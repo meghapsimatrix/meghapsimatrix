@@ -17,7 +17,7 @@ interests:
 - Machine learning
 - Meta-analysis
 - Robust variance-covariance matrices
-name: Megha Joshi
+name: Megha Joshi 
 organizations:
 - name: The University of Texas at Austin
   url: ""
