@@ -5,12 +5,120 @@
     <link>/tags/covid-19/</link>
       <atom:link href="/tags/covid-19/index.xml" rel="self" type="application/rss+xml" />
     <description>COVID-19</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 22 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 23 Apr 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
       <title>COVID-19</title>
       <link>/tags/covid-19/</link>
     </image>
+    
+    <item>
+      <title>Unemployment Claims COVID-19</title>
+      <link>/post/unemployment_claims/</link>
+      <pubDate>Thu, 23 Apr 2020 00:00:00 +0000</pubDate>
+      <guid>/post/unemployment_claims/</guid>
+      <description>
+
+
+&lt;p&gt;In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the &lt;code&gt;tidyquant&lt;/code&gt; package.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(CausalImpact)
+library(tidyverse)
+library(scales)
+library(tidyquant)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;icsa-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;ICSA Data&lt;/h2&gt;
+&lt;p&gt;Initial unemployment claims from the first date available, 1967:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat &amp;lt;- &amp;quot;ICSA&amp;quot; %&amp;gt;%
+  tq_get(get = &amp;quot;economic.data&amp;quot;,  
+         from = &amp;quot;1967-01-07&amp;quot;) %&amp;gt;%
+  rename(claims = price)
+
+
+glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Rows: 2,781
+## Columns: 3
+## $ symbol &amp;lt;chr&amp;gt; &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;…
+## $ date   &amp;lt;date&amp;gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1…
+## $ claims &amp;lt;int&amp;gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000…&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
+  ggplot(aes(x = date, y = claims)) + 
+  geom_line(color = &amp;quot;blue&amp;quot;) + 
+  scale_y_continuous(labels = comma) +
+  labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;, subtitle = &amp;quot;As of April 23, 2020&amp;quot;) + 
+  ggtitle(&amp;quot;Unemployment Claims: 1967 to 2020&amp;quot;) +
+  theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;comparison-to-2008-recession&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Comparison to 2008 Recession&lt;/h2&gt;
+&lt;p&gt;In the graph below, I only selected 2008 to 2020. We can compare the unemployment claims during the 2008 recession to the number of claims filed during the COVID-19 lockdown. What is happening now is preposterous.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
+  mutate(year = year(date)) %&amp;gt;%
+  filter(year &amp;gt; 2007) %&amp;gt;%
+  ggplot(aes(x = date, y = claims)) + 
+  geom_line(color = &amp;quot;blue&amp;quot;) + 
+  scale_y_continuous(labels = comma) +
+  labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;, subtitle = &amp;quot;As of April 23, 2020&amp;quot;) + 
+  ggtitle(&amp;quot;Unemployment Claims: 2008 to 2020&amp;quot;) +
+  theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;causal-inference&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Causal Inference&lt;/h2&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;
+&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;
+Sometimes &lt;a href=&#34;https://twitter.com/hashtag/causalinference?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#causalinference&lt;/a&gt; is simple.&lt;br&gt;&lt;br&gt;“What&#39;s the immediate causal effect of the &lt;a href=&#34;https://twitter.com/hashtag/COVID19?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#COVID19&lt;/a&gt; lockdowns on unemployment?”&lt;br&gt;&lt;br&gt;The answer is “Unprecedented”. &lt;br&gt;&lt;br&gt;We know we&#39;re in deep trouble when a time series is all we need. &lt;a href=&#34;https://t.co/cXK0wLw3no&#34;&gt;https://t.co/cXK0wLw3no&lt;/a&gt; &lt;a href=&#34;https://t.co/kS4PvVwihM&#34;&gt;pic.twitter.com/kS4PvVwihM&lt;/a&gt;
+&lt;/p&gt;
+— Miguel Hernán (&lt;span class=&#34;citation&#34;&gt;@_MiguelHernan&lt;/span&gt;) &lt;a href=&#34;https://twitter.com/_MiguelHernan/status/1244215937978576898?ref_src=twsrc%5Etfw&#34;&gt;March 29, 2020&lt;/a&gt;
+&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;p&gt;Below, I use the &lt;code&gt;CausalImpact&lt;/code&gt; package to run a Bayesian structural time-series analysis. For more information on the package, please see this &lt;a href=&#34;https://cran.r-project.org/web/packages/CausalImpact/vignettes/CausalImpact.html&#34;&gt;vignette&lt;/a&gt;. Typically, it would be good to add covariates in the analysis but the data does not have any and given the rate of increase, I highly doubt that the inclusion of covariates would matter much. It would be interesting to compare the number of claims filed in US versus the number of claims filed in country with better social and economic security systems in place (perhaps the Netherlands). The impact of COVID-19 lockdowns on the number of unemployment claims is probably exacerbated by the lack of social and economic security in the US. In addition, due to employer based healthcare system in the US, millions of people have lost or are going to lose health insurance. Now more than every we need Medicare for All, $2000 a month stimulus, Green New Deal. The impact of climate change will be worse.&lt;/p&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;
+&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;
+Projected⬆️in unemployment:&lt;br&gt;&lt;br&gt;🇩🇪: 3.2%➡️5.9%&lt;br&gt;🇬🇧: 3.9%➡️7%&lt;br&gt;🇫🇷: 8.5%➡️12%&lt;br&gt;🇺🇸: 3.5%➡️32.1%&lt;br&gt;&lt;br&gt;Projected⬆️ in # of uninsured:&lt;br&gt;🇩🇪: 0&lt;br&gt;🇬🇧: 0&lt;br&gt;🇫🇷: 0&lt;br&gt;🇺🇸: At least 12 million&lt;br&gt;&lt;br&gt;Solution: Guarantee healthcare and paychecks like other wealthy countries do. &lt;a href=&#34;https://t.co/44ijS2evzL&#34;&gt;https://t.co/44ijS2evzL&lt;/a&gt;
+&lt;/p&gt;
+— Warren Gunnels (&lt;span class=&#34;citation&#34;&gt;@GunnelsWarren&lt;/span&gt;) &lt;a href=&#34;https://twitter.com/GunnelsWarren/status/1252607696303513605?ref_src=twsrc%5Etfw&#34;&gt;April 21, 2020&lt;/a&gt;
+&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dates &amp;lt;- icsa_dat %&amp;gt;% 
+  pull(date)
+
+# create pre and post
+pre_period &amp;lt;- c(dates[1], dates[2776])
+post_period &amp;lt;- c(dates[2777], dates[length(dates)])
+
+# make into dat
+dat &amp;lt;- icsa_dat %&amp;gt;%
+  select(date, y = claims)
+
+# causal impact
+impact &amp;lt;- CausalImpact(dat, pre_period, post_period)
+
+sum_impact &amp;lt;- impact$summary %&amp;gt;%
+  mutate(type = rownames(.)) %&amp;gt;%
+  pivot_longer(cols = -type, 
+               names_to = &amp;quot;stats&amp;quot;,
+               values_to = &amp;quot;vals&amp;quot;) 
+
+avg_impact &amp;lt;- sum_impact %&amp;gt;%
+  mutate(vals = round(vals/1000000, 2))
+
+rel_impact &amp;lt;- sum_impact %&amp;gt;%
+  filter(str_detect(stats, &amp;quot;Rel&amp;quot;)) %&amp;gt;%
+  mutate(vals = round(vals * 100))
+
+# summary(impact, &amp;quot;report&amp;quot;)  &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;analysis-report-causalimpact&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Analysis report: CausalImpact&lt;/h2&gt;
+&lt;p&gt;Below is the report generated by &lt;code&gt;CausalImpact&lt;/code&gt; with some edits by me.&lt;/p&gt;
+&lt;p&gt;During the post-COVID lockdown period, the average number of unemployment claims filed was approximately 5.29M. By contrast, in the absence of the lockdown, we would have expected an average number of claims of 0.25M. The 95% interval of this counterfactual prediction is [0.22M, 0.29M]. Subtracting this prediction from the observed response yields an estimate of the causal effect the intervention had on the response variable. This effect is 5.04M with a 95% interval of [5.01M, 5.07M].&lt;/p&gt;
+&lt;p&gt;Summing up the individual data points during the post-lockdown period, the total number of unemployment claims filed equaled 26.45M. By contrast, had the intervention not taken place, we would have expected a sum of 1.26M. The 95% interval of this prediction is [1.1M, 1.43M].&lt;/p&gt;
+&lt;p&gt;The above results are given in terms of absolute numbers. In relative terms, the number of unemployment claims showed an increase of +1992%. The 95% interval of this percentage is [+1979%, +2005%].&lt;/p&gt;
+&lt;p&gt;The probability of obtaining this effect by chance is very small (Bayesian one-sided tail-area probability p = 0.001). This means the causal effect can be considered statistically significant.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>COVID-19</title>
@@ -142,114 +250,6 @@ sum_dat %&amp;gt;%
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Unemployment Claims COVID-19</title>
-      <link>/post/unemployment_claims/</link>
-      <pubDate>Sat, 18 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>/post/unemployment_claims/</guid>
-      <description>
-
-
-&lt;p&gt;In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the &lt;code&gt;tidyquant&lt;/code&gt; package.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(CausalImpact)
-library(tidyverse)
-library(scales)
-library(tidyquant)&lt;/code&gt;&lt;/pre&gt;
-&lt;div id=&#34;icsa-data&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;ICSA Data&lt;/h2&gt;
-&lt;p&gt;Initial unemployment claims from the first date available, 1967:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat &amp;lt;- &amp;quot;ICSA&amp;quot; %&amp;gt;%
-  tq_get(get = &amp;quot;economic.data&amp;quot;,  
-         from = &amp;quot;1967-01-07&amp;quot;) %&amp;gt;%
-  rename(claims = price)
-
-
-glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Rows: 2,780
-## Columns: 3
-## $ symbol &amp;lt;chr&amp;gt; &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;…
-## $ date   &amp;lt;date&amp;gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1…
-## $ claims &amp;lt;int&amp;gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000…&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
-  ggplot(aes(x = date, y = claims)) + 
-  geom_line(color = &amp;quot;blue&amp;quot;) + 
-  scale_y_continuous(labels = comma) +
-  labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
-  ggtitle(&amp;quot;Unemployment Claims: 1967 to 2020&amp;quot;) +
-  theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;comparison-to-2008-recession&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Comparison to 2008 Recession&lt;/h2&gt;
-&lt;p&gt;In the graph below, I only selected 2008 to 2020. We can compare the unemployment claims during the 2008 recession to the number of claims filed during the COVID-19 lockdown. What is happening now is preposterous.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;icsa_dat %&amp;gt;%
-  mutate(year = year(date)) %&amp;gt;%
-  filter(year &amp;gt; 2007) %&amp;gt;%
-  ggplot(aes(x = date, y = claims)) + 
-  geom_line(color = &amp;quot;blue&amp;quot;) + 
-  scale_y_continuous(labels = comma) +
-  labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;) + 
-  ggtitle(&amp;quot;Unemployment Claims: 2008 to 2020&amp;quot;) +
-  theme_bw()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;causal-inference&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Causal Inference&lt;/h2&gt;
-&lt;blockquote class=&#34;twitter-tweet&#34;&gt;
-&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;
-Sometimes &lt;a href=&#34;https://twitter.com/hashtag/causalinference?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#causalinference&lt;/a&gt; is simple.&lt;br&gt;&lt;br&gt;“What&#39;s the immediate causal effect of the &lt;a href=&#34;https://twitter.com/hashtag/COVID19?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#COVID19&lt;/a&gt; lockdowns on unemployment?”&lt;br&gt;&lt;br&gt;The answer is “Unprecedented”. &lt;br&gt;&lt;br&gt;We know we&#39;re in deep trouble when a time series is all we need. &lt;a href=&#34;https://t.co/cXK0wLw3no&#34;&gt;https://t.co/cXK0wLw3no&lt;/a&gt; &lt;a href=&#34;https://t.co/kS4PvVwihM&#34;&gt;pic.twitter.com/kS4PvVwihM&lt;/a&gt;
-&lt;/p&gt;
-— Miguel Hernán (&lt;span class=&#34;citation&#34;&gt;@_MiguelHernan&lt;/span&gt;) &lt;a href=&#34;https://twitter.com/_MiguelHernan/status/1244215937978576898?ref_src=twsrc%5Etfw&#34;&gt;March 29, 2020&lt;/a&gt;
-&lt;/blockquote&gt;
-&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
-&lt;p&gt;Below, I use the &lt;code&gt;CausalImpact&lt;/code&gt; package to run a Bayesian structural time-series analysis. For more information on the package, please see this &lt;a href=&#34;https://cran.r-project.org/web/packages/CausalImpact/vignettes/CausalImpact.html&#34;&gt;vignette&lt;/a&gt;. Typically, it would be good to add covariates in the analysis but the data does not have any and given the rate of increase, I highly doubt that the inclusion of covariates would matter much. It would be interesting to compare the number of claims filed in US versus the number of claims filed in country with better social and economic security systems in place (perhaps the Netherlands). The impact of COVID-19 lockdowns on the number of unemployment claims is probably exacerbated by the lack of social and economic security in the US. In addition, due to employer based healthcare system in the US, millions of people have lost or are going to lose health insurance. Now more than every we need Medicare for All, $2000 a month stimulus, Green New Deal. The impact of climate change will be worse.&lt;/p&gt;
-&lt;blockquote class=&#34;twitter-tweet&#34;&gt;
-&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;
-Projected⬆️in unemployment:&lt;br&gt;&lt;br&gt;🇩🇪: 3.2%➡️5.9%&lt;br&gt;🇬🇧: 3.9%➡️7%&lt;br&gt;🇫🇷: 8.5%➡️12%&lt;br&gt;🇺🇸: 3.5%➡️32.1%&lt;br&gt;&lt;br&gt;Projected⬆️ in # of uninsured:&lt;br&gt;🇩🇪: 0&lt;br&gt;🇬🇧: 0&lt;br&gt;🇫🇷: 0&lt;br&gt;🇺🇸: At least 12 million&lt;br&gt;&lt;br&gt;Solution: Guarantee healthcare and paychecks like other wealthy countries do. &lt;a href=&#34;https://t.co/44ijS2evzL&#34;&gt;https://t.co/44ijS2evzL&lt;/a&gt;
-&lt;/p&gt;
-— Warren Gunnels (&lt;span class=&#34;citation&#34;&gt;@GunnelsWarren&lt;/span&gt;) &lt;a href=&#34;https://twitter.com/GunnelsWarren/status/1252607696303513605?ref_src=twsrc%5Etfw&#34;&gt;April 21, 2020&lt;/a&gt;
-&lt;/blockquote&gt;
-&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dates &amp;lt;- icsa_dat %&amp;gt;% 
-  pull(date)
-
-# create pre and post
-pre_period &amp;lt;- c(dates[1], dates[2776])
-post_period &amp;lt;- c(dates[2777], dates[length(dates)])
-
-# make into dat
-dat &amp;lt;- icsa_dat %&amp;gt;%
-  select(date, y = claims)
-
-# causal impact
-impact &amp;lt;- CausalImpact(dat, pre_period, post_period)
-
-sum_impact &amp;lt;- impact$summary %&amp;gt;%
-  mutate(type = rownames(.)) %&amp;gt;%
-  pivot_longer(cols = -type, 
-               names_to = &amp;quot;stats&amp;quot;,
-               values_to = &amp;quot;vals&amp;quot;) 
-
-avg_impact &amp;lt;- sum_impact %&amp;gt;%
-  mutate(vals = round(vals/1000000, 2))
-
-rel_impact &amp;lt;- sum_impact %&amp;gt;%
-  filter(str_detect(stats, &amp;quot;Rel&amp;quot;)) %&amp;gt;%
-  mutate(vals = round(vals * 100))
-
-# summary(impact, &amp;quot;report&amp;quot;)  &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;analysis-report-causalimpact&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Analysis report: CausalImpact&lt;/h2&gt;
-&lt;p&gt;Below is the report generated by &lt;code&gt;CausalImpact&lt;/code&gt; with some edits by me.&lt;/p&gt;
-&lt;p&gt;During the post-COVID lockdown period, the average number of unemployment claims filed was approximately 5.51M. By contrast, in the absence of the lockdown, we would have expected an average number of claims of 0.25M. The 95% interval of this counterfactual prediction is [0.22M, 0.29M]. Subtracting this prediction from the observed response yields an estimate of the causal effect the intervention had on the response variable. This effect is 5.25M with a 95% interval of [5.22M, 5.29M].&lt;/p&gt;
-&lt;p&gt;Summing up the individual data points during the post-lockdown period, the total number of unemployment claims filed equaled 22.03M. By contrast, had the intervention not taken place, we would have expected a sum of 1.01M. The 95% interval of this prediction is [0.89M, 1.16M].&lt;/p&gt;
-&lt;p&gt;The above results are given in terms of absolute numbers. In relative terms, the number of unemployment claims showed an increase of +2073%. The 95% interval of this percentage is [+2058%, +2085%].&lt;/p&gt;
-&lt;p&gt;The probability of obtaining this effect by chance is very small (Bayesian one-sided tail-area probability p = 0.001). This means the causal effect can be considered statistically significant.&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
