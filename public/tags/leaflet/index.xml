@@ -5,7 +5,7 @@
     <link>/tags/leaflet/</link>
       <atom:link href="/tags/leaflet/index.xml" rel="self" type="application/rss+xml" />
     <description>leaflet</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 22 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 24 Apr 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
       <title>leaflet</title>
@@ -15,7 +15,7 @@
     <item>
       <title>COVID-19</title>
       <link>/post/coronavirus/</link>
-      <pubDate>Wed, 22 Apr 2020 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
       <guid>/post/coronavirus/</guid>
       <description>
 &lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
@@ -27,14 +27,10 @@
 &lt;div id=&#34;libraries&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Libraries&lt;/h1&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
-library(maps)
-library(ggthemes)
-library(jsonlite)
+library(lubridate)
 library(leaflet)
 library(widgetframe)
-library(lubridate)
-library(scales)
-library(ggrepel)&lt;/code&gt;&lt;/pre&gt;
+library(scales)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;read-in-the-data&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Read in the Data&lt;/h1&gt;
@@ -115,7 +111,7 @@ country_dat %&amp;gt;%
   scale_x_continuous(labels = comma) +
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Warning: Removed 368 rows containing missing values (geom_bar).&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: Removed 372 rows containing missing values (geom_bar).&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;960&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -135,10 +131,10 @@ sum_dat %&amp;gt;%
                 y = confirmed, color = country_region), 
             hjust = -.01) +
   scale_y_continuous(labels = comma, breaks = seq(0, 1000000, 100000)) +
-  xlim(ymd(&amp;quot;2020-01-22&amp;quot;), ymd(&amp;quot;2020-04-27&amp;quot;)) + 
+  xlim(ymd(&amp;quot;2020-01-22&amp;quot;), ymd(&amp;quot;2020-04-28&amp;quot;)) + 
   scale_color_brewer(type = &amp;quot;qual&amp;quot;, palette = 2) + 
   labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Confirmed Cases&amp;quot;, color = &amp;quot;Country&amp;quot;) + 
-  ggtitle(&amp;quot;Confirmed Cases as of April 22, 2020&amp;quot;) +
+  ggtitle(&amp;quot;Confirmed Cases as of April 24, 2020&amp;quot;) +
   theme_bw() +
   theme(legend.position = &amp;quot;none&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;768&#34; /&gt;&lt;/p&gt;
