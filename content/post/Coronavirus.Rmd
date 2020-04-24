@@ -1,7 +1,7 @@
 ---
 title: "COVID-19"
 author: "Megha Joshi"
-date: 2020-04-22
+date: 2020-04-24
 categories: ["R"]
 tags: ["coronavirus", "COVID-19", "ggplot", "leaflet"]
 
@@ -17,14 +17,10 @@ In this post, I am analyzing data on COVID-19 cases worldwide. The data that I a
 
 ```{r message = FALSE, warning = FALSE}
 library(tidyverse)
-library(maps)
-library(ggthemes)
-library(jsonlite)
+library(lubridate)
 library(leaflet)
 library(widgetframe)
-library(lubridate)
 library(scales)
-library(ggrepel)
 ```
 
 
@@ -134,10 +130,10 @@ sum_dat %>%
                 y = confirmed, color = country_region), 
             hjust = -.01) +
   scale_y_continuous(labels = comma, breaks = seq(0, 1000000, 100000)) +
-  xlim(ymd("2020-01-22"), ymd("2020-04-27")) + 
+  xlim(ymd("2020-01-22"), ymd("2020-04-28")) + 
   scale_color_brewer(type = "qual", palette = 2) + 
   labs(x = "", y = "Confirmed Cases", color = "Country") + 
-  ggtitle("Confirmed Cases as of April 22, 2020") +
+  ggtitle("Confirmed Cases as of April 24, 2020") +
   theme_bw() +
   theme(legend.position = "none")
   
