@@ -1,7 +1,7 @@
 ---
 title: "COVID-19"
 author: "Megha Joshi"
-date: 2020-04-27
+date: 2020-04-28
 categories: ["R"]
 tags: ["coronavirus", "COVID-19", "ggplot", "leaflet"]
 
@@ -78,10 +78,10 @@ country_dat <- dat %>%
   mutate(week = cut(date, "week", start.on.monday = FALSE))
 
 country_dat %>%
-  ggplot(aes(x = confirmed/1000, y = week)) +
+  ggplot(aes(x = confirmed/1000000, y = week)) +
   geom_bar(stat = "identity", position = "dodge", fill = "blue4") + 
   facet_wrap(~ country_region) +
-  labs(y = "", x = "Confirmed Cases (in thousands)") + 
+  labs(y = "", x = "Confirmed Cases (in millions)") + 
   scale_x_continuous(labels = comma) +
   theme_bw() +
   theme(legend.position = "none")
@@ -129,11 +129,11 @@ sum_dat %>%
             aes(label = country_region, x = date + .1, 
                 y = confirmed, color = country_region), 
             hjust = -.01) +
-  scale_y_continuous(labels = comma, breaks = seq(0, 1000000, 100000)) +
-  xlim(ymd("2020-01-22"), ymd("2020-04-30")) + 
+  scale_y_continuous(labels = comma, breaks = seq(0, 2000000, 100000)) +
+  xlim(ymd("2020-01-22"), ymd("2020-05-01")) + 
   scale_color_brewer(type = "qual", palette = 2) + 
   labs(x = "", y = "Confirmed Cases", color = "Country") + 
-  ggtitle("Confirmed Cases as of April 27, 2020") +
+  ggtitle("Confirmed Cases as of April 28, 2020") +
   theme_bw() +
   theme(legend.position = "none")
   
