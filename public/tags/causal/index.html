@@ -121,7 +121,7 @@
   <meta property="og:description" content="Doctoral student"><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
-    <meta property="og:updated_time" content="2020-05-15T00:00:00&#43;00:00">
+    <meta property="og:updated_time" content="2020-05-21T00:00:00&#43;00:00">
   
 
   
@@ -400,7 +400,7 @@
       
       In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the tidyquant package.
 library(CausalImpact) library(tidyverse) library(scales) library(tidyquant) ICSA Data Initial unemployment claims from the first date available, 1967:
-icsa_dat &lt;- &quot;ICSA&quot; %&gt;% tq_get(get = &quot;economic.data&quot;, from = &quot;1967-01-07&quot;) %&gt;% rename(claims = price) glimpse(icsa_dat) ## Rows: 2,784 ## Columns: 3 ## $ symbol &lt;chr&gt; &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;… ## $ date &lt;date&gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1… ## $ claims &lt;int&gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000… icsa_dat %&gt;% ggplot(aes(x = date, y = claims)) + geom_line(color = &quot;blue&quot;) + scale_y_continuous(labels = comma) + labs(x = &quot;Date&quot;, y = &quot;Claims&quot;, subtitle = &quot;As of May 15, 2020&quot;) + ggtitle(&quot;Unemployment Claims: 1967 to 2020&quot;) + theme_bw()  Comparison to 2008 Recession In the graph below, I only selected 2008 to 2020.
+icsa_dat &lt;- &quot;ICSA&quot; %&gt;% tq_get(get = &quot;economic.data&quot;, from = &quot;1967-01-07&quot;) %&gt;% rename(claims = price) glimpse(icsa_dat) ## Rows: 2,785 ## Columns: 3 ## $ symbol &lt;chr&gt; &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;… ## $ date &lt;date&gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1… ## $ claims &lt;int&gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000… icsa_dat %&gt;% ggplot(aes(x = date, y = claims)) + geom_line(color = &quot;blue&quot;) + scale_y_continuous(labels = comma) + labs(x = &quot;Date&quot;, y = &quot;Claims&quot;, subtitle = &quot;As of May 21, 2020&quot;) + ggtitle(&quot;Unemployment Claims: 1967 to 2020&quot;) + theme_bw()  Comparison to 2008 Recession In the graph below, I only selected 2008 to 2020.
       
     </div>
   </div>
