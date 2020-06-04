@@ -1,7 +1,7 @@
 ---
 title: "Unemployment Claims COVID-19"
 author: "Megha Joshi"
-date: 2020-05-21
+date: 2020-06-04
 categories: ["R"]
 tags: ["coronavirus", "COVID-19", "lockdown", "ggplot", "unemployment claims", "time-series", "causal"]
 output:
@@ -41,7 +41,7 @@ icsa_dat %>%
   ggplot(aes(x = date, y = claims)) + 
   geom_line(color = "blue") + 
   scale_y_continuous(labels = comma) +
-  labs(x = "Date", y = "Claims", subtitle = "As of May 21, 2020") + 
+  labs(x = "Date", y = "Claims", subtitle = "As of June 4, 2020") + 
   ggtitle("Unemployment Claims: 1967 to 2020") +
   theme_bw()
 ```
@@ -57,7 +57,7 @@ icsa_dat %>%
   ggplot(aes(x = date, y = claims)) + 
   geom_line(color = "blue") + 
   scale_y_continuous(labels = comma) +
-  labs(x = "Date", y = "Claims", subtitle = "As of May 21, 2020") + 
+  labs(x = "Date", y = "Claims", subtitle = "As of June 4, 2020") + 
   ggtitle("Unemployment Claims: 2008 to 2020") +
   theme_bw()
   

@@ -1,7 +1,7 @@
 ---
 title: "COVID-19"
 author: "Megha Joshi"
-date: 2020-05-21
+date: 2020-06-04
 categories: ["R"]
 tags: ["coronavirus", "COVID-19", "ggplot", "leaflet"]
 
@@ -100,7 +100,7 @@ country_dat %&gt;%
   scale_x_continuous(labels = comma) +
   theme_bw() +
   theme(legend.position = &quot;none&quot;)</code></pre>
-<pre><code>## Warning: Removed 480 rows containing missing values (geom_bar).</code></pre>
+<pre><code>## Warning: Removed 536 rows containing missing values (geom_bar).</code></pre>
 <p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-6-1.png" width="1056" /></p>
 </div>
 </div>
@@ -123,8 +123,10 @@ sum_dat %&gt;%
   xlim(ymd(&quot;2020-01-22&quot;), ymd(&quot;2020-05-25&quot;)) + 
   scale_color_brewer(type = &quot;qual&quot;, palette = 2) + 
   labs(x = &quot;&quot;, y = &quot;Confirmed Cases&quot;, color = &quot;Country&quot;) + 
-  ggtitle(&quot;Confirmed Cases as of May 21, 2020&quot;) +
+  ggtitle(&quot;Confirmed Cases as of June 4, 2020&quot;) +
   theme_bw() +
   theme(legend.position = &quot;none&quot;)</code></pre>
+<pre><code>## Warning: Removed 54 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_text).</code></pre>
 <p><img src="/post/Coronavirus_files/figure-html/unnamed-chunk-7-1.png" width="768" /></p>
 </div>
