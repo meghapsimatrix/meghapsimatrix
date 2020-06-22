@@ -1,7 +1,7 @@
 ---
 title: "Unemployment Claims COVID-19"
 author: "Megha Joshi"
-date: 2020-06-16
+date: 2020-06-21
 categories: ["R"]
 tags: ["coronavirus", "COVID-19", "lockdown", "ggplot", "unemployment claims", "time-series", "causal"]
 output:
@@ -14,7 +14,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the `tidyquant` package. 
+In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the `tidyquant` package (Dancho & Vaughan, 2020). 
 
 ```{r, warning = FALSE, message = FALSE}
 library(CausalImpact)
@@ -41,7 +41,7 @@ icsa_dat %>%
   ggplot(aes(x = date, y = claims)) + 
   geom_line(color = "blue") + 
   scale_y_continuous(labels = comma) +
-  labs(x = "Date", y = "Claims", subtitle = "As of June 16, 2020") + 
+  labs(x = "Date", y = "Claims", subtitle = "As of June 21, 2020") + 
   ggtitle("Unemployment Claims: 1967 to 2020") +
   theme_bw()
 ```
@@ -57,7 +57,7 @@ icsa_dat %>%
   ggplot(aes(x = date, y = claims)) + 
   geom_line(color = "blue") + 
   scale_y_continuous(labels = comma) +
-  labs(x = "Date", y = "Claims", subtitle = "As of June 16, 2020") + 
+  labs(x = "Date", y = "Claims", subtitle = "As of June 21, 2020") + 
   ggtitle("Unemployment Claims: 2008 to 2020") +
   theme_bw()
   
@@ -69,7 +69,7 @@ icsa_dat %>%
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Sometimes <a href="https://twitter.com/hashtag/causalinference?src=hash&amp;ref_src=twsrc%5Etfw">#causalinference</a> is simple.<br><br>&quot;What&#39;s the immediate causal effect of the <a href="https://twitter.com/hashtag/COVID19?src=hash&amp;ref_src=twsrc%5Etfw">#COVID19</a> lockdowns on unemployment?&quot;<br><br>The answer is &quot;Unprecedented&quot;. <br><br>We know we&#39;re in deep trouble when a time series is all we need. <a href="https://t.co/cXK0wLw3no">https://t.co/cXK0wLw3no</a> <a href="https://t.co/kS4PvVwihM">pic.twitter.com/kS4PvVwihM</a></p>&mdash; Miguel Hernán (@_MiguelHernan) <a href="https://twitter.com/_MiguelHernan/status/1244215937978576898?ref_src=twsrc%5Etfw">March 29, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 
-Below, I use the `CausalImpact` package to run a Bayesian structural time-series analysis. For more information on the package, please see this [vignette](https://cran.r-project.org/web/packages/CausalImpact/vignettes/CausalImpact.html). Typically, it would be good to add covariates in the analysis but the data does not have any and given the rate of increase, I highly doubt that the inclusion of covariates would matter much. It would be interesting to compare the number of claims filed in US versus the number of claims filed in country with better social and economic security systems in place (perhaps the Netherlands). The impact of COVID-19 lockdowns on the number of unemployment claims is probably exacerbated by the lack of social and economic security in the US. In addition, due to employer based healthcare system in the US, millions of people have lost or are going to lose health insurance. Now more than every we need Medicare for All, $2000 a month stimulus, Green New Deal. The impact of climate change will be worse. 
+Below, I use the `CausalImpact` package to run a Bayesian structural time-series analysis (Brodersen et al., 2015). For more information on the package, please see this [vignette](https://cran.r-project.org/web/packages/CausalImpact/vignettes/CausalImpact.html). Typically, it would be good to add covariates in the analysis but the data does not have any and given the rate of increase, I highly doubt that the inclusion of covariates would matter much. It would be interesting to compare the number of claims filed in US versus the number of claims filed in country with better social and economic security systems in place (perhaps the Netherlands). The impact of COVID-19 lockdowns on the number of unemployment claims is probably exacerbated by the lack of social and economic security in the US. In addition, due to employer based healthcare system in the US, millions of people have lost or are going to lose health insurance. Now more than every we need Medicare for All, $2000 a month stimulus, Green New Deal. The impact of climate change will be worse. 
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Projected⬆️in unemployment:<br><br>🇩🇪: 3.2%➡️5.9%<br>🇬🇧: 3.9%➡️7%<br>🇫🇷: 8.5%➡️12%<br>🇺🇸: 3.5%➡️32.1%<br><br>Projected⬆️ in # of uninsured:<br>🇩🇪: 0<br>🇬🇧: 0<br>🇫🇷: 0<br>🇺🇸: At least 12 million<br><br>Solution: Guarantee healthcare and paychecks like other wealthy countries do. <a href="https://t.co/44ijS2evzL">https://t.co/44ijS2evzL</a></p>&mdash; Warren Gunnels (@GunnelsWarren) <a href="https://twitter.com/GunnelsWarren/status/1252607696303513605?ref_src=twsrc%5Etfw">April 21, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
@@ -112,4 +112,18 @@ Summing up the individual data points during the post-lockdown period, the total
 
 The probability of obtaining this effect by chance is very small (Bayesian one-sided tail-area probability p = `r sum_impact %>% filter(type == "Average", stats == "p") %>% mutate(vals = round(vals, 3)) %>% pull(vals)`). This means the causal effect can be considered statistically significant.
 
+
+## References
+
+Brodersen et al., 2015, Annals of Applied Statistics. Inferring causal impact using Bayesian
+  structural time-series models. http://research.google.com/pubs/pub41854.html
+
+Dancho, M. and Vaughan, D. (2020). tidyquant: Tidy Quantitative Financial Analysis. R
+  package version 1.0.0. https://CRAN.R-project.org/package=tidyquant
+  
+Wickham, H. and Seidel, D. (2019). scales: Scale Functions for Visualization. R package
+  version 1.1.0. https://CRAN.R-project.org/package=scales
+  
+Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43),
+  1686, https://doi.org/10.21105/joss.01686
 
