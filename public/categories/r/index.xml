@@ -5,7 +5,7 @@
     <link>/categories/r/</link>
       <atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     <description>R</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 16 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 21 Jun 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
       <title>R</title>
@@ -15,12 +15,12 @@
     <item>
       <title>Unemployment Claims COVID-19</title>
       <link>/post/unemployment_claims/</link>
-      <pubDate>Tue, 16 Jun 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 21 Jun 2020 00:00:00 +0000</pubDate>
       <guid>/post/unemployment_claims/</guid>
       <description>
 
 
-&lt;p&gt;In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the &lt;code&gt;tidyquant&lt;/code&gt; package.&lt;/p&gt;
+&lt;p&gt;In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the &lt;code&gt;tidyquant&lt;/code&gt; package (Dancho &amp;amp; Vaughan, 2020).&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(CausalImpact)
 library(tidyverse)
 library(scales)
@@ -35,7 +35,7 @@ library(tidyquant)&lt;/code&gt;&lt;/pre&gt;
 
 
 glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Rows: 2,788
+&lt;pre&gt;&lt;code&gt;## Rows: 2,789
 ## Columns: 3
 ## $ symbol &amp;lt;chr&amp;gt; &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;, &amp;quot;ICSA&amp;quot;…
 ## $ date   &amp;lt;date&amp;gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1…
@@ -44,7 +44,7 @@ glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
   ggplot(aes(x = date, y = claims)) + 
   geom_line(color = &amp;quot;blue&amp;quot;) + 
   scale_y_continuous(labels = comma) +
-  labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;, subtitle = &amp;quot;As of June 16, 2020&amp;quot;) + 
+  labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;, subtitle = &amp;quot;As of June 21, 2020&amp;quot;) + 
   ggtitle(&amp;quot;Unemployment Claims: 1967 to 2020&amp;quot;) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
@@ -58,7 +58,7 @@ glimpse(icsa_dat)&lt;/code&gt;&lt;/pre&gt;
   ggplot(aes(x = date, y = claims)) + 
   geom_line(color = &amp;quot;blue&amp;quot;) + 
   scale_y_continuous(labels = comma) +
-  labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;, subtitle = &amp;quot;As of June 16, 2020&amp;quot;) + 
+  labs(x = &amp;quot;Date&amp;quot;, y = &amp;quot;Claims&amp;quot;, subtitle = &amp;quot;As of June 21, 2020&amp;quot;) + 
   ggtitle(&amp;quot;Unemployment Claims: 2008 to 2020&amp;quot;) +
   theme_bw()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/unemployment_claims_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
@@ -72,7 +72,7 @@ Sometimes &lt;a href=&#34;https://twitter.com/hashtag/causalinference?src=hash&a
 — Miguel Hernán (&lt;span class=&#34;citation&#34;&gt;@_MiguelHernan&lt;/span&gt;) &lt;a href=&#34;https://twitter.com/_MiguelHernan/status/1244215937978576898?ref_src=twsrc%5Etfw&#34;&gt;March 29, 2020&lt;/a&gt;
 &lt;/blockquote&gt;
 &lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
-&lt;p&gt;Below, I use the &lt;code&gt;CausalImpact&lt;/code&gt; package to run a Bayesian structural time-series analysis. For more information on the package, please see this &lt;a href=&#34;https://cran.r-project.org/web/packages/CausalImpact/vignettes/CausalImpact.html&#34;&gt;vignette&lt;/a&gt;. Typically, it would be good to add covariates in the analysis but the data does not have any and given the rate of increase, I highly doubt that the inclusion of covariates would matter much. It would be interesting to compare the number of claims filed in US versus the number of claims filed in country with better social and economic security systems in place (perhaps the Netherlands). The impact of COVID-19 lockdowns on the number of unemployment claims is probably exacerbated by the lack of social and economic security in the US. In addition, due to employer based healthcare system in the US, millions of people have lost or are going to lose health insurance. Now more than every we need Medicare for All, $2000 a month stimulus, Green New Deal. The impact of climate change will be worse.&lt;/p&gt;
+&lt;p&gt;Below, I use the &lt;code&gt;CausalImpact&lt;/code&gt; package to run a Bayesian structural time-series analysis (Brodersen et al., 2015). For more information on the package, please see this &lt;a href=&#34;https://cran.r-project.org/web/packages/CausalImpact/vignettes/CausalImpact.html&#34;&gt;vignette&lt;/a&gt;. Typically, it would be good to add covariates in the analysis but the data does not have any and given the rate of increase, I highly doubt that the inclusion of covariates would matter much. It would be interesting to compare the number of claims filed in US versus the number of claims filed in country with better social and economic security systems in place (perhaps the Netherlands). The impact of COVID-19 lockdowns on the number of unemployment claims is probably exacerbated by the lack of social and economic security in the US. In addition, due to employer based healthcare system in the US, millions of people have lost or are going to lose health insurance. Now more than every we need Medicare for All, $2000 a month stimulus, Green New Deal. The impact of climate change will be worse.&lt;/p&gt;
 &lt;blockquote class=&#34;twitter-tweet&#34;&gt;
 &lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;
 Projected⬆️in unemployment:&lt;br&gt;&lt;br&gt;🇩🇪: 3.2%➡️5.9%&lt;br&gt;🇬🇧: 3.9%➡️7%&lt;br&gt;🇫🇷: 8.5%➡️12%&lt;br&gt;🇺🇸: 3.5%➡️32.1%&lt;br&gt;&lt;br&gt;Projected⬆️ in # of uninsured:&lt;br&gt;🇩🇪: 0&lt;br&gt;🇬🇧: 0&lt;br&gt;🇫🇷: 0&lt;br&gt;🇺🇸: At least 12 million&lt;br&gt;&lt;br&gt;Solution: Guarantee healthcare and paychecks like other wealthy countries do. &lt;a href=&#34;https://t.co/44ijS2evzL&#34;&gt;https://t.co/44ijS2evzL&lt;/a&gt;
@@ -112,8 +112,19 @@ rel_impact &amp;lt;- sum_impact %&amp;gt;%
 &lt;div id=&#34;analysis-report-causalimpact&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Analysis report: CausalImpact&lt;/h2&gt;
 &lt;p&gt;Below is the report generated by &lt;code&gt;CausalImpact&lt;/code&gt; with some edits by me.&lt;/p&gt;
-&lt;p&gt;Summing up the individual data points during the post-lockdown period, the total number of unemployment claims filed equaled 44.21M. By contrast, had the intervention not taken place, we would have expected a sum of 3.03M. The 95% interval of this prediction is [2.45M, 3.6M].&lt;/p&gt;
+&lt;p&gt;Summing up the individual data points during the post-lockdown period, the total number of unemployment claims filed equaled 45.74M. By contrast, had the intervention not taken place, we would have expected a sum of 3.28M. The 95% interval of this prediction is [2.7M, 3.84M].&lt;/p&gt;
 &lt;p&gt;The probability of obtaining this effect by chance is very small (Bayesian one-sided tail-area probability p = 0.001). This means the causal effect can be considered statistically significant.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;references&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;p&gt;Brodersen et al., 2015, Annals of Applied Statistics. Inferring causal impact using Bayesian
+structural time-series models. &lt;a href=&#34;http://research.google.com/pubs/pub41854.html&#34; class=&#34;uri&#34;&gt;http://research.google.com/pubs/pub41854.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Dancho, M. and Vaughan, D. (2020). tidyquant: Tidy Quantitative Financial Analysis. R
+package version 1.0.0. &lt;a href=&#34;https://CRAN.R-project.org/package=tidyquant&#34; class=&#34;uri&#34;&gt;https://CRAN.R-project.org/package=tidyquant&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Wickham, H. and Seidel, D. (2019). scales: Scale Functions for Visualization. R package
+version 1.1.0. &lt;a href=&#34;https://CRAN.R-project.org/package=scales&#34; class=&#34;uri&#34;&gt;https://CRAN.R-project.org/package=scales&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43),
+1686, &lt;a href=&#34;https://doi.org/10.21105/joss.01686&#34; class=&#34;uri&#34;&gt;https://doi.org/10.21105/joss.01686&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>

@@ -31,7 +31,7 @@
   <meta name="description" content="Doctoral student">
 
   
-  <link rel="alternate" hreflang="en-us" href="/tags/ggplot/">
+  <link rel="alternate" hreflang="en-us" href="/tags/simhelpers/">
 
   
 
@@ -96,14 +96,14 @@
 
 
   
-  <link rel="alternate" href="/tags/ggplot/index.xml" type="application/rss+xml" title="Megha">
+  <link rel="alternate" href="/tags/simhelpers/index.xml" type="application/rss+xml" title="Megha">
   
 
   <link rel="manifest" href="/index.webmanifest">
   <link rel="icon" type="image/png" href="/img/icon-32.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="/tags/ggplot/">
+  <link rel="canonical" href="/tags/simhelpers/">
 
   
   
@@ -116,12 +116,12 @@
   <meta property="twitter:card" content="summary">
   
   <meta property="og:site_name" content="Megha">
-  <meta property="og:url" content="/tags/ggplot/">
-  <meta property="og:title" content="ggplot | Megha">
+  <meta property="og:url" content="/tags/simhelpers/">
+  <meta property="og:title" content="simhelpers | Megha">
   <meta property="og:description" content="Doctoral student"><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
-    <meta property="og:updated_time" content="2020-06-21T00:00:00&#43;00:00">
+    <meta property="og:updated_time" content="2020-03-04T00:00:00&#43;00:00">
   
 
   
@@ -138,7 +138,7 @@
 
 
 
-  <title>ggplot | Megha</title>
+  <title>simhelpers | Megha</title>
 
 </head>
 
@@ -380,7 +380,7 @@
     
   
 <div class="universal-wrapper pt-3">
-  <h1>ggplot</h1>
+  <h1>simhelpers</h1>
 
   
 
@@ -395,31 +395,11 @@
   
   
   <div>
-    <h2><a href="/post/unemployment_claims/">Unemployment Claims COVID-19</a></h2>
+    <h2><a href="/project/internal-project/simhelpers/">simhelpers</a></h2>
     <div class="article-style">
       
-      In this post I am visualizing and analyzing the unprecedented increase in the number of unemployment claims filed in the US after the lockdown due to COVID 19 pandemic. I am retrieving the data from the tidyquant package (Dancho &amp; Vaughan, 2020).
-library(CausalImpact) library(tidyverse) library(scales) library(tidyquant) ICSA Data Initial unemployment claims from the first date available, 1967:
-icsa_dat &lt;- &quot;ICSA&quot; %&gt;% tq_get(get = &quot;economic.data&quot;, from = &quot;1967-01-07&quot;) %&gt;% rename(claims = price) glimpse(icsa_dat) ## Rows: 2,789 ## Columns: 3 ## $ symbol &lt;chr&gt; &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;, &quot;ICSA&quot;… ## $ date &lt;date&gt; 1967-01-07, 1967-01-14, 1967-01-21, 1967-01-28, 1967-02-04, 1… ## $ claims &lt;int&gt; 208000, 207000, 217000, 204000, 216000, 229000, 229000, 242000… icsa_dat %&gt;% ggplot(aes(x = date, y = claims)) + geom_line(color = &quot;blue&quot;) + scale_y_continuous(labels = comma) + labs(x = &quot;Date&quot;, y = &quot;Claims&quot;, subtitle = &quot;As of June 21, 2020&quot;) + ggtitle(&quot;Unemployment Claims: 1967 to 2020&quot;) + theme_bw()  Comparison to 2008 Recession In the graph below, I only selected 2008 to 2020.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/nepal_earthquake/">Nepal Earthquake</a></h2>
-    <div class="article-style">
-      
-      I wanted to analyze the data from the April 2015 Nepal earthquake that resulted in around 10,000 deaths. I am using a dataset that I found in data.world. The data contains date, time, location and magnitude of the earthquake and the many aftershocks that followed. The data is updated as of June 2, 2015.
-Nepal is my birthplace, my homeland. The earthquake was an extremely traumatic event for people who live there.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/tidy_tues_horror/">Tidy Tuesday Horror</a></h2>
-    <div class="article-style">
-      
-      Load the Data and Check Duplicates library(tidyverse) library(lubridate) library(kableExtra) library(ggridges) # there were complete duplicated rows dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-10-22/horror_movies.csv&quot;) %&gt;% distinct(.) # removes complete dups # check duplicates dup_title &lt;- dat %&gt;% filter(duplicated(title) | duplicated(title, fromLast = TRUE)) %&gt;% arrange(title) # examined they seem different movies even though same title dup_title %&gt;% filter(duplicated(plot)) ## # A tibble: 0 x 12 ## # … with 12 variables: title &lt;chr&gt;, genres &lt;chr&gt;, release_date &lt;chr&gt;, ## # release_country &lt;chr&gt;, movie_rating &lt;chr&gt;, review_rating &lt;dbl&gt;, ## # movie_run_time &lt;chr&gt;, plot &lt;chr&gt;, cast &lt;chr&gt;, language &lt;chr&gt;, ## # filming_locations &lt;chr&gt;, budget &lt;chr&gt; dup_title %&gt;% filter(duplicated(release_date)| duplicated(release_date, fromLast = TRUE)) ## # A tibble: 2 x 12 ## title genres release_date release_country movie_rating review_rating ## &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; ## 1 The … Comed… 21-Jul-15 USA &lt;NA&gt; 5.
+      Here is the website for the package.
+Monte Carlo simulations are computer experiments designed to study the performance of statistical methods under known data-generating conditions (Morris, White, &amp; Crowther, 2019). Methodologists use simulations to examine questions such as: (1) how does ordinary least squares regression perform if errors are heteroskedastic? (2) how does the presence of missing data affect treatment effect estimates from a propensity score analysis? (3) how does cluster robust variance estimation perform when the number of clusters is small?
       
     </div>
   </div>

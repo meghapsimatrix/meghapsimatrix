@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>package | Megha</title>
-    <link>/tags/package/</link>
-      <atom:link href="/tags/package/index.xml" rel="self" type="application/rss+xml" />
-    <description>package</description>
+    <title>simhelpers | Megha</title>
+    <link>/tags/simhelpers/</link>
+      <atom:link href="/tags/simhelpers/index.xml" rel="self" type="application/rss+xml" />
+    <description>simhelpers</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 04 Mar 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
-      <title>package</title>
-      <link>/tags/package/</link>
+      <title>simhelpers</title>
+      <link>/tags/simhelpers/</link>
     </image>
     
     <item>
