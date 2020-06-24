@@ -1,5 +1,5 @@
 ---
-title: "Multiple Imputation Propensity Scores"
+title: "Propensity Scores Analysis with Multiply Imputed Data"
 author: "Megha Joshi"
 date: 2020-06-23
 categories: ["R"]
