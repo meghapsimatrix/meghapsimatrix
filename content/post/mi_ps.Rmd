@@ -8,6 +8,8 @@ output:
   html_document:
     toc: true
     toc_float: true
+bibliography: references.bib
+csl: apa.csl
 ---
 
 ```{r setup, include=FALSE}
@@ -18,7 +20,7 @@ Work in progress...
 
 In this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier [post](https://meghapsimatrix.com/post/missing_dat/) that goes over different ways to handle missing data when conducting propensity score analysis.
 
-When using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores:
+When using multiple imputations, @hill_2004 and @mitra_comparison_2016 examined two distinct ways to condition on the propensity scores:
 
 ## Multiple Imputation Across (MI Across)
 
@@ -31,7 +33,7 @@ This approach involves creating _m_ imputed datasets and then estimating propens
 
 # Read in the data
 
-Below, I show how to implement the Across and Within methods to estimate the ATT. The data that I use here is from High School and Beyond (HSB) longitudinal study used by Rosenbaum (1986) to analyze the effect of dropping out of high school on later math achievement. 
+Below, I show how to implement the Across and Within methods to estimate the ATT. The data that I use here is from High School and Beyond (HSB) longitudinal study used by @rosenbaum1986dropping to analyze the effect of dropping out of high school on later math achievement. 
 
 ```{r, warning = F, message = F}
 library(tidyverse)
@@ -51,7 +53,7 @@ hsls_dat <- read_csv("https://raw.githubusercontent.com/meghapsimatrix/datasets/
 ```
 
 
-Below, using `gg_miss_var` from the `naniar` package, I visualize the percent of data that are missing for each of the variables. The treatment variable, `drop_status` has no missing data. The outcome variable, `math_score_T2`, however, does have around 10% missing data. 
+Below, using `gg_miss_var` from the `naniar` package, I visualize the percent of data that are missing for each of the variables [@naniar_2020]. The treatment variable, `drop_status` has no missing data. The outcome variable, `math_score_T2`, however, does have around 10% missing data. 
 
 ```{r}
 gg_miss_var(hsls_dat, show_pct = TRUE)
@@ -60,7 +62,7 @@ gg_miss_var(hsls_dat, show_pct = TRUE)
 
 # Multiple imputation using `mice`
 
-Here, I impute the data using mice and set the number of imputations and itereations to 10 each and also set the seed. Then, I save the result as an `RData` file. For imputation method, I let mice run the default methods: predicitive mean matching for continuous variables, Bayesian logistic regression for binary variables and Bayesian polytomous regression for multinomial variables. For more information on methods for imputation, please see [Chapter 6.2](https://stefvanbuuren.name/fimd/sec-modelform.html) from [Flexible Modeling of Missing Data](https://stefvanbuuren.name/fimd/), van Buuren (2018).
+Here, I impute the data using the `mice` package and set the number of imputations and itereations to 10 each and also set the seed [@vanB_2011]. Then, I save the result as an `RData` file. For imputation method, I let mice run the default methods: predicitive mean matching for continuous variables, Bayesian logistic regression for binary variables and Bayesian polytomous regression for multinomial variables. For more information on methods for imputation, please see [Chapter 6.2](https://stefvanbuuren.name/fimd/sec-modelform.html) from [Flexible Modeling of Missing Data](https://stefvanbuuren.name/fimd/) [@van2018flexible].
 
 ```{r, eval = F}
 system.time(temp_data <- mice(hsls_dat, m = 10, maxit = 10, seed = 20200516))
@@ -93,7 +95,7 @@ equation_ps
 
 Here, I create a function `estimate_ps()` that takes in an equation and a dataset, then runs logistic regression using `glm()`. Then the function adds logit of propensity scores and propensity scores as columns in the dataset. 
 
-I then group the `imp_dat` by the imputation number and then run the `estimate_ps()` function on each of the imputed dataset using the `do()` function from `dplyr`.
+I then group the `imp_dat` by the imputation number and then run the `estimate_ps()` function on each of the imputed dataset using the `do()` function from `dplyr` [@tidy_2020].
 
 ```{r}
 estimate_ps <- function(equation, dat){
@@ -137,9 +139,11 @@ imp_dat_ps %>%
 ```
 
 
+# Check balance 
+
 # Estimate ATT for across and within methods
 
-Below I create a function to estimate the ATT. The function takes in an equation, a dataset, and weights as arguments. Then it runs a model using `lm_robust()` from the `estimatr` package. The standard errors of the regression coefficients are estimated using `HC2` type sandwich errors. I then clean up the results using `tidy()` from `broom`. 
+Below I create a function to estimate the ATT. The function takes in an equation, a dataset, and weights as arguments. Then it runs a model using `lm_robust()` from the `estimatr` package [@estimatr_2020]. The standard errors of the regression coefficients are estimated using `HC2` type sandwich errors. I then clean up the results using `tidy()` from `broom` [@broom_2020]. 
 
 ```{r}
 estimate_ATT <- function(equation, dat, wts){
@@ -178,7 +182,7 @@ within_res <- imp_dat_ps %>%
 
 # Pool the results 
 
-Here, I create a function called `calc_pooled()` using formula by (1999) to pool the results across the imputations. The `mice` package has the `pool()` function to do the same thing but we would need to convert the imputed data back to `mids` object type and I just wanted to skip all that :D 
+Here, I create a function called `calc_pooled()` using formula by @barnard_small-sample_nodate to pool the results across the imputations. The `mice` package has the `pool()` function to do the same thing but we would need to convert the imputed data back to `mids` object type and I just wanted to skip all that :D 
 
 ```{r}
 calc_pooled <- function(dat, est, se, df){
@@ -224,7 +228,7 @@ Below I use the `calc_pooled()` function to pool the results for each of the met
 ```{r}
 across_pooled <- calc_pooled(dat = across_res, est = estimate, se = se, df = df)
 across_pooled %>%
-  kable()
+  kable(digits = 3)
 ```
 
 
@@ -233,12 +237,16 @@ across_pooled %>%
 ```{r}
 within_pooled <- calc_pooled(dat = within_res, est = estimate, se = se, df = df)
 within_pooled %>%
-  kable()
+  kable(digits = 3)
 ```
 
+The estimates, se and df are different for the results from the two different methods. 
 
-# Which to use
 
+# Which one to use?
 
+@hill_2004 and @mitra_comparison_2016 conducted simulation studies comparing the two methods. @hill_2004 found that MI Across performed best in terms of absolute bias and mean squared error compared to all the other methods examined in the study. @mitra_comparison_2016 found that MI Across resulted in greater bias reduction in the estimation of ATT compared to MI Within. For details of the simulation studies please see the articles. 
 
 # References
+
+
