@@ -16,28 +16,51 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Work in progress...
 
+In this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier [post](https://meghapsimatrix.com/post/missing_dat/) that goes over different ways to handle missing data when conducting propensity score analysis.
+
+When using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores:
+
+## Multiple Imputation Across (MI Across)
+
+This approach involves creating _m_ imputed datasets and then estimating propensity scores within each of the datasets and then averaging each unit's _m_ propensity scores across the _m_ datasets [@hill_2004]. Stratification, matching or IPW can be implemented using these averaged propensity scores [@hill_2004]. Outcome models that include covariates will need to use the weights or strata derived from the averaged propensity scores and the _m_ sets of covariate values. The weighted regression estimates will then need to be pooled. 
+
+## Multiple Imputation Within (MI Within)
+
+This approach involves creating _m_ imputed datasets and then estimating propensity scores within each of the datasets [@hill_2004]. Instead of averaging the propensity scores across the datasets, this method entails conditioning on the propensity scores within the datasets and running the outcome analyses within each dataset [@hill_2004]. The separate regression estimates have to be pooled. 
+
+
+# Read in the data
+
+Below, I show how to implement the Across and Within methods to estimate the ATT. The data that I use here is from High School and Beyond (HSB) longitudinal study used by Rosenbaum (1986) to analyze the effect of dropping out of high school on later math achievement. 
+
 ```{r, warning = F, message = F}
 library(tidyverse)
 library(mice)
 library(twang)
 library(estimatr)
 library(broom)
+library(naniar)
+library(knitr)
+```
+
+```{r, warning = F, message = F}
+hsls_dat <- read_csv("https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_incomplete.csv") %>%
+  mutate_if(is.character, as.factor) %>%
+  mutate_at(vars(repeated_grade, IEP), as.factor) %>%
+  select(-working_T3) # an outcome we don't care about
 ```
 
 
-# Read in the data
+Below, using `gg_miss_var` from the `naniar` package, I visualize the percent of data that are missing for each of the variables. The treatment variable, `drop_status` has no missing data. The outcome variable, `math_score_T2`, however, does have around 10% missing data. 
 
 ```{r}
-hsls_dat <- read_csv("https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_incomplete.csv") %>%
-  mutate_if(is.character, as.factor) %>%
-  mutate_at(vars(repeated_grade, IEP, working_T3), as.factor)
-
-
-glimpse(hsls_dat)
+gg_miss_var(hsls_dat, show_pct = TRUE)
 ```
 
 
 # Multiple imputation using `mice`
+
+Here, I impute the data using mice and set the number of imputations and itereations to 10 each and also set the seed. Then, I save the result as an `RData` file. For imputation method, I let mice run the default methods: predicitive mean matching for continuous variables, Bayesian logistic regression for binary variables and Bayesian polytomous regression for multinomial variables. For more information on methods for imputation, please see [Chapter 6.2](https://stefvanbuuren.name/fimd/sec-modelform.html) from [Flexible Modeling of Missing Data](https://stefvanbuuren.name/fimd/), van Buuren (2018).
 
 ```{r, eval = F}
 system.time(temp_data <- mice(hsls_dat, m = 10, maxit = 10, seed = 20200516))
@@ -48,10 +71,19 @@ save(temp_data, file = "temp_data.RData")
 
 # Long format and propensity score model
 
+I then load the saved RData file and then extract a long format data that contains each of the 10 imputed data stacked. 
+
 ```{r}
 load("temp_data.RData")
 imp_dat <- complete(temp_data, action = "long")
+```
 
+
+# Function to estimate propensity scores
+
+Below I create a dataset with only the covariates and use the `paste()` function to create propensity score model equation. For the sake of this example, I only focus on including main effects of the covariates in the propensity score model. 
+
+```{r}
 covs <- imp_dat %>%
   select(sex:climate, math_score_T1)
 
@@ -59,8 +91,9 @@ equation_ps <- paste("drop_status ~ ", paste(names(covs), collapse = " + "))
 equation_ps
 ```
 
+Here, I create a function `estimate_ps()` that takes in an equation and a dataset, then runs logistic regression using `glm()`. Then the function adds logit of propensity scores and propensity scores as columns in the dataset. 
 
-# Function to estimate propensity scores
+I then group the `imp_dat` by the imputation number and then run the `estimate_ps()` function on each of the imputed dataset using the `do()` function from `dplyr`.
 
 ```{r}
 estimate_ps <- function(equation, dat){
@@ -85,9 +118,9 @@ imp_dat_ps <- imp_dat %>%
 
 # Estimating weights using the across and within methods
 
-Across method: Uses the average of the propensity scores across the imputed datasets to calculate weights.
+Below I estimate ATT weights using the across and within methods. For the Across method, I use the average of the propensity scores across the imputed datasets to calculate weights. For the within method, I use the the propensity scores estimated within each imputed dataset to calculate weights.
 
-Within method: Uses the propensity scores estimated within each imputed dataset to calculate weights.
+The code below groups the imputed data by `.id` which is an identifier denoting each case. For each case, I summarize the mean of the propensity scores across the 10 imputed dataset. I then estimate the ATT weights using the averaged propensity scores for the Across method and the original propensity scores for the Within method. 
 
 
 ```{r}
@@ -106,6 +139,8 @@ imp_dat_ps %>%
 
 # Estimate ATT for across and within methods
 
+Below I create a function to estimate the ATT. The function takes in an equation, a dataset, and weights as arguments. Then it runs a model using `lm_robust()` from the `estimatr` package. The standard errors of the regression coefficients are estimated using `HC2` type sandwich errors. I then clean up the results using `tidy()` from `broom`. 
+
 ```{r}
 estimate_ATT <- function(equation, dat, wts){
   
@@ -122,6 +157,8 @@ estimate_ATT <- function(equation, dat, wts){
   
 }
 ```
+
+I set up an equation regressing the outcome variable, `math_score_T2` on drop status and on the main effects of all the covariates. I then run the `estimate_ATT()` function on each imputed data using `group_by()` and `do()`. The weights are different for the Across and Within methods. 
 
 ```{r}
 equation_ancova <- paste("math_score_T2 ~ drop_status + ", paste(names(covs), collapse = " + "))
@@ -140,6 +177,8 @@ within_res <- imp_dat_ps %>%
 
 
 # Pool the results 
+
+Here, I create a function called `calc_pooled()` using formula by (1999) to pool the results across the imputations. The `mice` package has the `pool()` function to do the same thing but we would need to convert the imputed data back to `mids` object type and I just wanted to skip all that :D 
 
 ```{r}
 calc_pooled <- function(dat, est, se, df){
@@ -176,13 +215,30 @@ calc_pooled <- function(dat, est, se, df){
 
 ```
 
+# Pooling
+
+Below I use the `calc_pooled()` function to pool the results for each of the methods. 
+
+## Across
 
 ```{r}
 across_pooled <- calc_pooled(dat = across_res, est = estimate, se = se, df = df)
-across_pooled
-
-
-within_pooled <- calc_pooled(dat = within_res, est = estimate, se = se, df = df)
-within_pooled
+across_pooled %>%
+  kable()
 ```
 
+
+## Within
+
+```{r}
+within_pooled <- calc_pooled(dat = within_res, est = estimate, se = se, df = df)
+within_pooled %>%
+  kable()
+```
+
+
+# Which to use
+
+
+
+# References
