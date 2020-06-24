@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.5.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Megha Joshi">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Work in progress&hellip;
+In this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier post that goes over different ways to handle missing data when conducting propensity score analysis.
+When using multiple imputations, @hill_2004 and @mitra_comparison_2016 examined two distinct ways to condition on the propensity scores:">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/mi_ps.knit/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="hsl(339, 90%, 68%)">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css" crossorigin="anonymous" title="hl-light" disabled>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark">
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+    
+
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cutive+Mono%7CLora:400,700%7CRoboto:400,700&display=swap">
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.min.3b52c63f0c8f46ecc64c0a24e09f6bbb.css">
+
+  
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon-32.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/mi_ps.knit/">
+
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="og:site_name" content="Megha">
+  <meta property="og:url" content="/post/mi_ps.knit/">
+  <meta property="og:title" content="Propensity Score Analysis with Multiply Imputed Data | Megha">
+  <meta property="og:description" content="Work in progress&hellip;
+In this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier post that goes over different ways to handle missing data when conducting propensity score analysis.
+When using multiple imputations, @hill_2004 and @mitra_comparison_2016 examined two distinct ways to condition on the propensity scores:"><meta property="og:image" content="/img/icon-192.png">
+  <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2020-06-23T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2020-06-23T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/post/mi_ps.knit/"
+  },
+  "headline": "Propensity Score Analysis with Multiply Imputed Data",
+  
+  "datePublished": "2020-06-23T00:00:00Z",
+  "dateModified": "2020-06-23T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Megha Joshi"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Megha",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/img/icon-512.png"
+    }
+  },
+  "description": "Work in progress\u0026hellip;\nIn this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier post that goes over different ways to handle missing data when conducting propensity score analysis.\nWhen using multiple imputations, @hill_2004 and @mitra_comparison_2016 examined two distinct ways to condition on the propensity scores:"
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Propensity Score Analysis with Multiply Imputed Data | Megha</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="dark">
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0 compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">Megha</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#publications"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/files/Megha_Resume.pdf"><span>Resume</span></a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Propensity Score Analysis with Multiply Imputed Data</h1>
+
+  
+
+  
+    
+
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Jun 23, 2020
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    8 min read
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/categories/r/">R</a></span>
+  
+
+  
+    
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/post/mi_ps.knit/&amp;text=Propensity%20Score%20Analysis%20with%20Multiply%20Imputed%20Data" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/post/mi_ps.knit/&amp;t=Propensity%20Score%20Analysis%20with%20Multiply%20Imputed%20Data" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Propensity%20Score%20Analysis%20with%20Multiply%20Imputed%20Data&amp;body=/post/mi_ps.knit/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/post/mi_ps.knit/&amp;title=Propensity%20Score%20Analysis%20with%20Multiply%20Imputed%20Data" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=Propensity%20Score%20Analysis%20with%20Multiply%20Imputed%20Data%20/post/mi_ps.knit/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/post/mi_ps.knit/&amp;title=Propensity%20Score%20Analysis%20with%20Multiply%20Imputed%20Data" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+<p>Work in progress&hellip;</p>
+
+<p>In this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier <a href="https://meghapsimatrix.com/post/missing_dat/" target="_blank">post</a> that goes over different ways to handle missing data when conducting propensity score analysis.</p>
+
+<p>When using multiple imputations, @hill_2004 and @mitra_comparison_2016 examined two distinct ways to condition on the propensity scores:</p>
+
+<h2 id="multiple-imputation-across-mi-across">Multiple Imputation Across (MI Across)</h2>
+
+<p>This approach involves creating <em>m</em> imputed datasets and then estimating propensity scores within each of the datasets and then averaging each unit&rsquo;s <em>m</em> propensity scores across the <em>m</em> datasets [@hill_2004]. Stratification, matching or IPW can be implemented using these averaged propensity scores [@hill_2004]. Outcome models that include covariates will need to use the weights or strata derived from the averaged propensity scores and the <em>m</em> sets of covariate values. The weighted regression estimates will then need to be pooled.</p>
+
+<h2 id="multiple-imputation-within-mi-within">Multiple Imputation Within (MI Within)</h2>
+
+<p>This approach involves creating <em>m</em> imputed datasets and then estimating propensity scores within each of the datasets [@hill_2004]. Instead of averaging the propensity scores across the datasets, this method entails conditioning on the propensity scores within the datasets and running the outcome analyses within each dataset [@hill_2004]. The separate regression estimates have to be pooled.</p>
+
+<h1 id="read-in-the-data">Read in the data</h1>
+
+<p>Below, I show how to implement the Across and Within methods to estimate the ATT. The data that I use here is from High School and Beyond (HSB) longitudinal study used by @rosenbaum1986dropping to analyze the effect of dropping out of high school on later math achievement.</p>
+
+<pre><code class="language-r">library(tidyverse)
+library(mice)
+library(twang)
+library(estimatr)
+library(broom)
+library(naniar)
+library(knitr)
+</code></pre>
+
+<pre><code class="language-r">hsls_dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_incomplete.csv&quot;) %&gt;%
+  mutate_if(is.character, as.factor) %&gt;%
+  mutate_at(vars(repeated_grade, IEP), as.factor) %&gt;%
+  select(-working_T3) # an outcome we don't care about
+</code></pre>
+
+<p>Below, using <code>gg_miss_var</code> from the <code>naniar</code> package, I visualize the percent of data that are missing for each of the variables [@naniar_2020]. The treatment variable, <code>drop_status</code> has no missing data. The outcome variable, <code>math_score_T2</code>, however, does have around 10% missing data.</p>
+
+<pre><code class="language-r">gg_miss_var(hsls_dat, show_pct = TRUE)
+</code></pre>
+
+<p><img src="mi_ps_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+
+<h1 id="multiple-imputation-using-mice">Multiple imputation using <code>mice</code></h1>
+
+<p>Here, I impute the data using the <code>mice</code> package and set the number of imputations and itereations to 10 each and also set the seed [@vanB_2011]. Then, I save the result as an <code>RData</code> file. For imputation method, I let mice run the default methods: predicitive mean matching for continuous variables, Bayesian logistic regression for binary variables and Bayesian polytomous regression for multinomial variables. For more information on methods for imputation, please see <a href="https://stefvanbuuren.name/fimd/sec-modelform.html" target="_blank">Chapter 6.2</a> from <a href="https://stefvanbuuren.name/fimd/" target="_blank">Flexible Modeling of Missing Data</a> [@van2018flexible].</p>
+
+<pre><code class="language-r">system.time(temp_data &lt;- mice(hsls_dat, m = 10, maxit = 10, seed = 20200516))
+
+save(temp_data, file = &quot;temp_data.RData&quot;)
+</code></pre>
+
+<h1 id="long-format-and-propensity-score-model">Long format and propensity score model</h1>
+
+<p>I then load the saved RData file and then extract a long format data that contains each of the 10 imputed data stacked.</p>
+
+<pre><code class="language-r">load(&quot;temp_data.RData&quot;)
+imp_dat &lt;- complete(temp_data, action = &quot;long&quot;)
+</code></pre>
+
+<h1 id="function-to-estimate-propensity-scores">Function to estimate propensity scores</h1>
+
+<p>Below I create a dataset with only the covariates and use the <code>paste()</code> function to create propensity score model equation. For the sake of this example, I only focus on including main effects of the covariates in the propensity score model.</p>
+
+<pre><code class="language-r">covs &lt;- imp_dat %&gt;%
+  select(sex:climate, math_score_T1)
+
+equation_ps &lt;- paste(&quot;drop_status ~ &quot;, paste(names(covs), collapse = &quot; + &quot;))
+equation_ps
+</code></pre>
+
+<pre><code>## [1] &quot;drop_status ~  sex + race + language + repeated_grade + IEP + locale + region + SES + math_identity + math_utility + math_efficacy + math_interest + engagement + belonging + expectations + climate + math_score_T1&quot;
+</code></pre>
+
+<p>Here, I create a function <code>estimate_ps()</code> that takes in an equation and a dataset, then runs logistic regression using <code>glm()</code>. Then the function adds logit of propensity scores and propensity scores as columns in the dataset.</p>
+
+<p>I then group the <code>imp_dat</code> by the imputation number and then run the <code>estimate_ps()</code> function on each of the imputed dataset using the <code>do()</code> function from <code>dplyr</code> [@tidy_2020].</p>
+
+<pre><code class="language-r">estimate_ps &lt;- function(equation, dat){
+  
+  ps_model &lt;- glm(as.formula(equation), family = binomial, data = dat)
+  
+  dat &lt;- dat %&gt;%
+    mutate(ps_logit = predict(ps_model, type = &quot;link&quot;),
+           ps = predict(ps_model, type = &quot;response&quot;))
+  
+  return(dat)
+  
+}
+
+
+imp_dat_ps &lt;- imp_dat %&gt;%
+  group_by(.imp) %&gt;%
+  do(estimate_ps(equation_ps, .)) %&gt;%
+  ungroup()
+</code></pre>
+
+<h1 id="estimating-weights-using-the-across-and-within-methods">Estimating weights using the across and within methods</h1>
+
+<p>Below I estimate ATT weights using the across and within methods. For the Across method, I use the average of the propensity scores across the imputed datasets to calculate weights. For the within method, I use the the propensity scores estimated within each imputed dataset to calculate weights.</p>
+
+<p>The code below groups the imputed data by <code>.id</code> which is an identifier denoting each case. For each case, I summarize the mean of the propensity scores across the 10 imputed dataset. I then estimate the ATT weights using the averaged propensity scores for the Across method and the original propensity scores for the Within method.</p>
+
+<pre><code class="language-r">imp_dat_ps &lt;- imp_dat_ps %&gt;%
+  group_by(.id) %&gt;%
+  mutate(ps_across = mean(ps)) %&gt;%
+  ungroup() %&gt;%
+  mutate(att_wt_across = drop_status + (1 - drop_status) * ps_across/(1 - ps_across),
+         att_wt_within = drop_status + (1 - drop_status) * ps/(1 - ps))
+
+
+imp_dat_ps %&gt;%
+  select(.imp, ps, ps_across, att_wt_across, att_wt_within)
+</code></pre>
+
+<pre><code>## # A tibble: 214,020 x 5
+##     .imp       ps ps_across att_wt_across att_wt_within
+##    &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;
+##  1     1 0.00339   0.00330       0.00331       0.00340 
+##  2     1 0.00989   0.0102        0.0103        0.00999 
+##  3     1 0.00135   0.00131       0.00132       0.00135 
+##  4     1 0.0119    0.0114        0.0115        0.0120  
+##  5     1 0.00222   0.00246       0.00246       0.00222 
+##  6     1 0.00289   0.00294       0.00295       0.00290 
+##  7     1 0.0113    0.0101        0.0102        0.0114  
+##  8     1 0.00347   0.00375       0.00377       0.00348 
+##  9     1 0.00327   0.00276       0.00276       0.00328 
+## 10     1 0.000667  0.000633      0.000633      0.000667
+## # … with 214,010 more rows
+</code></pre>
+
+<h1 id="check-balance">Check balance</h1>
+
+<h1 id="estimate-att-for-across-and-within-methods">Estimate ATT for across and within methods</h1>
+
+<p>Below I create a function to estimate the ATT. The function takes in an equation, a dataset, and weights as arguments. Then it runs a model using <code>lm_robust()</code> from the <code>estimatr</code> package [@estimatr_2020]. The standard errors of the regression coefficients are estimated using <code>HC2</code> type sandwich errors. I then clean up the results using <code>tidy()</code> from <code>broom</code> [@broom_2020].</p>
+
+<pre><code class="language-r">estimate_ATT &lt;- function(equation, dat, wts){
+  
+  wts &lt;- dat %&gt;% pull({{wts}})
+  
+  model &lt;- lm_robust(as.formula(equation), data = dat, weights = wts)
+  
+  res &lt;- model %&gt;%
+    tidy() %&gt;%
+    filter(term == &quot;drop_status&quot;) %&gt;%
+    select(term, estimate, se = std.error, dci_low = conf.low, ci_high = conf.high, df = df)
+  
+  return(res)
+  
+}
+</code></pre>
+
+<p>I set up an equation regressing the outcome variable, <code>math_score_T2</code> on drop status and on the main effects of all the covariates. I then run the <code>estimate_ATT()</code> function on each imputed data using <code>group_by()</code> and <code>do()</code>. The weights are different for the Across and Within methods.</p>
+
+<pre><code class="language-r">equation_ancova &lt;- paste(&quot;math_score_T2 ~ drop_status + &quot;, paste(names(covs), collapse = &quot; + &quot;))
+equation_ancova
+</code></pre>
+
+<pre><code>## [1] &quot;math_score_T2 ~ drop_status +  sex + race + language + repeated_grade + IEP + locale + region + SES + math_identity + math_utility + math_efficacy + math_interest + engagement + belonging + expectations + climate + math_score_T1&quot;
+</code></pre>
+
+<pre><code class="language-r">across_res &lt;- imp_dat_ps %&gt;%
+  group_by(.imp) %&gt;%
+  do(estimate_ATT(equation = equation_ancova, dat = ., wts = att_wt_across)) %&gt;%
+  ungroup()
+
+within_res &lt;- imp_dat_ps %&gt;%
+  group_by(.imp) %&gt;%
+  do(estimate_ATT(equation = equation_ancova, dat = ., wts = att_wt_within)) %&gt;%
+  ungroup()
+</code></pre>
+
+<h1 id="pool-the-results">Pool the results</h1>
+
+<p>Here, I create a function called <code>calc_pooled()</code> using formula by @barnard_small-sample_nodate to pool the results across the imputations. The <code>mice</code> package has the <code>pool()</code> function to do the same thing but we would need to convert the imputed data back to <code>mids</code> object type and I just wanted to skip all that :D</p>
+
+<pre><code class="language-r">calc_pooled &lt;- function(dat, est, se, df){
+  
+  dat &lt;- dat %&gt;%
+    mutate(est = dat %&gt;% pull({{est}}),
+           se = dat %&gt;%pull({{se}}),
+           df = dat %&gt;% pull({{df}}))
+  
+  pooled &lt;- dat %&gt;%
+    summarize(m = n(),
+              B = var(est),  # between imputation var
+              beta_bar = mean(est), # mean of estimated reg coeffs
+              V_bar = mean(se^2), # mean of var - hc corrected   within imp var
+              eta_bar = mean(df)) %&gt;%   # mean of df
+    mutate(
+      
+      V_total = V_bar + B * (m + 1) / m,  #between and within var est
+      gamma = ((m + 1) / m) * B / V_total,  
+      df_m = (m - 1) / gamma^2,
+      df_obs = eta_bar * (eta_bar + 1) * (1 - gamma) / (eta_bar + 3),
+      df = 1 / (1 / df_m + 1 / df_obs),
+      
+      # output
+      se = sqrt(V_total),
+      ci_lower = beta_bar - se * qt(0.975, df = df),
+      ci_upper = beta_bar + se * qt(0.975, df = df)) %&gt;%
+    
+    select(est = beta_bar, se, df, ci_lower, ci_upper) 
+  
+  return(pooled)
+  
+}
+</code></pre>
+
+<h1 id="pooling">Pooling</h1>
+
+<p>Below I use the <code>calc_pooled()</code> function to pool the results for each of the methods.</p>
+
+<h2 id="across">Across</h2>
+
+<pre><code class="language-r">across_pooled &lt;- calc_pooled(dat = across_res, est = estimate, se = se, df = df)
+across_pooled %&gt;%
+  kable(digits = 3)
+</code></pre>
+
+<pre><code>est      se       df   ci_lower   ci_upper
+</code></pre>
+
+<hr />
+
+<p>-0.335   0.038   93.772     -0.411      -0.26</p>
+
+<h2 id="within">Within</h2>
+
+<pre><code class="language-r">within_pooled &lt;- calc_pooled(dat = within_res, est = estimate, se = se, df = df)
+within_pooled %&gt;%
+  kable(digits = 3)
+</code></pre>
+
+<pre><code>est      se       df   ci_lower   ci_upper
+</code></pre>
+
+<hr />
+
+<p>-0.356   0.041   50.002     -0.438     -0.273</p>
+
+<p>The estimates, se and df are different for the results from the two different methods.</p>
+
+<h1 id="which-one-to-use">Which one to use?</h1>
+
+<p>@hill_2004 and @mitra_comparison_2016 conducted simulation studies comparing the two methods. @hill_2004 found that MI Across performed best in terms of absolute bias and mean squared error compared to all the other methods examined in the study. @mitra_comparison_2016 found that MI Across resulted in greater bias reduction in the estimation of ATT compared to MI Within. For details of the simulation studies please see the articles.</p>
+
+<h1 id="references">References</h1>
+
+    </div>
+
+    
+
+
+
+
+    
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/propensity-scores/">propensity scores</a>
+  
+  <a class="badge badge-light" href="/tags/missing-data/">missing data</a>
+  
+  <a class="badge badge-light" href="/tags/multiple-imputation/">multiple imputation</a>
+  
+  <a class="badge badge-light" href="/tags/causal/">causal</a>
+  
+</div>
+
+
+
+    
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  <div class="media author-card">
+    
+      
+      <img class="portrait mr-3" src="/authors/admin/avatar_hu5f35e98df25ede84154fc580def9bb7f_896050_250x250_fill_q90_lanczos_center.jpg" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/">Megha Joshi</a></h5>
+      <h6 class="card-subtitle">Doctoral student</h6>
+      
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/#contact" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=D8QFfGsAAAAJ&amp;hl=en" target="_blank" rel="noopener">
+        <i class="ai ai-google-scholar"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/meghapsimatrix" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+      
+      
+      <div class="article-widget">
+        <div class="hr-light"></div>
+        <h3>Related</h3>
+        <ul>
+          
+          <li><a href="/post/mi_ps.utf8/">Propensity Score Analysis with Multiply Imputed Data</a></li>
+          
+          <li><a href="/post/mi_ps/">Propensity Score Analysis with Multiply Imputed Data</a></li>
+          
+          <li><a href="/post/unemployment_claims/">Unemployment Claims COVID-19</a></li>
+          
+          <li><a href="/post/missing_dat/">Missing Data in Propensity Score Analysis</a></li>
+          
+          <li><a href="/publication/missingdata/">The Performance of Multivariate Methods for Two-Group Comparisons with Small Samples and Incomplete Data</a></li>
+          
+        </ul>
+      </div>
+      
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+    <script src="/js/mathjax-config.js"></script>
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js" integrity="sha256-aYTdUrn6Ow1DDgh5JTc3aDGnnju48y/1c8s1dgkYPQ8=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/languages/r.min.js"></script>
+        
+      
+
+      
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
+      
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.d6bd04fdad2ad213aa8111c5a3b72fc5.js"></script>
+
+    
+
+
+
+
+
+
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+  <p class="powered-by">
+    
+      <a href="/privacy/">Privacy Policy</a>
+    
+    
+       &middot; 
+      <a href="/terms/">Terms</a>
+    
+  </p>
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

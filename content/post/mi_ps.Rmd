@@ -1,15 +1,10 @@
 ---
-title: "Propensity Scores Analysis with Multiply Imputed Data"
+title: "Propensity Score Analysis with Multiply Imputed Data"
 author: "Megha Joshi"
 date: 2020-06-23
 categories: ["R"]
 tags: ["propensity scores", "missing data", "multiple imputation" , "causal"]
-output:
-  html_document:
-    toc: true
-    toc_float: true
 bibliography: references.bib
-csl: apa.csl
 ---
 
 ```{r setup, include=FALSE}
