@@ -106,6 +106,204 @@
     </item>
     
     <item>
+      <title>Propensity Scores Analysis with Multiply Imputed Data</title>
+      <link>/post/mi_ps/</link>
+      <pubDate>Tue, 23 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>/post/mi_ps/</guid>
+      <description>
+
+
+&lt;p&gt;Work in progress…&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+library(mice)
+library(twang)
+library(estimatr)
+library(broom)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;read-in-the-data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Read in the data&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;hsls_dat &amp;lt;- read_csv(&amp;quot;https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_incomplete.csv&amp;quot;) %&amp;gt;%
+  mutate_if(is.character, as.factor) %&amp;gt;%
+  mutate_at(vars(repeated_grade, IEP, working_T3), as.factor)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   sex = col_character(),
+##   race = col_character(),
+##   language = col_character(),
+##   locale = col_character(),
+##   region = col_character()
+## )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## See spec(...) for full column specifications.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;glimpse(hsls_dat)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Rows: 21,402
+## Columns: 20
+## $ sex            &amp;lt;fct&amp;gt; M, F, F, F, F, M, M, F, M, F, M, F, F, F, M, M, M, M, …
+## $ race           &amp;lt;fct&amp;gt; White, White, Black, White, White, White, White, White…
+## $ language       &amp;lt;fct&amp;gt; English, English, English, English, English, English, …
+## $ repeated_grade &amp;lt;fct&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, NA, 0, 0,…
+## $ IEP            &amp;lt;fct&amp;gt; 0, 0, 0, NA, NA, 0, NA, 0, NA, NA, 0, NA, NA, 0, 0, 0,…
+## $ locale         &amp;lt;fct&amp;gt; rural, rural, suburb, suburb, rural, town, town, city,…
+## $ region         &amp;lt;fct&amp;gt; MW, NE, W, S, S, NE, S, NE, S, MW, S, S, S, MW, MW, MW…
+## $ SES            &amp;lt;dbl&amp;gt; 1.5644, -0.3699, 1.2741, 0.5498, 1.0639, 1.5144, -0.31…
+## $ math_identity  &amp;lt;dbl&amp;gt; 1.76, -0.57, -0.57, 0.60, 1.16, 0.00, 0.60, 1.76, 1.76…
+## $ math_utility   &amp;lt;dbl&amp;gt; 1.31, 1.31, 0.27, -0.70, 1.31, -0.70, NA, -1.33, 1.31,…
+## $ math_efficacy  &amp;lt;dbl&amp;gt; 0.95, 0.55, 0.68, 0.10, 1.23, -1.41, NA, 1.62, 1.34, 0…
+## $ math_interest  &amp;lt;dbl&amp;gt; 0.12, NA, 0.86, 0.19, 2.08, -1.13, NA, -0.18, 1.35, -0…
+## $ engagement     &amp;lt;dbl&amp;gt; -1.41, -0.20, 1.39, -0.20, 0.96, -0.20, 0.10, 0.71, -0…
+## $ belonging      &amp;lt;dbl&amp;gt; 0.84, 0.05, 0.37, -0.04, -0.52, 0.45, 0.11, -0.29, -0.…
+## $ expectations   &amp;lt;dbl&amp;gt; 8, 11, 10, 10, 10, 8, 11, 8, 8, 11, 8, 2, 11, 4, 6, 8,…
+## $ climate        &amp;lt;dbl&amp;gt; 0.60, 0.32, -0.61, -2.14, NA, -0.32, -0.16, -0.36, 0.6…
+## $ drop_status    &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+## $ math_score_T1  &amp;lt;dbl&amp;gt; 0.8304, -0.2956, 1.2997, -0.1427, 0.7106, 0.3732, 0.23…
+## $ math_score_T2  &amp;lt;dbl&amp;gt; 2.6606, 1.0097, 1.1852, NA, 0.9994, 1.9987, 1.6591, 1.…
+## $ working_T3     &amp;lt;fct&amp;gt; 0, 1, 1, NA, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,…&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;multiple-imputation-using-mice&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Multiple imputation using &lt;code&gt;mice&lt;/code&gt;&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;system.time(temp_data &amp;lt;- mice(hsls_dat, m = 10, maxit = 10, seed = 20200516))
+
+save(temp_data, file = &amp;quot;temp_data.RData&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;long-format-and-propensity-score-model&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Long format and propensity score model&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;load(&amp;quot;temp_data.RData&amp;quot;)
+imp_dat &amp;lt;- complete(temp_data, action = &amp;quot;long&amp;quot;)
+
+covs &amp;lt;- imp_dat %&amp;gt;%
+  select(sex:climate, math_score_T1)
+
+equation_ps &amp;lt;- paste(&amp;quot;drop_status ~ &amp;quot;, paste(names(covs), collapse = &amp;quot; + &amp;quot;))
+equation_ps&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;drop_status ~  sex + race + language + repeated_grade + IEP + locale + region + SES + math_identity + math_utility + math_efficacy + math_interest + engagement + belonging + expectations + climate + math_score_T1&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;function-to-estimate-propensity-scores&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Function to estimate propensity scores&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;estimate_ps &amp;lt;- function(equation, dat){
+  
+  ps_model &amp;lt;- glm(as.formula(equation), family = binomial, data = dat)
+  
+  dat &amp;lt;- dat %&amp;gt;%
+    mutate(ps_logit = predict(ps_model, type = &amp;quot;link&amp;quot;),
+           ps = predict(ps_model, type = &amp;quot;response&amp;quot;))
+  
+  return(dat)
+  
+}
+
+
+imp_dat_ps &amp;lt;- imp_dat %&amp;gt;%
+  group_by(.imp) %&amp;gt;%
+  do(estimate_ps(equation_ps, .)) %&amp;gt;%
+  ungroup()&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;estimating-weights-using-the-across-and-within-methods&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Estimating weights using the across and within methods&lt;/h1&gt;
+&lt;p&gt;Across method: Uses the average of the propensity scores across the imputed datasets to calculate weights.&lt;/p&gt;
+&lt;p&gt;Within method: Uses the propensity scores estimated within each imputed dataset to calculate weights.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;imp_dat_ps &amp;lt;- imp_dat_ps %&amp;gt;%
+  group_by(.id) %&amp;gt;%
+  mutate(ps_across = mean(ps)) %&amp;gt;%
+  ungroup() %&amp;gt;%
+  mutate(att_wt_across = drop_status + (1 - drop_status) * ps_across/(1 - ps_across),
+         att_wt_within = drop_status + (1 - drop_status) * ps/(1 - ps))
+
+
+imp_dat_ps %&amp;gt;%
+  select(.imp, ps, ps_across, att_wt_across, att_wt_within)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 214,020 x 5
+##     .imp       ps ps_across att_wt_across att_wt_within
+##    &amp;lt;int&amp;gt;    &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;         &amp;lt;dbl&amp;gt;         &amp;lt;dbl&amp;gt;
+##  1     1 0.00339   0.00330       0.00331       0.00340 
+##  2     1 0.00989   0.0102        0.0103        0.00999 
+##  3     1 0.00135   0.00131       0.00132       0.00135 
+##  4     1 0.0119    0.0114        0.0115        0.0120  
+##  5     1 0.00222   0.00246       0.00246       0.00222 
+##  6     1 0.00289   0.00294       0.00295       0.00290 
+##  7     1 0.0113    0.0101        0.0102        0.0114  
+##  8     1 0.00347   0.00375       0.00377       0.00348 
+##  9     1 0.00327   0.00276       0.00276       0.00328 
+## 10     1 0.000667  0.000633      0.000633      0.000667
+## # … with 214,010 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;estimate-att-for-across-and-within-methods&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Estimate ATT for across and within methods&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;estimate_ATT &amp;lt;- function(equation, dat, wts){
+  
+  wts &amp;lt;- dat %&amp;gt;% pull({{wts}})
+  
+  model &amp;lt;- lm_robust(as.formula(equation), data = dat, weights = wts)
+  
+  res &amp;lt;- model %&amp;gt;%
+    tidy() %&amp;gt;%
+    filter(term == &amp;quot;drop_status&amp;quot;) %&amp;gt;%
+    select(term, estimate, se = std.error, dci_low = conf.low, ci_high = conf.high, df = df)
+  
+  return(res)
+  
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;equation_ancova &amp;lt;- paste(&amp;quot;math_score_T2 ~ drop_status + &amp;quot;, paste(names(covs), collapse = &amp;quot; + &amp;quot;))
+equation_ancova&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;math_score_T2 ~ drop_status +  sex + race + language + repeated_grade + IEP + locale + region + SES + math_identity + math_utility + math_efficacy + math_interest + engagement + belonging + expectations + climate + math_score_T1&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;across_res &amp;lt;- imp_dat_ps %&amp;gt;%
+  group_by(.imp) %&amp;gt;%
+  do(estimate_ATT(equation = equation_ancova, dat = ., wts = att_wt_across)) %&amp;gt;%
+  ungroup()
+
+within_res &amp;lt;- imp_dat_ps %&amp;gt;%
+  group_by(.imp) %&amp;gt;%
+  do(estimate_ATT(equation = equation_ancova, dat = ., wts = att_wt_within)) %&amp;gt;%
+  ungroup()&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;pool-the-results&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Pool the results&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;calc_pooled &amp;lt;- function(dat, est, se, df){
+  
+  dat &amp;lt;- dat %&amp;gt;%
+    mutate(est = dat %&amp;gt;% pull({{est}}),
+           se = dat %&amp;gt;%pull({{se}}),
+           df = dat %&amp;gt;% pull({{df}}))
+  
+  pooled &amp;lt;- dat %&amp;gt;%
+    summarize(m = n(),
+              B = var(est),  # between imputation var
+              beta_bar = mean(est), # mean of estimated reg coeffs
+              V_bar = mean(se^2), # mean of var - hc corrected   within imp var
+              eta_bar = mean(df)) %&amp;gt;%   # mean of df
+    mutate(
+      
+      V_total = V_bar + B * (m + 1) / m,  #between and within var est
+      gamma = ((m + 1) / m) * B / V_total,  
+      df_m = (m - 1) / gamma^2,
+      df_obs = eta_bar * (eta_bar + 1) * (1 - gamma) / (eta_bar + 3),
+      df = 1 / (1 / df_m + 1 / df_obs),
+      
+      # output
+      se = sqrt(V_total),
+      ci_lower = beta_bar - se * qt(0.975, df = df),
+      ci_upper = beta_bar + se * qt(0.975, df = df)) %&amp;gt;%
+    
+    select(est = beta_bar, se, df, ci_lower, ci_upper) 
+  
+  return(pooled)
+  
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;across_pooled &amp;lt;- calc_pooled(dat = across_res, est = estimate, se = se, df = df)
+across_pooled&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1 x 5
+##      est     se    df ci_lower ci_upper
+##    &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;
+## 1 -0.335 0.0379  93.8   -0.411   -0.260&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;within_pooled &amp;lt;- calc_pooled(dat = within_res, est = estimate, se = se, df = df)
+within_pooled&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1 x 5
+##      est     se    df ci_lower ci_upper
+##    &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;
+## 1 -0.356 0.0410  50.0   -0.438   -0.273&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Unemployment Claims COVID-19</title>
       <link>/post/unemployment_claims/</link>
       <pubDate>Sun, 21 Jun 2020 00:00:00 +0000</pubDate>
@@ -790,7 +988,7 @@ table(is.na(date_dat$yr))&lt;/code&gt;&lt;/pre&gt;
 &lt;h2&gt;Loading the Data&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
 
-dat &amp;lt;- read_csv(&amp;quot;https://raw.githubusercontent.com/meghapsimatrix/R_practice/master/Data/HSLS09_complete.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+dat &amp;lt;- read_csv(&amp;quot;https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_incomplete.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;the-numerators&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;The Numerators&lt;/h2&gt;
@@ -819,8 +1017,8 @@ den &amp;lt;- dnorm(x = dat$math_efficacy, # treatment variable
   mutate(ipw_s = num/den)
 
 summary(dat$ipw_s)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##  0.1398  0.9186  0.9778  1.0001  1.0390  5.9782&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&amp;#39;s 
+##   0.268   0.938   0.972   1.091   1.092  22.092    4223&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;checking-balance-and-outcome-analysis&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Checking Balance and Outcome Analysis&lt;/h2&gt;

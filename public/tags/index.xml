@@ -5,7 +5,7 @@
     <link>/tags/</link>
       <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 21 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 23 Jun 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/icon-192.png</url>
       <title>Tags</title>
@@ -15,8 +15,32 @@
     <item>
       <title>causal</title>
       <link>/tags/causal/</link>
-      <pubDate>Sun, 21 Jun 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 23 Jun 2020 00:00:00 +0000</pubDate>
       <guid>/tags/causal/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>missing data</title>
+      <link>/tags/missing-data/</link>
+      <pubDate>Tue, 23 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/missing-data/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>multiple imputation</title>
+      <link>/tags/multiple-imputation/</link>
+      <pubDate>Tue, 23 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/multiple-imputation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>propensity scores</title>
+      <link>/tags/propensity-scores/</link>
+      <pubDate>Tue, 23 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/propensity-scores/</guid>
       <description></description>
     </item>
     
@@ -73,14 +97,6 @@
       <link>/tags/causal-inference/</link>
       <pubDate>Thu, 16 Apr 2020 00:00:00 +0000</pubDate>
       <guid>/tags/causal-inference/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>missing data</title>
-      <link>/tags/missing-data/</link>
-      <pubDate>Thu, 16 Apr 2020 00:00:00 +0000</pubDate>
-      <guid>/tags/missing-data/</guid>
       <description></description>
     </item>
     
