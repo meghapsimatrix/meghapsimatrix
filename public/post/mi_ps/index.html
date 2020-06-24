@@ -729,7 +729,7 @@ within_res &lt;- imp_dat_ps %&gt;%
 </div>
 <div id="pooling-the-results" class="section level1">
 <h1>Pooling the results</h1>
-<p>Here, I create a function called <code>calc_pooled()</code> using formula by <span class="citation">Barnard and Rubin (n.d.)</span> to pool the results across the imputations. The <code>mice</code> package has the <code>pool()</code> function to do the same thing but we would need to convert the imputed data back to <code>mids</code> object type and I just wanted to skip all that :D</p>
+<p>Here, I create a function called <code>calc_pooled()</code> using formula by <span class="citation">Barnard and Rubin (1999)</span> to pool the results across the imputations. The <code>mice</code> package has the <code>pool()</code> function to do the same thing but we would need to convert the imputed data back to <code>mids</code> object type and I just wanted to skip all that :D</p>
 <pre class="r"><code>calc_pooled &lt;- function(dat, est, se, df){
   
   dat &lt;- dat %&gt;%
@@ -823,7 +823,7 @@ within_pooled %&gt;%
 <h1>References</h1>
 <div id="refs" class="references">
 <div id="ref-barnard_small-sample_nodate">
-<p>Barnard, John, and Donald B Rubin. n.d. “Small-Sample Degrees of Freedom with Multiple Imputation,” 9.</p>
+<p>Barnard, John, and Donald B Rubin. 1999. “Small-Sample Degrees of Freedom with Multiple Imputation,” 9.</p>
 </div>
 <div id="ref-estimatr_2020">
 <p>Blair, Graeme, Jasper Cooper, Alexander Coppock, Macartan Humphreys, and Luke Sonnet. 2020. <em>Estimatr: Fast Estimators for Design-Based Inference</em>. <a href="https://CRAN.R-project.org/package=estimatr">https://CRAN.R-project.org/package=estimatr</a>.</p>

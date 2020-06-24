@@ -156,7 +156,7 @@ within_res &amp;lt;- imp_dat_ps %&amp;gt;%
 &lt;/div&gt;
 &lt;div id=&#34;pooling-the-results&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Pooling the results&lt;/h1&gt;
-&lt;p&gt;Here, I create a function called &lt;code&gt;calc_pooled()&lt;/code&gt; using formula by &lt;span class=&#34;citation&#34;&gt;Barnard and Rubin (n.d.)&lt;/span&gt; to pool the results across the imputations. The &lt;code&gt;mice&lt;/code&gt; package has the &lt;code&gt;pool()&lt;/code&gt; function to do the same thing but we would need to convert the imputed data back to &lt;code&gt;mids&lt;/code&gt; object type and I just wanted to skip all that :D&lt;/p&gt;
+&lt;p&gt;Here, I create a function called &lt;code&gt;calc_pooled()&lt;/code&gt; using formula by &lt;span class=&#34;citation&#34;&gt;Barnard and Rubin (1999)&lt;/span&gt; to pool the results across the imputations. The &lt;code&gt;mice&lt;/code&gt; package has the &lt;code&gt;pool()&lt;/code&gt; function to do the same thing but we would need to convert the imputed data back to &lt;code&gt;mids&lt;/code&gt; object type and I just wanted to skip all that :D&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;calc_pooled &amp;lt;- function(dat, est, se, df){
   
   dat &amp;lt;- dat %&amp;gt;%
@@ -250,7 +250,7 @@ within_pooled %&amp;gt;%
 &lt;h1&gt;References&lt;/h1&gt;
 &lt;div id=&#34;refs&#34; class=&#34;references&#34;&gt;
 &lt;div id=&#34;ref-barnard_small-sample_nodate&#34;&gt;
-&lt;p&gt;Barnard, John, and Donald B Rubin. n.d. “Small-Sample Degrees of Freedom with Multiple Imputation,” 9.&lt;/p&gt;
+&lt;p&gt;Barnard, John, and Donald B Rubin. 1999. “Small-Sample Degrees of Freedom with Multiple Imputation,” 9.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;ref-estimatr_2020&#34;&gt;
 &lt;p&gt;Blair, Graeme, Jasper Cooper, Alexander Coppock, Macartan Humphreys, and Luke Sonnet. 2020. &lt;em&gt;Estimatr: Fast Estimators for Design-Based Inference&lt;/em&gt;. &lt;a href=&#34;https://CRAN.R-project.org/package=estimatr&#34;&gt;https://CRAN.R-project.org/package=estimatr&lt;/a&gt;.&lt;/p&gt;
