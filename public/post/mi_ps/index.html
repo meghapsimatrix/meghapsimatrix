@@ -628,15 +628,15 @@ library(knitr)</code></pre>
 <pre class="r"><code>system.time(temp_data &lt;- mice(hsls_dat, m = 10, maxit = 10, seed = 20200516))
 
 save(temp_data, file = &quot;temp_data.RData&quot;)</code></pre>
-</div>
-<div id="long-format-and-propensity-score-model" class="section level1">
-<h1>Long format and propensity score model</h1>
+<div id="long-format" class="section level2">
+<h2>Long format</h2>
 <p>I then load the saved RData file and then extract a long format data that contains each of the 10 imputed data stacked.</p>
 <pre class="r"><code>load(&quot;temp_data.RData&quot;)
 imp_dat &lt;- complete(temp_data, action = &quot;long&quot;)</code></pre>
 </div>
-<div id="function-to-estimate-propensity-scores" class="section level1">
-<h1>Function to estimate propensity scores</h1>
+</div>
+<div id="estimating-propensity-scores" class="section level1">
+<h1>Estimating propensity scores</h1>
 <p>Below I create a dataset with only the covariates and use the <code>paste()</code> function to create propensity score model equation. For the sake of this example, I only focus on including main effects of the covariates in the propensity score model.</p>
 <pre class="r"><code>covs &lt;- imp_dat %&gt;%
   select(sex:climate, math_score_T1)
@@ -664,8 +664,8 @@ imp_dat_ps &lt;- imp_dat %&gt;%
   do(estimate_ps(equation_ps, .)) %&gt;%
   ungroup()</code></pre>
 </div>
-<div id="estimating-weights-using-the-across-and-within-methods" class="section level1">
-<h1>Estimating weights using the across and within methods</h1>
+<div id="estimating-att-ipw-weights" class="section level1">
+<h1>Estimating ATT IPW weights</h1>
 <p>Below I estimate ATT weights using the across and within methods. For the Across method, I use the average of the propensity scores across the imputed datasets to calculate weights. For the within method, I use the the propensity scores estimated within each imputed dataset to calculate weights.</p>
 <p>The code below groups the imputed data by <code>.id</code> which is an identifier denoting each case. For each case, I summarize the mean of the propensity scores across the 10 imputed dataset. I then estimate the ATT weights using the averaged propensity scores for the Across method and the original propensity scores for the Within method.</p>
 <pre class="r"><code>imp_dat_ps &lt;- imp_dat_ps %&gt;%
@@ -693,11 +693,11 @@ imp_dat_ps %&gt;%
 ## 10     1 0.000667  0.000633      0.000633      0.000667
 ## # … with 214,010 more rows</code></pre>
 </div>
-<div id="check-balance" class="section level1">
-<h1>Check balance</h1>
+<div id="checking-balance" class="section level1">
+<h1>Checking balance</h1>
 </div>
-<div id="estimate-att-for-across-and-within-methods" class="section level1">
-<h1>Estimate ATT for across and within methods</h1>
+<div id="estimating-att" class="section level1">
+<h1>Estimating ATT</h1>
 <p>Below I create a function to estimate the ATT. The function takes in an equation, a dataset, and weights as arguments. Then it runs a model using <code>lm_robust()</code> from the <code>estimatr</code> package <span class="citation">(Blair et al. 2020)</span>. The standard errors of the regression coefficients are estimated using <code>HC2</code> type sandwich errors. I then clean up the results using <code>tidy()</code> from <code>broom</code> <span class="citation">(Robinson and Hayes 2020)</span>.</p>
 <pre class="r"><code>estimate_ATT &lt;- function(equation, dat, wts){
   
@@ -727,8 +727,8 @@ within_res &lt;- imp_dat_ps %&gt;%
   do(estimate_ATT(equation = equation_ancova, dat = ., wts = att_wt_within)) %&gt;%
   ungroup()</code></pre>
 </div>
-<div id="pool-the-results" class="section level1">
-<h1>Pool the results</h1>
+<div id="pooling-the-results" class="section level1">
+<h1>Pooling the results</h1>
 <p>Here, I create a function called <code>calc_pooled()</code> using formula by <span class="citation">Barnard and Rubin (n.d.)</span> to pool the results across the imputations. The <code>mice</code> package has the <code>pool()</code> function to do the same thing but we would need to convert the imputed data back to <code>mids</code> object type and I just wanted to skip all that :D</p>
 <pre class="r"><code>calc_pooled &lt;- function(dat, est, se, df){
   
@@ -761,9 +761,6 @@ within_res &lt;- imp_dat_ps %&gt;%
   return(pooled)
   
 }</code></pre>
-</div>
-<div id="pooling" class="section level1">
-<h1>Pooling</h1>
 <p>Below I use the <code>calc_pooled()</code> function to pool the results for each of the methods.</p>
 <div id="across" class="section level2">
 <h2>Across</h2>
@@ -816,12 +813,11 @@ within_pooled %&gt;%
 </tr>
 </tbody>
 </table>
-<p>The estimates, se and df are different for the results from the two different methods.</p>
 </div>
 </div>
-<div id="which-one-to-use" class="section level1">
-<h1>Which one to use?</h1>
-<p><span class="citation">Hill (2004)</span> and <span class="citation">Mitra and Reiter (2016)</span> conducted simulation studies comparing the two methods. <span class="citation">Hill (2004)</span> found that MI Across performed best in terms of absolute bias and mean squared error compared to all the other methods examined in the study. <span class="citation">Mitra and Reiter (2016)</span> found that MI Across resulted in greater bias reduction in the estimation of ATT compared to MI Within. For details of the simulation studies please see the articles.</p>
+<div id="comparing-the-methods" class="section level1">
+<h1>Comparing the methods</h1>
+<p>The estimates, se and df are different for the results from the two different methods. So which one is better? It’s not possible to say based on analysis on one dataset. <span class="citation">Hill (2004)</span> and <span class="citation">Mitra and Reiter (2016)</span> conducted simulation studies comparing the two methods. <span class="citation">Hill (2004)</span> found that MI Across performed best in terms of absolute bias and mean squared error compared to all the other methods examined in the study. <span class="citation">Mitra and Reiter (2016)</span> found that MI Across resulted in greater bias reduction in the estimation of ATT compared to MI Within. For details of the simulation studies please see the articles.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1>References</h1>

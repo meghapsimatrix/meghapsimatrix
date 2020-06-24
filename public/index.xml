@@ -148,15 +148,15 @@ library(knitr)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;system.time(temp_data &amp;lt;- mice(hsls_dat, m = 10, maxit = 10, seed = 20200516))
 
 save(temp_data, file = &amp;quot;temp_data.RData&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;long-format-and-propensity-score-model&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Long format and propensity score model&lt;/h1&gt;
+&lt;div id=&#34;long-format&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Long format&lt;/h2&gt;
 &lt;p&gt;I then load the saved RData file and then extract a long format data that contains each of the 10 imputed data stacked.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;load(&amp;quot;temp_data.RData&amp;quot;)
 imp_dat &amp;lt;- complete(temp_data, action = &amp;quot;long&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id=&#34;function-to-estimate-propensity-scores&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Function to estimate propensity scores&lt;/h1&gt;
+&lt;/div&gt;
+&lt;div id=&#34;estimating-propensity-scores&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Estimating propensity scores&lt;/h1&gt;
 &lt;p&gt;Below I create a dataset with only the covariates and use the &lt;code&gt;paste()&lt;/code&gt; function to create propensity score model equation. For the sake of this example, I only focus on including main effects of the covariates in the propensity score model.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;covs &amp;lt;- imp_dat %&amp;gt;%
   select(sex:climate, math_score_T1)
@@ -184,8 +184,8 @@ imp_dat_ps &amp;lt;- imp_dat %&amp;gt;%
   do(estimate_ps(equation_ps, .)) %&amp;gt;%
   ungroup()&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id=&#34;estimating-weights-using-the-across-and-within-methods&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Estimating weights using the across and within methods&lt;/h1&gt;
+&lt;div id=&#34;estimating-att-ipw-weights&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Estimating ATT IPW weights&lt;/h1&gt;
 &lt;p&gt;Below I estimate ATT weights using the across and within methods. For the Across method, I use the average of the propensity scores across the imputed datasets to calculate weights. For the within method, I use the the propensity scores estimated within each imputed dataset to calculate weights.&lt;/p&gt;
 &lt;p&gt;The code below groups the imputed data by &lt;code&gt;.id&lt;/code&gt; which is an identifier denoting each case. For each case, I summarize the mean of the propensity scores across the 10 imputed dataset. I then estimate the ATT weights using the averaged propensity scores for the Across method and the original propensity scores for the Within method.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;imp_dat_ps &amp;lt;- imp_dat_ps %&amp;gt;%
@@ -213,11 +213,11 @@ imp_dat_ps %&amp;gt;%
 ## 10     1 0.000667  0.000633      0.000633      0.000667
 ## # … with 214,010 more rows&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id=&#34;check-balance&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Check balance&lt;/h1&gt;
+&lt;div id=&#34;checking-balance&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Checking balance&lt;/h1&gt;
 &lt;/div&gt;
-&lt;div id=&#34;estimate-att-for-across-and-within-methods&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Estimate ATT for across and within methods&lt;/h1&gt;
+&lt;div id=&#34;estimating-att&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Estimating ATT&lt;/h1&gt;
 &lt;p&gt;Below I create a function to estimate the ATT. The function takes in an equation, a dataset, and weights as arguments. Then it runs a model using &lt;code&gt;lm_robust()&lt;/code&gt; from the &lt;code&gt;estimatr&lt;/code&gt; package &lt;span class=&#34;citation&#34;&gt;(Blair et al. 2020)&lt;/span&gt;. The standard errors of the regression coefficients are estimated using &lt;code&gt;HC2&lt;/code&gt; type sandwich errors. I then clean up the results using &lt;code&gt;tidy()&lt;/code&gt; from &lt;code&gt;broom&lt;/code&gt; &lt;span class=&#34;citation&#34;&gt;(Robinson and Hayes 2020)&lt;/span&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;estimate_ATT &amp;lt;- function(equation, dat, wts){
   
@@ -247,8 +247,8 @@ within_res &amp;lt;- imp_dat_ps %&amp;gt;%
   do(estimate_ATT(equation = equation_ancova, dat = ., wts = att_wt_within)) %&amp;gt;%
   ungroup()&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id=&#34;pool-the-results&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Pool the results&lt;/h1&gt;
+&lt;div id=&#34;pooling-the-results&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Pooling the results&lt;/h1&gt;
 &lt;p&gt;Here, I create a function called &lt;code&gt;calc_pooled()&lt;/code&gt; using formula by &lt;span class=&#34;citation&#34;&gt;Barnard and Rubin (n.d.)&lt;/span&gt; to pool the results across the imputations. The &lt;code&gt;mice&lt;/code&gt; package has the &lt;code&gt;pool()&lt;/code&gt; function to do the same thing but we would need to convert the imputed data back to &lt;code&gt;mids&lt;/code&gt; object type and I just wanted to skip all that :D&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;calc_pooled &amp;lt;- function(dat, est, se, df){
   
@@ -281,9 +281,6 @@ within_res &amp;lt;- imp_dat_ps %&amp;gt;%
   return(pooled)
   
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;pooling&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Pooling&lt;/h1&gt;
 &lt;p&gt;Below I use the &lt;code&gt;calc_pooled()&lt;/code&gt; function to pool the results for each of the methods.&lt;/p&gt;
 &lt;div id=&#34;across&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Across&lt;/h2&gt;
@@ -336,12 +333,11 @@ within_pooled %&amp;gt;%
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;The estimates, se and df are different for the results from the two different methods.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id=&#34;which-one-to-use&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Which one to use?&lt;/h1&gt;
-&lt;p&gt;&lt;span class=&#34;citation&#34;&gt;Hill (2004)&lt;/span&gt; and &lt;span class=&#34;citation&#34;&gt;Mitra and Reiter (2016)&lt;/span&gt; conducted simulation studies comparing the two methods. &lt;span class=&#34;citation&#34;&gt;Hill (2004)&lt;/span&gt; found that MI Across performed best in terms of absolute bias and mean squared error compared to all the other methods examined in the study. &lt;span class=&#34;citation&#34;&gt;Mitra and Reiter (2016)&lt;/span&gt; found that MI Across resulted in greater bias reduction in the estimation of ATT compared to MI Within. For details of the simulation studies please see the articles.&lt;/p&gt;
+&lt;div id=&#34;comparing-the-methods&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Comparing the methods&lt;/h1&gt;
+&lt;p&gt;The estimates, se and df are different for the results from the two different methods. So which one is better? It’s not possible to say based on analysis on one dataset. &lt;span class=&#34;citation&#34;&gt;Hill (2004)&lt;/span&gt; and &lt;span class=&#34;citation&#34;&gt;Mitra and Reiter (2016)&lt;/span&gt; conducted simulation studies comparing the two methods. &lt;span class=&#34;citation&#34;&gt;Hill (2004)&lt;/span&gt; found that MI Across performed best in terms of absolute bias and mean squared error compared to all the other methods examined in the study. &lt;span class=&#34;citation&#34;&gt;Mitra and Reiter (2016)&lt;/span&gt; found that MI Across resulted in greater bias reduction in the estimation of ATT compared to MI Within. For details of the simulation studies please see the articles.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;references&#34; class=&#34;section level1 unnumbered&#34;&gt;
 &lt;h1&gt;References&lt;/h1&gt;
