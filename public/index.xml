@@ -114,70 +114,58 @@
 
 
 &lt;p&gt;Work in progress…&lt;/p&gt;
+&lt;p&gt;In this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier &lt;a href=&#34;https://meghapsimatrix.com/post/missing_dat/&#34;&gt;post&lt;/a&gt; that goes over different ways to handle missing data when conducting propensity score analysis.&lt;/p&gt;
+&lt;p&gt;When using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores:&lt;/p&gt;
+&lt;div id=&#34;multiple-imputation-across-mi-across&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Multiple Imputation Across (MI Across)&lt;/h2&gt;
+&lt;p&gt;This approach involves creating &lt;em&gt;m&lt;/em&gt; imputed datasets and then estimating propensity scores within each of the datasets and then averaging each unit’s &lt;em&gt;m&lt;/em&gt; propensity scores across the &lt;em&gt;m&lt;/em&gt; datasets &lt;span class=&#34;citation&#34;&gt;[@hill_2004]&lt;/span&gt;. Stratification, matching or IPW can be implemented using these averaged propensity scores &lt;span class=&#34;citation&#34;&gt;[@hill_2004]&lt;/span&gt;. Outcome models that include covariates will need to use the weights or strata derived from the averaged propensity scores and the &lt;em&gt;m&lt;/em&gt; sets of covariate values. The weighted regression estimates will then need to be pooled.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;multiple-imputation-within-mi-within&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Multiple Imputation Within (MI Within)&lt;/h2&gt;
+&lt;p&gt;This approach involves creating &lt;em&gt;m&lt;/em&gt; imputed datasets and then estimating propensity scores within each of the datasets &lt;span class=&#34;citation&#34;&gt;[@hill_2004]&lt;/span&gt;. Instead of averaging the propensity scores across the datasets, this method entails conditioning on the propensity scores within the datasets and running the outcome analyses within each dataset &lt;span class=&#34;citation&#34;&gt;[@hill_2004]&lt;/span&gt;. The separate regression estimates have to be pooled.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;read-in-the-data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Read in the data&lt;/h1&gt;
+&lt;p&gt;Below, I show how to implement the Across and Within methods to estimate the ATT. The data that I use here is from High School and Beyond (HSB) longitudinal study used by Rosenbaum (1986) to analyze the effect of dropping out of high school on later math achievement.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
 library(mice)
 library(twang)
 library(estimatr)
-library(broom)&lt;/code&gt;&lt;/pre&gt;
-&lt;div id=&#34;read-in-the-data&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Read in the data&lt;/h1&gt;
+library(broom)
+library(naniar)
+library(knitr)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;hsls_dat &amp;lt;- read_csv(&amp;quot;https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_incomplete.csv&amp;quot;) %&amp;gt;%
   mutate_if(is.character, as.factor) %&amp;gt;%
-  mutate_at(vars(repeated_grade, IEP, working_T3), as.factor)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Parsed with column specification:
-## cols(
-##   .default = col_double(),
-##   sex = col_character(),
-##   race = col_character(),
-##   language = col_character(),
-##   locale = col_character(),
-##   region = col_character()
-## )&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## See spec(...) for full column specifications.&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;glimpse(hsls_dat)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## Rows: 21,402
-## Columns: 20
-## $ sex            &amp;lt;fct&amp;gt; M, F, F, F, F, M, M, F, M, F, M, F, F, F, M, M, M, M, …
-## $ race           &amp;lt;fct&amp;gt; White, White, Black, White, White, White, White, White…
-## $ language       &amp;lt;fct&amp;gt; English, English, English, English, English, English, …
-## $ repeated_grade &amp;lt;fct&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, NA, 0, 0,…
-## $ IEP            &amp;lt;fct&amp;gt; 0, 0, 0, NA, NA, 0, NA, 0, NA, NA, 0, NA, NA, 0, 0, 0,…
-## $ locale         &amp;lt;fct&amp;gt; rural, rural, suburb, suburb, rural, town, town, city,…
-## $ region         &amp;lt;fct&amp;gt; MW, NE, W, S, S, NE, S, NE, S, MW, S, S, S, MW, MW, MW…
-## $ SES            &amp;lt;dbl&amp;gt; 1.5644, -0.3699, 1.2741, 0.5498, 1.0639, 1.5144, -0.31…
-## $ math_identity  &amp;lt;dbl&amp;gt; 1.76, -0.57, -0.57, 0.60, 1.16, 0.00, 0.60, 1.76, 1.76…
-## $ math_utility   &amp;lt;dbl&amp;gt; 1.31, 1.31, 0.27, -0.70, 1.31, -0.70, NA, -1.33, 1.31,…
-## $ math_efficacy  &amp;lt;dbl&amp;gt; 0.95, 0.55, 0.68, 0.10, 1.23, -1.41, NA, 1.62, 1.34, 0…
-## $ math_interest  &amp;lt;dbl&amp;gt; 0.12, NA, 0.86, 0.19, 2.08, -1.13, NA, -0.18, 1.35, -0…
-## $ engagement     &amp;lt;dbl&amp;gt; -1.41, -0.20, 1.39, -0.20, 0.96, -0.20, 0.10, 0.71, -0…
-## $ belonging      &amp;lt;dbl&amp;gt; 0.84, 0.05, 0.37, -0.04, -0.52, 0.45, 0.11, -0.29, -0.…
-## $ expectations   &amp;lt;dbl&amp;gt; 8, 11, 10, 10, 10, 8, 11, 8, 8, 11, 8, 2, 11, 4, 6, 8,…
-## $ climate        &amp;lt;dbl&amp;gt; 0.60, 0.32, -0.61, -2.14, NA, -0.32, -0.16, -0.36, 0.6…
-## $ drop_status    &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-## $ math_score_T1  &amp;lt;dbl&amp;gt; 0.8304, -0.2956, 1.2997, -0.1427, 0.7106, 0.3732, 0.23…
-## $ math_score_T2  &amp;lt;dbl&amp;gt; 2.6606, 1.0097, 1.1852, NA, 0.9994, 1.9987, 1.6591, 1.…
-## $ working_T3     &amp;lt;fct&amp;gt; 0, 1, 1, NA, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,…&lt;/code&gt;&lt;/pre&gt;
+  mutate_at(vars(repeated_grade, IEP), as.factor) %&amp;gt;%
+  select(-working_T3) # an outcome we don&amp;#39;t care about&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Below, using &lt;code&gt;gg_miss_var&lt;/code&gt; from the &lt;code&gt;naniar&lt;/code&gt; package, I visualize the percent of data that are missing for each of the variables. The treatment variable, &lt;code&gt;drop_status&lt;/code&gt; has no missing data. The outcome variable, &lt;code&gt;math_score_T2&lt;/code&gt;, however, does have around 10% missing data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gg_miss_var(hsls_dat, show_pct = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/mi_ps_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;multiple-imputation-using-mice&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Multiple imputation using &lt;code&gt;mice&lt;/code&gt;&lt;/h1&gt;
+&lt;p&gt;Here, I impute the data using mice and set the number of imputations and itereations to 10 each and also set the seed. Then, I save the result as an &lt;code&gt;RData&lt;/code&gt; file. For imputation method, I let mice run the default methods: predicitive mean matching for continuous variables, Bayesian logistic regression for binary variables and Bayesian polytomous regression for multinomial variables. For more information on methods for imputation, please see &lt;a href=&#34;https://stefvanbuuren.name/fimd/sec-modelform.html&#34;&gt;Chapter 6.2&lt;/a&gt; from &lt;a href=&#34;https://stefvanbuuren.name/fimd/&#34;&gt;Flexible Modeling of Missing Data&lt;/a&gt;, van Buuren (2018).&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;system.time(temp_data &amp;lt;- mice(hsls_dat, m = 10, maxit = 10, seed = 20200516))
 
 save(temp_data, file = &amp;quot;temp_data.RData&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;long-format-and-propensity-score-model&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Long format and propensity score model&lt;/h1&gt;
+&lt;p&gt;I then load the saved RData file and then extract a long format data that contains each of the 10 imputed data stacked.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;load(&amp;quot;temp_data.RData&amp;quot;)
-imp_dat &amp;lt;- complete(temp_data, action = &amp;quot;long&amp;quot;)
-
-covs &amp;lt;- imp_dat %&amp;gt;%
+imp_dat &amp;lt;- complete(temp_data, action = &amp;quot;long&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;function-to-estimate-propensity-scores&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Function to estimate propensity scores&lt;/h1&gt;
+&lt;p&gt;Below I create a dataset with only the covariates and use the &lt;code&gt;paste()&lt;/code&gt; function to create propensity score model equation. For the sake of this example, I only focus on including main effects of the covariates in the propensity score model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;covs &amp;lt;- imp_dat %&amp;gt;%
   select(sex:climate, math_score_T1)
 
 equation_ps &amp;lt;- paste(&amp;quot;drop_status ~ &amp;quot;, paste(names(covs), collapse = &amp;quot; + &amp;quot;))
 equation_ps&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [1] &amp;quot;drop_status ~  sex + race + language + repeated_grade + IEP + locale + region + SES + math_identity + math_utility + math_efficacy + math_interest + engagement + belonging + expectations + climate + math_score_T1&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;function-to-estimate-propensity-scores&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Function to estimate propensity scores&lt;/h1&gt;
+&lt;p&gt;Here, I create a function &lt;code&gt;estimate_ps()&lt;/code&gt; that takes in an equation and a dataset, then runs logistic regression using &lt;code&gt;glm()&lt;/code&gt;. Then the function adds logit of propensity scores and propensity scores as columns in the dataset.&lt;/p&gt;
+&lt;p&gt;I then group the &lt;code&gt;imp_dat&lt;/code&gt; by the imputation number and then run the &lt;code&gt;estimate_ps()&lt;/code&gt; function on each of the imputed dataset using the &lt;code&gt;do()&lt;/code&gt; function from &lt;code&gt;dplyr&lt;/code&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;estimate_ps &amp;lt;- function(equation, dat){
   
   ps_model &amp;lt;- glm(as.formula(equation), family = binomial, data = dat)
@@ -198,8 +186,8 @@ imp_dat_ps &amp;lt;- imp_dat %&amp;gt;%
 &lt;/div&gt;
 &lt;div id=&#34;estimating-weights-using-the-across-and-within-methods&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Estimating weights using the across and within methods&lt;/h1&gt;
-&lt;p&gt;Across method: Uses the average of the propensity scores across the imputed datasets to calculate weights.&lt;/p&gt;
-&lt;p&gt;Within method: Uses the propensity scores estimated within each imputed dataset to calculate weights.&lt;/p&gt;
+&lt;p&gt;Below I estimate ATT weights using the across and within methods. For the Across method, I use the average of the propensity scores across the imputed datasets to calculate weights. For the within method, I use the the propensity scores estimated within each imputed dataset to calculate weights.&lt;/p&gt;
+&lt;p&gt;The code below groups the imputed data by &lt;code&gt;.id&lt;/code&gt; which is an identifier denoting each case. For each case, I summarize the mean of the propensity scores across the 10 imputed dataset. I then estimate the ATT weights using the averaged propensity scores for the Across method and the original propensity scores for the Within method.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;imp_dat_ps &amp;lt;- imp_dat_ps %&amp;gt;%
   group_by(.id) %&amp;gt;%
   mutate(ps_across = mean(ps)) %&amp;gt;%
@@ -227,6 +215,7 @@ imp_dat_ps %&amp;gt;%
 &lt;/div&gt;
 &lt;div id=&#34;estimate-att-for-across-and-within-methods&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Estimate ATT for across and within methods&lt;/h1&gt;
+&lt;p&gt;Below I create a function to estimate the ATT. The function takes in an equation, a dataset, and weights as arguments. Then it runs a model using &lt;code&gt;lm_robust()&lt;/code&gt; from the &lt;code&gt;estimatr&lt;/code&gt; package. The standard errors of the regression coefficients are estimated using &lt;code&gt;HC2&lt;/code&gt; type sandwich errors. I then clean up the results using &lt;code&gt;tidy()&lt;/code&gt; from &lt;code&gt;broom&lt;/code&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;estimate_ATT &amp;lt;- function(equation, dat, wts){
   
   wts &amp;lt;- dat %&amp;gt;% pull({{wts}})
@@ -241,6 +230,7 @@ imp_dat_ps %&amp;gt;%
   return(res)
   
 }&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I set up an equation regressing the outcome variable, &lt;code&gt;math_score_T2&lt;/code&gt; on drop status and on the main effects of all the covariates. I then run the &lt;code&gt;estimate_ATT()&lt;/code&gt; function on each imputed data using &lt;code&gt;group_by()&lt;/code&gt; and &lt;code&gt;do()&lt;/code&gt;. The weights are different for the Across and Within methods.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;equation_ancova &amp;lt;- paste(&amp;quot;math_score_T2 ~ drop_status + &amp;quot;, paste(names(covs), collapse = &amp;quot; + &amp;quot;))
 equation_ancova&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [1] &amp;quot;math_score_T2 ~ drop_status +  sex + race + language + repeated_grade + IEP + locale + region + SES + math_identity + math_utility + math_efficacy + math_interest + engagement + belonging + expectations + climate + math_score_T1&amp;quot;&lt;/code&gt;&lt;/pre&gt;
@@ -256,6 +246,7 @@ within_res &amp;lt;- imp_dat_ps %&amp;gt;%
 &lt;/div&gt;
 &lt;div id=&#34;pool-the-results&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Pool the results&lt;/h1&gt;
+&lt;p&gt;Here, I create a function called &lt;code&gt;calc_pooled()&lt;/code&gt; using formula by (1999) to pool the results across the imputations. The &lt;code&gt;mice&lt;/code&gt; package has the &lt;code&gt;pool()&lt;/code&gt; function to do the same thing but we would need to convert the imputed data back to &lt;code&gt;mids&lt;/code&gt; object type and I just wanted to skip all that :D&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;calc_pooled &amp;lt;- function(dat, est, se, df){
   
   dat &amp;lt;- dat %&amp;gt;%
@@ -287,18 +278,68 @@ within_res &amp;lt;- imp_dat_ps %&amp;gt;%
   return(pooled)
   
 }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;pooling&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Pooling&lt;/h1&gt;
+&lt;p&gt;Below I use the &lt;code&gt;calc_pooled()&lt;/code&gt; function to pool the results for each of the methods.&lt;/p&gt;
+&lt;div id=&#34;across&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Across&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;across_pooled &amp;lt;- calc_pooled(dat = across_res, est = estimate, se = se, df = df)
-across_pooled&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## # A tibble: 1 x 5
-##      est     se    df ci_lower ci_upper
-##    &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;
-## 1 -0.335 0.0379  93.8   -0.411   -0.260&lt;/code&gt;&lt;/pre&gt;
+across_pooled %&amp;gt;%
+  kable()&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;right&#34;&gt;est&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;se&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;df&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;ci_lower&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;ci_upper&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;-0.3353566&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0379174&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;93.77208&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.4106448&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.2600683&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;within&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Within&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;within_pooled &amp;lt;- calc_pooled(dat = within_res, est = estimate, se = se, df = df)
-within_pooled&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## # A tibble: 1 x 5
-##      est     se    df ci_lower ci_upper
-##    &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;
-## 1 -0.356 0.0410  50.0   -0.438   -0.273&lt;/code&gt;&lt;/pre&gt;
+within_pooled %&amp;gt;%
+  kable()&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;right&#34;&gt;est&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;se&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;df&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;ci_lower&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;ci_upper&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;-0.3557541&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0409797&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;50.00218&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.4380642&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.273444&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;which-to-use&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Which to use&lt;/h1&gt;
+&lt;/div&gt;
+&lt;div id=&#34;references&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;References&lt;/h1&gt;
 &lt;/div&gt;
 </description>
     </item>

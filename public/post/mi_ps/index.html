@@ -29,7 +29,8 @@
     
   
   <meta name="description" content="Work in progress…
-library(tidyverse) library(mice) library(twang) library(estimatr) library(broom) Read in the data hsls_dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_incomplete.csv&quot;) %&gt;% mutate_if(is.character, as.factor) %&gt;% mutate_at(vars(repeated_grade, IEP, working_T3), as.factor) ## Parsed with column specification: ## cols( ## .default = col_double(), ## sex = col_character(), ## race = col_character(), ## language = col_character(), ## locale = col_character(), ## region = col_character() ## ) ## See spec(...) for full column specifications. glimpse(hsls_dat) ## Rows: 21,402 ## Columns: 20 ## $ sex &lt;fct&gt; M, F, F, F, F, M, M, F, M, F, M, F, F, F, M, M, M, M, … ## $ race &lt;fct&gt; White, White, Black, White, White, White, White, White… ## $ language &lt;fct&gt; English, English, English, English, English, English, … ## $ repeated_grade &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, NA, 0, 0,… ## $ IEP &lt;fct&gt; 0, 0, 0, NA, NA, 0, NA, 0, NA, NA, 0, NA, NA, 0, 0, 0,… ## $ locale &lt;fct&gt; rural, rural, suburb, suburb, rural, town, town, city,… ## $ region &lt;fct&gt; MW, NE, W, S, S, NE, S, NE, S, MW, S, S, S, MW, MW, MW… ## $ SES &lt;dbl&gt; 1.">
+In this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier post that goes over different ways to handle missing data when conducting propensity score analysis.
+When using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores:">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/mi_ps/">
@@ -118,7 +119,8 @@ library(tidyverse) library(mice) library(twang) library(estimatr) library(broom)
   <meta property="og:url" content="/post/mi_ps/">
   <meta property="og:title" content="Propensity Scores Analysis with Multiply Imputed Data | Megha">
   <meta property="og:description" content="Work in progress…
-library(tidyverse) library(mice) library(twang) library(estimatr) library(broom) Read in the data hsls_dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_incomplete.csv&quot;) %&gt;% mutate_if(is.character, as.factor) %&gt;% mutate_at(vars(repeated_grade, IEP, working_T3), as.factor) ## Parsed with column specification: ## cols( ## .default = col_double(), ## sex = col_character(), ## race = col_character(), ## language = col_character(), ## locale = col_character(), ## region = col_character() ## ) ## See spec(...) for full column specifications. glimpse(hsls_dat) ## Rows: 21,402 ## Columns: 20 ## $ sex &lt;fct&gt; M, F, F, F, F, M, M, F, M, F, M, F, F, F, M, M, M, M, … ## $ race &lt;fct&gt; White, White, Black, White, White, White, White, White… ## $ language &lt;fct&gt; English, English, English, English, English, English, … ## $ repeated_grade &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, NA, 0, 0,… ## $ IEP &lt;fct&gt; 0, 0, 0, NA, NA, 0, NA, 0, NA, NA, 0, NA, NA, 0, 0, 0,… ## $ locale &lt;fct&gt; rural, rural, suburb, suburb, rural, town, town, city,… ## $ region &lt;fct&gt; MW, NE, W, S, S, NE, S, NE, S, MW, S, S, S, MW, MW, MW… ## $ SES &lt;dbl&gt; 1."><meta property="og:image" content="/img/icon-192.png">
+In this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier post that goes over different ways to handle missing data when conducting propensity score analysis.
+When using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores:"><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
@@ -170,7 +172,7 @@ library(tidyverse) library(mice) library(twang) library(estimatr) library(broom)
       "url": "/img/icon-512.png"
     }
   },
-  "description": "Work in progress…\nlibrary(tidyverse) library(mice) library(twang) library(estimatr) library(broom) Read in the data hsls_dat \u0026lt;- read_csv(\u0026quot;https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_incomplete.csv\u0026quot;) %\u0026gt;% mutate_if(is.character, as.factor) %\u0026gt;% mutate_at(vars(repeated_grade, IEP, working_T3), as.factor) ## Parsed with column specification: ## cols( ## .default = col_double(), ## sex = col_character(), ## race = col_character(), ## language = col_character(), ## locale = col_character(), ## region = col_character() ## ) ## See spec(...) for full column specifications. glimpse(hsls_dat) ## Rows: 21,402 ## Columns: 20 ## $ sex \u0026lt;fct\u0026gt; M, F, F, F, F, M, M, F, M, F, M, F, F, F, M, M, M, M, … ## $ race \u0026lt;fct\u0026gt; White, White, Black, White, White, White, White, White… ## $ language \u0026lt;fct\u0026gt; English, English, English, English, English, English, … ## $ repeated_grade \u0026lt;fct\u0026gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, NA, 0, 0,… ## $ IEP \u0026lt;fct\u0026gt; 0, 0, 0, NA, NA, 0, NA, 0, NA, NA, 0, NA, NA, 0, 0, 0,… ## $ locale \u0026lt;fct\u0026gt; rural, rural, suburb, suburb, rural, town, town, city,… ## $ region \u0026lt;fct\u0026gt; MW, NE, W, S, S, NE, S, NE, S, MW, S, S, S, MW, MW, MW… ## $ SES \u0026lt;dbl\u0026gt; 1."
+  "description": "Work in progress…\nIn this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier post that goes over different ways to handle missing data when conducting propensity score analysis.\nWhen using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores:"
 }
 </script>
 
@@ -459,7 +461,7 @@ library(tidyverse) library(mice) library(twang) library(estimatr) library(broom)
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    6 min read
+    7 min read
   </span>
   
 
@@ -592,70 +594,58 @@ library(tidyverse) library(mice) library(twang) library(estimatr) library(broom)
 
 
 <p>Work in progress…</p>
+<p>In this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier <a href="https://meghapsimatrix.com/post/missing_dat/">post</a> that goes over different ways to handle missing data when conducting propensity score analysis.</p>
+<p>When using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores:</p>
+<div id="multiple-imputation-across-mi-across" class="section level2">
+<h2>Multiple Imputation Across (MI Across)</h2>
+<p>This approach involves creating <em>m</em> imputed datasets and then estimating propensity scores within each of the datasets and then averaging each unit’s <em>m</em> propensity scores across the <em>m</em> datasets <span class="citation">[@hill_2004]</span>. Stratification, matching or IPW can be implemented using these averaged propensity scores <span class="citation">[@hill_2004]</span>. Outcome models that include covariates will need to use the weights or strata derived from the averaged propensity scores and the <em>m</em> sets of covariate values. The weighted regression estimates will then need to be pooled.</p>
+</div>
+<div id="multiple-imputation-within-mi-within" class="section level2">
+<h2>Multiple Imputation Within (MI Within)</h2>
+<p>This approach involves creating <em>m</em> imputed datasets and then estimating propensity scores within each of the datasets <span class="citation">[@hill_2004]</span>. Instead of averaging the propensity scores across the datasets, this method entails conditioning on the propensity scores within the datasets and running the outcome analyses within each dataset <span class="citation">[@hill_2004]</span>. The separate regression estimates have to be pooled.</p>
+</div>
+<div id="read-in-the-data" class="section level1">
+<h1>Read in the data</h1>
+<p>Below, I show how to implement the Across and Within methods to estimate the ATT. The data that I use here is from High School and Beyond (HSB) longitudinal study used by Rosenbaum (1986) to analyze the effect of dropping out of high school on later math achievement.</p>
 <pre class="r"><code>library(tidyverse)
 library(mice)
 library(twang)
 library(estimatr)
-library(broom)</code></pre>
-<div id="read-in-the-data" class="section level1">
-<h1>Read in the data</h1>
+library(broom)
+library(naniar)
+library(knitr)</code></pre>
 <pre class="r"><code>hsls_dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_incomplete.csv&quot;) %&gt;%
   mutate_if(is.character, as.factor) %&gt;%
-  mutate_at(vars(repeated_grade, IEP, working_T3), as.factor)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_double(),
-##   sex = col_character(),
-##   race = col_character(),
-##   language = col_character(),
-##   locale = col_character(),
-##   region = col_character()
-## )</code></pre>
-<pre><code>## See spec(...) for full column specifications.</code></pre>
-<pre class="r"><code>glimpse(hsls_dat)</code></pre>
-<pre><code>## Rows: 21,402
-## Columns: 20
-## $ sex            &lt;fct&gt; M, F, F, F, F, M, M, F, M, F, M, F, F, F, M, M, M, M, …
-## $ race           &lt;fct&gt; White, White, Black, White, White, White, White, White…
-## $ language       &lt;fct&gt; English, English, English, English, English, English, …
-## $ repeated_grade &lt;fct&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, NA, 0, 0,…
-## $ IEP            &lt;fct&gt; 0, 0, 0, NA, NA, 0, NA, 0, NA, NA, 0, NA, NA, 0, 0, 0,…
-## $ locale         &lt;fct&gt; rural, rural, suburb, suburb, rural, town, town, city,…
-## $ region         &lt;fct&gt; MW, NE, W, S, S, NE, S, NE, S, MW, S, S, S, MW, MW, MW…
-## $ SES            &lt;dbl&gt; 1.5644, -0.3699, 1.2741, 0.5498, 1.0639, 1.5144, -0.31…
-## $ math_identity  &lt;dbl&gt; 1.76, -0.57, -0.57, 0.60, 1.16, 0.00, 0.60, 1.76, 1.76…
-## $ math_utility   &lt;dbl&gt; 1.31, 1.31, 0.27, -0.70, 1.31, -0.70, NA, -1.33, 1.31,…
-## $ math_efficacy  &lt;dbl&gt; 0.95, 0.55, 0.68, 0.10, 1.23, -1.41, NA, 1.62, 1.34, 0…
-## $ math_interest  &lt;dbl&gt; 0.12, NA, 0.86, 0.19, 2.08, -1.13, NA, -0.18, 1.35, -0…
-## $ engagement     &lt;dbl&gt; -1.41, -0.20, 1.39, -0.20, 0.96, -0.20, 0.10, 0.71, -0…
-## $ belonging      &lt;dbl&gt; 0.84, 0.05, 0.37, -0.04, -0.52, 0.45, 0.11, -0.29, -0.…
-## $ expectations   &lt;dbl&gt; 8, 11, 10, 10, 10, 8, 11, 8, 8, 11, 8, 2, 11, 4, 6, 8,…
-## $ climate        &lt;dbl&gt; 0.60, 0.32, -0.61, -2.14, NA, -0.32, -0.16, -0.36, 0.6…
-## $ drop_status    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-## $ math_score_T1  &lt;dbl&gt; 0.8304, -0.2956, 1.2997, -0.1427, 0.7106, 0.3732, 0.23…
-## $ math_score_T2  &lt;dbl&gt; 2.6606, 1.0097, 1.1852, NA, 0.9994, 1.9987, 1.6591, 1.…
-## $ working_T3     &lt;fct&gt; 0, 1, 1, NA, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,…</code></pre>
+  mutate_at(vars(repeated_grade, IEP), as.factor) %&gt;%
+  select(-working_T3) # an outcome we don&#39;t care about</code></pre>
+<p>Below, using <code>gg_miss_var</code> from the <code>naniar</code> package, I visualize the percent of data that are missing for each of the variables. The treatment variable, <code>drop_status</code> has no missing data. The outcome variable, <code>math_score_T2</code>, however, does have around 10% missing data.</p>
+<pre class="r"><code>gg_miss_var(hsls_dat, show_pct = TRUE)</code></pre>
+<p><img src="/post/mi_ps_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 <div id="multiple-imputation-using-mice" class="section level1">
 <h1>Multiple imputation using <code>mice</code></h1>
+<p>Here, I impute the data using mice and set the number of imputations and itereations to 10 each and also set the seed. Then, I save the result as an <code>RData</code> file. For imputation method, I let mice run the default methods: predicitive mean matching for continuous variables, Bayesian logistic regression for binary variables and Bayesian polytomous regression for multinomial variables. For more information on methods for imputation, please see <a href="https://stefvanbuuren.name/fimd/sec-modelform.html">Chapter 6.2</a> from <a href="https://stefvanbuuren.name/fimd/">Flexible Modeling of Missing Data</a>, van Buuren (2018).</p>
 <pre class="r"><code>system.time(temp_data &lt;- mice(hsls_dat, m = 10, maxit = 10, seed = 20200516))
 
 save(temp_data, file = &quot;temp_data.RData&quot;)</code></pre>
 </div>
 <div id="long-format-and-propensity-score-model" class="section level1">
 <h1>Long format and propensity score model</h1>
+<p>I then load the saved RData file and then extract a long format data that contains each of the 10 imputed data stacked.</p>
 <pre class="r"><code>load(&quot;temp_data.RData&quot;)
-imp_dat &lt;- complete(temp_data, action = &quot;long&quot;)
-
-covs &lt;- imp_dat %&gt;%
+imp_dat &lt;- complete(temp_data, action = &quot;long&quot;)</code></pre>
+</div>
+<div id="function-to-estimate-propensity-scores" class="section level1">
+<h1>Function to estimate propensity scores</h1>
+<p>Below I create a dataset with only the covariates and use the <code>paste()</code> function to create propensity score model equation. For the sake of this example, I only focus on including main effects of the covariates in the propensity score model.</p>
+<pre class="r"><code>covs &lt;- imp_dat %&gt;%
   select(sex:climate, math_score_T1)
 
 equation_ps &lt;- paste(&quot;drop_status ~ &quot;, paste(names(covs), collapse = &quot; + &quot;))
 equation_ps</code></pre>
 <pre><code>## [1] &quot;drop_status ~  sex + race + language + repeated_grade + IEP + locale + region + SES + math_identity + math_utility + math_efficacy + math_interest + engagement + belonging + expectations + climate + math_score_T1&quot;</code></pre>
-</div>
-<div id="function-to-estimate-propensity-scores" class="section level1">
-<h1>Function to estimate propensity scores</h1>
+<p>Here, I create a function <code>estimate_ps()</code> that takes in an equation and a dataset, then runs logistic regression using <code>glm()</code>. Then the function adds logit of propensity scores and propensity scores as columns in the dataset.</p>
+<p>I then group the <code>imp_dat</code> by the imputation number and then run the <code>estimate_ps()</code> function on each of the imputed dataset using the <code>do()</code> function from <code>dplyr</code>.</p>
 <pre class="r"><code>estimate_ps &lt;- function(equation, dat){
   
   ps_model &lt;- glm(as.formula(equation), family = binomial, data = dat)
@@ -676,8 +666,8 @@ imp_dat_ps &lt;- imp_dat %&gt;%
 </div>
 <div id="estimating-weights-using-the-across-and-within-methods" class="section level1">
 <h1>Estimating weights using the across and within methods</h1>
-<p>Across method: Uses the average of the propensity scores across the imputed datasets to calculate weights.</p>
-<p>Within method: Uses the propensity scores estimated within each imputed dataset to calculate weights.</p>
+<p>Below I estimate ATT weights using the across and within methods. For the Across method, I use the average of the propensity scores across the imputed datasets to calculate weights. For the within method, I use the the propensity scores estimated within each imputed dataset to calculate weights.</p>
+<p>The code below groups the imputed data by <code>.id</code> which is an identifier denoting each case. For each case, I summarize the mean of the propensity scores across the 10 imputed dataset. I then estimate the ATT weights using the averaged propensity scores for the Across method and the original propensity scores for the Within method.</p>
 <pre class="r"><code>imp_dat_ps &lt;- imp_dat_ps %&gt;%
   group_by(.id) %&gt;%
   mutate(ps_across = mean(ps)) %&gt;%
@@ -705,6 +695,7 @@ imp_dat_ps %&gt;%
 </div>
 <div id="estimate-att-for-across-and-within-methods" class="section level1">
 <h1>Estimate ATT for across and within methods</h1>
+<p>Below I create a function to estimate the ATT. The function takes in an equation, a dataset, and weights as arguments. Then it runs a model using <code>lm_robust()</code> from the <code>estimatr</code> package. The standard errors of the regression coefficients are estimated using <code>HC2</code> type sandwich errors. I then clean up the results using <code>tidy()</code> from <code>broom</code>.</p>
 <pre class="r"><code>estimate_ATT &lt;- function(equation, dat, wts){
   
   wts &lt;- dat %&gt;% pull({{wts}})
@@ -719,6 +710,7 @@ imp_dat_ps %&gt;%
   return(res)
   
 }</code></pre>
+<p>I set up an equation regressing the outcome variable, <code>math_score_T2</code> on drop status and on the main effects of all the covariates. I then run the <code>estimate_ATT()</code> function on each imputed data using <code>group_by()</code> and <code>do()</code>. The weights are different for the Across and Within methods.</p>
 <pre class="r"><code>equation_ancova &lt;- paste(&quot;math_score_T2 ~ drop_status + &quot;, paste(names(covs), collapse = &quot; + &quot;))
 equation_ancova</code></pre>
 <pre><code>## [1] &quot;math_score_T2 ~ drop_status +  sex + race + language + repeated_grade + IEP + locale + region + SES + math_identity + math_utility + math_efficacy + math_interest + engagement + belonging + expectations + climate + math_score_T1&quot;</code></pre>
@@ -734,6 +726,7 @@ within_res &lt;- imp_dat_ps %&gt;%
 </div>
 <div id="pool-the-results" class="section level1">
 <h1>Pool the results</h1>
+<p>Here, I create a function called <code>calc_pooled()</code> using formula by (1999) to pool the results across the imputations. The <code>mice</code> package has the <code>pool()</code> function to do the same thing but we would need to convert the imputed data back to <code>mids</code> object type and I just wanted to skip all that :D</p>
 <pre class="r"><code>calc_pooled &lt;- function(dat, est, se, df){
   
   dat &lt;- dat %&gt;%
@@ -765,18 +758,68 @@ within_res &lt;- imp_dat_ps %&gt;%
   return(pooled)
   
 }</code></pre>
+</div>
+<div id="pooling" class="section level1">
+<h1>Pooling</h1>
+<p>Below I use the <code>calc_pooled()</code> function to pool the results for each of the methods.</p>
+<div id="across" class="section level2">
+<h2>Across</h2>
 <pre class="r"><code>across_pooled &lt;- calc_pooled(dat = across_res, est = estimate, se = se, df = df)
-across_pooled</code></pre>
-<pre><code>## # A tibble: 1 x 5
-##      est     se    df ci_lower ci_upper
-##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-## 1 -0.335 0.0379  93.8   -0.411   -0.260</code></pre>
+across_pooled %&gt;%
+  kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">est</th>
+<th align="right">se</th>
+<th align="right">df</th>
+<th align="right">ci_lower</th>
+<th align="right">ci_upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">-0.3353566</td>
+<td align="right">0.0379174</td>
+<td align="right">93.77208</td>
+<td align="right">-0.4106448</td>
+<td align="right">-0.2600683</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="within" class="section level2">
+<h2>Within</h2>
 <pre class="r"><code>within_pooled &lt;- calc_pooled(dat = within_res, est = estimate, se = se, df = df)
-within_pooled</code></pre>
-<pre><code>## # A tibble: 1 x 5
-##      est     se    df ci_lower ci_upper
-##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-## 1 -0.356 0.0410  50.0   -0.438   -0.273</code></pre>
+within_pooled %&gt;%
+  kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">est</th>
+<th align="right">se</th>
+<th align="right">df</th>
+<th align="right">ci_lower</th>
+<th align="right">ci_upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">-0.3557541</td>
+<td align="right">0.0409797</td>
+<td align="right">50.00218</td>
+<td align="right">-0.4380642</td>
+<td align="right">-0.273444</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="which-to-use" class="section level1">
+<h1>Which to use</h1>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
 </div>
 
     </div>
