@@ -66,7 +66,7 @@ save(temp_data, file = "temp_data.RData")
 ```
 
 
-# Long format and propensity score model
+## Long format
 
 I then load the saved RData file and then extract a long format data that contains each of the 10 imputed data stacked. 
 
@@ -76,7 +76,7 @@ imp_dat <- complete(temp_data, action = "long")
 ```
 
 
-# Function to estimate propensity scores
+# Estimating propensity scores
 
 Below I create a dataset with only the covariates and use the `paste()` function to create propensity score model equation. For the sake of this example, I only focus on including main effects of the covariates in the propensity score model. 
 
@@ -113,7 +113,7 @@ imp_dat_ps <- imp_dat %>%
 ```
 
 
-# Estimating weights using the across and within methods
+# Estimating ATT IPW weights
 
 Below I estimate ATT weights using the across and within methods. For the Across method, I use the average of the propensity scores across the imputed datasets to calculate weights. For the within method, I use the the propensity scores estimated within each imputed dataset to calculate weights.
 
@@ -134,9 +134,9 @@ imp_dat_ps %>%
 ```
 
 
-# Check balance 
+# Checking balance 
 
-# Estimate ATT for across and within methods
+# Estimating ATT
 
 Below I create a function to estimate the ATT. The function takes in an equation, a dataset, and weights as arguments. Then it runs a model using `lm_robust()` from the `estimatr` package [@estimatr_2020]. The standard errors of the regression coefficients are estimated using `HC2` type sandwich errors. I then clean up the results using `tidy()` from `broom` [@broom_2020]. 
 
@@ -175,7 +175,7 @@ within_res <- imp_dat_ps %>%
 ```
 
 
-# Pool the results 
+# Pooling the results 
 
 Here, I create a function called `calc_pooled()` using formula by @barnard_small-sample_nodate to pool the results across the imputations. The `mice` package has the `pool()` function to do the same thing but we would need to convert the imputed data back to `mids` object type and I just wanted to skip all that :D 
 
@@ -214,8 +214,6 @@ calc_pooled <- function(dat, est, se, df){
 
 ```
 
-# Pooling
-
 Below I use the `calc_pooled()` function to pool the results for each of the methods. 
 
 ## Across
@@ -235,12 +233,10 @@ within_pooled %>%
   kable(digits = 3)
 ```
 
-The estimates, se and df are different for the results from the two different methods. 
 
+# Comparing the methods
 
-# Which one to use?
-
-@hill_2004 and @mitra_comparison_2016 conducted simulation studies comparing the two methods. @hill_2004 found that MI Across performed best in terms of absolute bias and mean squared error compared to all the other methods examined in the study. @mitra_comparison_2016 found that MI Across resulted in greater bias reduction in the estimation of ATT compared to MI Within. For details of the simulation studies please see the articles. 
+The estimates, se and df are different for the results from the two different methods. So which one is better? It's not possible to say based on analysis on one dataset. @hill_2004 and @mitra_comparison_2016 conducted simulation studies comparing the two methods. @hill_2004 found that MI Across performed best in terms of absolute bias and mean squared error compared to all the other methods examined in the study. @mitra_comparison_2016 found that MI Across resulted in greater bias reduction in the estimation of ATT compared to MI Within. For details of the simulation studies please see the articles. 
 
 # References
 
