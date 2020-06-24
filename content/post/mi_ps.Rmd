@@ -28,7 +28,7 @@ This approach involves creating _m_ imputed datasets and then estimating propens
 
 # Read in the data
 
-Below, I show how to implement the Across and Within methods to estimate the ATT. The data that I use here is from High School and Beyond (HSB) longitudinal study used by @rosenbaum1986dropping to analyze the effect of dropping out of high school on later math achievement. 
+Below, I show how to implement the Across and Within methods to estimate the ATT. The data that I use here is from High School and Beyond (HSB) longitudinal study used by @rosenbaum1986dropping to analyze the effect of dropping out of high school on later math achievement. For the purpose of this example, I am going to assume a simple random sample. 
 
 ```{r, warning = F, message = F}
 library(tidyverse)
