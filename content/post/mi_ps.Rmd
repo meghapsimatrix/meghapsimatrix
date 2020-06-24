@@ -1,0 +1,187 @@
+---
+title: "Multiple Imputation Propensity Scores"
+author: "Megha Joshi"
+date: 2020-06-23
+categories: ["R"]
+tags: ["propensity scores", "missing data", "multiple imputation" , "causal"]
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, warning = F, message = F}
+library(tidyverse)
+library(mice)
+library(twang)
+library(estimatr)
+library(broom)
+```
+
+
+# Read in the data
+
+```{r}
+hsls_dat <- read_csv("https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_incomplete.csv") %>%
+  mutate_if(is.character, as.factor) %>%
+  mutate_at(vars(repeated_grade, IEP, working_T3), as.factor)
+
+
+glimpse(hsls_dat)
+```
+
+
+# Multiple imputation using `mice`
+
+```{r, eval = F}
+system.time(temp_data <- mice(hsls_dat, m = 10, maxit = 10, seed = 20200516))
+
+save(temp_data, file = "temp_data.RData")
+```
+
+
+# Long format and propensity score model
+
+```{r}
+load("temp_data.RData")
+imp_dat <- complete(temp_data, action = "long")
+
+covs <- imp_dat %>%
+  select(sex:climate, math_score_T1)
+
+equation_ps <- paste("drop_status ~ ", paste(names(covs), collapse = " + "))
+equation_ps
+```
+
+
+# Function to estimate propensity scores
+
+```{r}
+estimate_ps <- function(equation, dat){
+  
+  ps_model <- glm(as.formula(equation), family = binomial, data = dat)
+  
+  dat <- dat %>%
+    mutate(ps_logit = predict(ps_model, type = "link"),
+           ps = predict(ps_model, type = "response"))
+  
+  return(dat)
+  
+}
+
+
+imp_dat_ps <- imp_dat %>%
+  group_by(.imp) %>%
+  do(estimate_ps(equation_ps, .)) %>%
+  ungroup()
+```
+
+
+# Estimating weights using the across and within methods
+
+Across method: Uses the average of the propensity scores across the imputed datasets to calculate weights.
+
+Within method: Uses the propensity scores estimated within each imputed dataset to calculate weights.
+
+
+```{r}
+imp_dat_ps <- imp_dat_ps %>%
+  group_by(.id) %>%
+  mutate(ps_across = mean(ps)) %>%
+  ungroup() %>%
+  mutate(att_wt_across = drop_status + (1 - drop_status) * ps_across/(1 - ps_across),
+         att_wt_within = drop_status + (1 - drop_status) * ps/(1 - ps))
+
+
+imp_dat_ps %>%
+  select(.imp, ps, ps_across, att_wt_across, att_wt_within)
+```
+
+
+# Estimate ATT for across and within methods
+
+```{r}
+estimate_ATT <- function(equation, dat, wts){
+  
+  wts <- dat %>% pull({{wts}})
+  
+  model <- lm_robust(as.formula(equation), data = dat, weights = wts)
+  
+  res <- model %>%
+    tidy() %>%
+    filter(term == "drop_status") %>%
+    select(term, estimate, se = std.error, dci_low = conf.low, ci_high = conf.high, df = df)
+  
+  return(res)
+  
+}
+```
+
+```{r}
+equation_ancova <- paste("math_score_T2 ~ drop_status + ", paste(names(covs), collapse = " + "))
+equation_ancova
+
+across_res <- imp_dat_ps %>%
+  group_by(.imp) %>%
+  do(estimate_ATT(equation = equation_ancova, dat = ., wts = att_wt_across)) %>%
+  ungroup()
+
+within_res <- imp_dat_ps %>%
+  group_by(.imp) %>%
+  do(estimate_ATT(equation = equation_ancova, dat = ., wts = att_wt_within)) %>%
+  ungroup()
+```
+
+
+# Pool the results 
+
+```{r}
+calc_pooled <- function(dat, est, se, df){
+  
+  dat <- dat %>%
+    mutate(est = dat %>% pull({{est}}),
+           se = dat %>%pull({{se}}),
+           df = dat %>% pull({{df}}))
+  
+  pooled <- dat %>%
+    summarize(m = n(),
+              B = var(est),  # between imputation var
+              beta_bar = mean(est), # mean of estimated reg coeffs
+              V_bar = mean(se^2), # mean of var - hc corrected   within imp var
+              eta_bar = mean(df)) %>%   # mean of df
+    mutate(
+      
+      V_total = V_bar + B * (m + 1) / m,  #between and within var est
+      gamma = ((m + 1) / m) * B / V_total,  
+      df_m = (m - 1) / gamma^2,
+      df_obs = eta_bar * (eta_bar + 1) * (1 - gamma) / (eta_bar + 3),
+      df = 1 / (1 / df_m + 1 / df_obs),
+      
+      # output
+      se = sqrt(V_total),
+      ci_lower = beta_bar - se * qt(0.975, df = df),
+      ci_upper = beta_bar + se * qt(0.975, df = df)) %>%
+    
+    select(est = beta_bar, se, df, ci_lower, ci_upper) 
+  
+  return(pooled)
+  
+}
+
+```
+
+
+```{r}
+across_pooled <- calc_pooled(dat = across_res, est = estimate, se = se, df = df)
+across_pooled
+
+
+within_pooled <- calc_pooled(dat = within_res, est = estimate, se = se, df = df)
+within_pooled
+```
+
