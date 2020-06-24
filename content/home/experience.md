@@ -22,13 +22,16 @@ date_format = "Jan 2006"
   company = "The University of Texas at Austin"
   company_url = ""
   location = "Austin, TX"
-  date_start = "2017-09-01"
+  date_start = "2016-01-15"
   date_end = ""
   description = """
   Responsibilities include:
   
   * Developed generalized boosted models to estimate propensity scores to evaluate the impact of a college preparatory program. 
   * Integrated large relational datasets containing information on all students in Texas schools from multiple sources. Wrangled the data for analysis.
+  * Created visualizations (R::ggplot) of impact analyses and automated creation of reports using R Markdown.
+  * Automated data cleaning (R::tidyverse). 
+  * Led a workshop on impact assessment.
   """
   
 [[experience]]
@@ -41,25 +44,10 @@ date_format = "Jan 2006"
   description = """
   Responsibilities include:
   
-  * Assisted in the following courses: Data Analysis, Simulation, Programming in R, Research Design, Survey of Multivariate Methods, Fundamental Statistics, and Statistics in Market Analysis.
+  * Assisted in the following courses: Causal Inference; Data Analysis, Simulation, Programming in R; Research Design; Survey of Multivariate Methods' Fundamental Statistics; and, Statistics in Market Analysis.
   * Effectively communicated complex statistical methods to students with little prior background in the field. 
   """
-  
-[[experience]]
-  title = "Graduate Research Assistant"
-  company = "The University of Texas at Austin"
-  company_url = ""
-  location = "Austin, TX"
-  date_start = "2018-06-01"
-  date_end = "2018-08-30"
-  description = """
-  Responsibilities include:
-  
-  * Developed propensity score models to evaluate School of Undergraduate Studies programs. 
-  * Created visualizations (R::ggplot) of impact analyses and automated creation of reports using R Markdown.
-  * Led a workshop on impact assessment.
 
-  """
 
 [[experience]]
   title = "Integrated Community Development Intern"
