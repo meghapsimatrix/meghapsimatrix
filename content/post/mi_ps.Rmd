@@ -11,8 +11,6 @@ bibliography: references.bib
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Work in progress...
-
 In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier [post](https://meghapsimatrix.com/post/missing_dat/) where I go over different ways to handle missing data when conducting propensity score analysis.
 
 @hill_2004 and @mitra_comparison_2016 examined two distinct ways to condition on the propensity scores estimated on multiply imputed data:
