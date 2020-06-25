@@ -171,9 +171,7 @@ imp_dat_ps %>%
 
 # Checking balance
 
-```{r}
-
-```
+Please see the `cobalt` package for balance checks. 
 
 
 # Estimating ATT
