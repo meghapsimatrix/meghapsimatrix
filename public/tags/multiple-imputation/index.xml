@@ -20,8 +20,7 @@
       <description>
 
 
-&lt;p&gt;Work in progress…&lt;/p&gt;
-&lt;p&gt;In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier &lt;a href=&#34;https://meghapsimatrix.com/post/missing_dat/&#34;&gt;post&lt;/a&gt; where I go over different ways to handle missing data when conducting propensity score analysis.&lt;/p&gt;
+&lt;p&gt;In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier &lt;a href=&#34;https://meghapsimatrix.com/post/missing_dat/&#34;&gt;post&lt;/a&gt; where I go over different ways to handle missing data when conducting propensity score analysis. I go through &lt;code&gt;tidyeval&lt;/code&gt; way of dealing with multiply imputed data. Please see &lt;code&gt;MatchThem&lt;/code&gt; package for functions that work with multiply imputed data and propensity scores &lt;span class=&#34;citation&#34;&gt;(Pishgar and Greifer 2020)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;citation&#34;&gt;Hill (2004)&lt;/span&gt; and &lt;span class=&#34;citation&#34;&gt;Mitra and Reiter (2016)&lt;/span&gt; examined two distinct ways to condition on the propensity scores estimated on multiply imputed data:&lt;/p&gt;
 &lt;div id=&#34;multiple-imputation-across-mi-across&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Multiple Imputation Across (MI Across)&lt;/h2&gt;
@@ -36,7 +35,6 @@
 &lt;p&gt;Below, I show how to implement the Across and Within methods to estimate the average treatment effect on the treated (ATT). The data that I use here is from High School and Beyond (HSB) longitudinal study used by &lt;span class=&#34;citation&#34;&gt;Rosenbaum (1986)&lt;/span&gt; to analyze the effect of dropping out of high school on later math achievement for students who dropped out. For the purpose of this example, I am going to assume a simple random sample.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
 library(mice)
-library(twang)
 library(estimatr)
 library(broom)
 library(naniar)
@@ -153,6 +151,7 @@ imp_dat_ps %&amp;gt;%
 &lt;/div&gt;
 &lt;div id=&#34;checking-balance&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Checking balance&lt;/h1&gt;
+&lt;p&gt;At this point, we would check balance. Please see the &lt;code&gt;cobalt&lt;/code&gt; package for functions on checking balance on multiply imputed data. I am going to skip this step for now.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;estimating-att&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Estimating ATT&lt;/h1&gt;
@@ -302,6 +301,9 @@ within_pooled %&amp;gt;%
 &lt;/div&gt;
 &lt;div id=&#34;ref-mitra_comparison_2016&#34;&gt;
 &lt;p&gt;Mitra, Robin, and Jerome P Reiter. 2016. “A Comparison of Two Methods of Estimating Propensity Scores After Multiple Imputation.” &lt;em&gt;Statistical Methods in Medical Research&lt;/em&gt; 25 (1): 188–204. &lt;a href=&#34;https://doi.org/10.1177/0962280212445945&#34;&gt;https://doi.org/10.1177/0962280212445945&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ref-matchthem_2020&#34;&gt;
+&lt;p&gt;Pishgar, Farhad, and Noah Greifer. 2020. &lt;em&gt;MatchThem: Matching and Weighting Multiply Imputed Datasets&lt;/em&gt;. &lt;a href=&#34;https://CRAN.R-project.org/package=MatchThem&#34;&gt;https://CRAN.R-project.org/package=MatchThem&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;ref-broom_2020&#34;&gt;
 &lt;p&gt;Robinson, David, and Alex Hayes. 2020. &lt;em&gt;Broom: Convert Statistical Analysis Objects into Tidy Tibbles&lt;/em&gt;. &lt;a href=&#34;https://CRAN.R-project.org/package=broom&#34;&gt;https://CRAN.R-project.org/package=broom&lt;/a&gt;.&lt;/p&gt;

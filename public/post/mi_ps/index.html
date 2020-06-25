@@ -28,9 +28,7 @@
   
     
   
-  <meta name="description" content="Work in progress…
-In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier post where I go over different ways to handle missing data when conducting propensity score analysis.
-Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores estimated on multiply imputed data:">
+  <meta name="description" content="In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier post where I go over different ways to handle missing data when conducting propensity score analysis. I go through tidyeval way of dealing with multiply imputed data.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/mi_ps/">
@@ -118,9 +116,7 @@ Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition 
   <meta property="og:site_name" content="Megha">
   <meta property="og:url" content="/post/mi_ps/">
   <meta property="og:title" content="Propensity Score Analysis with Multiply Imputed Data | Megha">
-  <meta property="og:description" content="Work in progress…
-In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier post where I go over different ways to handle missing data when conducting propensity score analysis.
-Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores estimated on multiply imputed data:"><meta property="og:image" content="/img/icon-192.png">
+  <meta property="og:description" content="In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier post where I go over different ways to handle missing data when conducting propensity score analysis. I go through tidyeval way of dealing with multiply imputed data."><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
@@ -172,7 +168,7 @@ Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition 
       "url": "/img/icon-512.png"
     }
   },
-  "description": "Work in progress…\nIn this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier post where I go over different ways to handle missing data when conducting propensity score analysis.\nHill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores estimated on multiply imputed data:"
+  "description": "In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier post where I go over different ways to handle missing data when conducting propensity score analysis. I go through tidyeval way of dealing with multiply imputed data."
 }
 </script>
 
@@ -593,8 +589,7 @@ Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition 
       
 
 
-<p>Work in progress…</p>
-<p>In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier <a href="https://meghapsimatrix.com/post/missing_dat/">post</a> where I go over different ways to handle missing data when conducting propensity score analysis.</p>
+<p>In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier <a href="https://meghapsimatrix.com/post/missing_dat/">post</a> where I go over different ways to handle missing data when conducting propensity score analysis. I go through <code>tidyeval</code> way of dealing with multiply imputed data. Please see <code>MatchThem</code> package for functions that work with multiply imputed data and propensity scores <span class="citation">(Pishgar and Greifer 2020)</span>.</p>
 <p><span class="citation">Hill (2004)</span> and <span class="citation">Mitra and Reiter (2016)</span> examined two distinct ways to condition on the propensity scores estimated on multiply imputed data:</p>
 <div id="multiple-imputation-across-mi-across" class="section level2">
 <h2>Multiple Imputation Across (MI Across)</h2>
@@ -609,7 +604,6 @@ Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition 
 <p>Below, I show how to implement the Across and Within methods to estimate the average treatment effect on the treated (ATT). The data that I use here is from High School and Beyond (HSB) longitudinal study used by <span class="citation">Rosenbaum (1986)</span> to analyze the effect of dropping out of high school on later math achievement for students who dropped out. For the purpose of this example, I am going to assume a simple random sample.</p>
 <pre class="r"><code>library(tidyverse)
 library(mice)
-library(twang)
 library(estimatr)
 library(broom)
 library(naniar)
@@ -726,6 +720,7 @@ imp_dat_ps %&gt;%
 </div>
 <div id="checking-balance" class="section level1">
 <h1>Checking balance</h1>
+<p>At this point, we would check balance. Please see the <code>cobalt</code> package for functions on checking balance on multiply imputed data. I am going to skip this step for now.</p>
 </div>
 <div id="estimating-att" class="section level1">
 <h1>Estimating ATT</h1>
@@ -875,6 +870,9 @@ within_pooled %&gt;%
 </div>
 <div id="ref-mitra_comparison_2016">
 <p>Mitra, Robin, and Jerome P Reiter. 2016. “A Comparison of Two Methods of Estimating Propensity Scores After Multiple Imputation.” <em>Statistical Methods in Medical Research</em> 25 (1): 188–204. <a href="https://doi.org/10.1177/0962280212445945">https://doi.org/10.1177/0962280212445945</a>.</p>
+</div>
+<div id="ref-matchthem_2020">
+<p>Pishgar, Farhad, and Noah Greifer. 2020. <em>MatchThem: Matching and Weighting Multiply Imputed Datasets</em>. <a href="https://CRAN.R-project.org/package=MatchThem">https://CRAN.R-project.org/package=MatchThem</a>.</p>
 </div>
 <div id="ref-broom_2020">
 <p>Robinson, David, and Alex Hayes. 2020. <em>Broom: Convert Statistical Analysis Objects into Tidy Tibbles</em>. <a href="https://CRAN.R-project.org/package=broom">https://CRAN.R-project.org/package=broom</a>.</p>

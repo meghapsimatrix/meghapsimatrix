@@ -11,7 +11,7 @@ bibliography: references.bib
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier [post](https://meghapsimatrix.com/post/missing_dat/) where I go over different ways to handle missing data when conducting propensity score analysis.
+In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier [post](https://meghapsimatrix.com/post/missing_dat/) where I go over different ways to handle missing data when conducting propensity score analysis. I go through `tidyeval` way of dealing with multiply imputed data. Please see `MatchThem` package for functions that work with multiply imputed data and propensity scores [@matchthem_2020]. 
 
 @hill_2004 and @mitra_comparison_2016 examined two distinct ways to condition on the propensity scores estimated on multiply imputed data:
 
@@ -31,7 +31,6 @@ Below, I show how to implement the Across and Within methods to estimate the ave
 ```{r, warning = F, message = F}
 library(tidyverse)
 library(mice)
-library(twang)
 library(estimatr)
 library(broom)
 library(naniar)
@@ -169,7 +168,7 @@ imp_dat_ps %>%
 
 # Checking balance
 
-Please see the `cobalt` package for balance checks. 
+At this point, we would check balance. Please see the `cobalt` package for functions on checking balance on multiply imputed data. I am going to skip this step for now. 
 
 
 # Estimating ATT
