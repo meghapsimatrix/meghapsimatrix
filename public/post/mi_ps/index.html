@@ -29,8 +29,8 @@
     
   
   <meta name="description" content="Work in progress…
-In this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier post that goes over different ways to handle missing data when conducting propensity score analysis.
-When using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores:">
+In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier post where I go over different ways to handle missing data when conducting propensity score analysis.
+Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores estimated on multiply imputed data:">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/mi_ps/">
@@ -119,8 +119,8 @@ When using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examine
   <meta property="og:url" content="/post/mi_ps/">
   <meta property="og:title" content="Propensity Score Analysis with Multiply Imputed Data | Megha">
   <meta property="og:description" content="Work in progress…
-In this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier post that goes over different ways to handle missing data when conducting propensity score analysis.
-When using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores:"><meta property="og:image" content="/img/icon-192.png">
+In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier post where I go over different ways to handle missing data when conducting propensity score analysis.
+Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores estimated on multiply imputed data:"><meta property="og:image" content="/img/icon-192.png">
   <meta property="twitter:image" content="/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
@@ -172,7 +172,7 @@ When using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examine
       "url": "/img/icon-512.png"
     }
   },
-  "description": "Work in progress…\nIn this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier post that goes over different ways to handle missing data when conducting propensity score analysis.\nWhen using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores:"
+  "description": "Work in progress…\nIn this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier post where I go over different ways to handle missing data when conducting propensity score analysis.\nHill (2004) and Mitra and Reiter (2016) examined two distinct ways to condition on the propensity scores estimated on multiply imputed data:"
 }
 </script>
 
@@ -461,7 +461,7 @@ When using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examine
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    9 min read
+    11 min read
   </span>
   
 
@@ -594,8 +594,8 @@ When using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examine
 
 
 <p>Work in progress…</p>
-<p>In this post, I walk through steps of running propensity scores when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated on imputed data. The code builds on my earlier <a href="https://meghapsimatrix.com/post/missing_dat/">post</a> that goes over different ways to handle missing data when conducting propensity score analysis.</p>
-<p>When using multiple imputations, <span class="citation">Hill (2004)</span> and <span class="citation">Mitra and Reiter (2016)</span> examined two distinct ways to condition on the propensity scores:</p>
+<p>In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier <a href="https://meghapsimatrix.com/post/missing_dat/">post</a> where I go over different ways to handle missing data when conducting propensity score analysis.</p>
+<p><span class="citation">Hill (2004)</span> and <span class="citation">Mitra and Reiter (2016)</span> examined two distinct ways to condition on the propensity scores estimated on multiply imputed data:</p>
 <div id="multiple-imputation-across-mi-across" class="section level2">
 <h2>Multiple Imputation Across (MI Across)</h2>
 <p>This approach involves creating <em>m</em> imputed datasets and then estimating propensity scores within each of the datasets and then averaging each unit’s <em>m</em> propensity scores across the <em>m</em> datasets <span class="citation">(Hill 2004)</span>. Stratification, matching or IPW can be implemented using these averaged propensity scores <span class="citation">(Hill 2004)</span>. Outcome models that include covariates will need to use the weights or strata derived from the averaged propensity scores and the <em>m</em> sets of covariate values. The weighted regression estimates will then need to be pooled.</p>
@@ -606,7 +606,7 @@ When using multiple imputations, Hill (2004) and Mitra and Reiter (2016) examine
 </div>
 <div id="read-in-the-data" class="section level1">
 <h1>Read in the data</h1>
-<p>Below, I show how to implement the Across and Within methods to estimate the ATT. The data that I use here is from High School and Beyond (HSB) longitudinal study used by <span class="citation">Rosenbaum (1986)</span> to analyze the effect of dropping out of high school on later math achievement. For the purpose of this example, I am going to assume a simple random sample.</p>
+<p>Below, I show how to implement the Across and Within methods to estimate the average treatment effect on the treated (ATT). The data that I use here is from High School and Beyond (HSB) longitudinal study used by <span class="citation">Rosenbaum (1986)</span> to analyze the effect of dropping out of high school on later math achievement for students who dropped out. For the purpose of this example, I am going to assume a simple random sample.</p>
 <pre class="r"><code>library(tidyverse)
 library(mice)
 library(twang)
@@ -618,33 +618,33 @@ library(knitr)</code></pre>
   mutate_if(is.character, as.factor) %&gt;%
   mutate_at(vars(repeated_grade, IEP), as.factor) %&gt;%
   select(-working_T3) # an outcome we don&#39;t care about</code></pre>
-<p>Below, using <code>gg_miss_var</code> from the <code>naniar</code> package, I visualize the percent of data that are missing for each of the variables <span class="citation">(Tierney et al. 2020)</span>. The treatment variable, <code>drop_status</code> has no missing data. The outcome variable, <code>math_score_T2</code>, however, does have around 10% missing data.</p>
+<p>Below, using <code>gg_miss_var</code> from the <code>naniar</code> package, I visualize the percent of data that are missing for each of the variables <span class="citation">(Tierney et al. 2020)</span>. The treatment variable, <code>drop_status</code> has no missing data. The outcome variable, <code>math_score_T2</code>, however, does have around 10% missing data. I am going to impute the outcome data and the covariate data in this example. Please see <span class="citation">Hill (2004)</span> for a discussion on dealing with missing outcome data.</p>
 <pre class="r"><code>gg_miss_var(hsls_dat, show_pct = TRUE)</code></pre>
 <p><img src="/post/mi_ps_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 <div id="multiple-imputation-using-mice" class="section level1">
 <h1>Multiple imputation using <code>mice</code></h1>
-<p>Here, I impute the data using the <code>mice</code> package and set the number of imputations and itereations to 10 each and also set the seed <span class="citation">(van Buuren and Groothuis-Oudshoorn 2011)</span>. Then, I save the result as an <code>RData</code> file. For imputation method, I let mice run the default methods: predicitive mean matching for continuous variables, Bayesian logistic regression for binary variables and Bayesian polytomous regression for multinomial variables. For more information on methods for imputation, please see <a href="https://stefvanbuuren.name/fimd/sec-modelform.html">Chapter 6.2</a> from <a href="https://stefvanbuuren.name/fimd/">Flexible Modeling of Missing Data</a> <span class="citation">(van Buuren 2018)</span>.</p>
+<p>Here, I impute the data using the <code>mice</code> package and set the number of imputations and iterations to 10 each <span class="citation">(van Buuren and Groothuis-Oudshoorn 2011)</span>. Then, I save the result as an <code>RData</code> file that I can load later. For the imputation method, I let mice run the default methods: predicitive mean matching for continuous variables, Bayesian logistic regression for binary variables and Bayesian polytomous regression for multinomial variables. For more information on different methods for imputation, please see <a href="https://stefvanbuuren.name/fimd/sec-modelform.html">Chapter 6.2</a> from <a href="https://stefvanbuuren.name/fimd/">Flexible Modeling of Missing Data</a> <span class="citation">(van Buuren 2018)</span>.</p>
 <pre class="r"><code>system.time(temp_data &lt;- mice(hsls_dat, m = 10, maxit = 10, seed = 20200516))
 
 save(temp_data, file = &quot;temp_data.RData&quot;)</code></pre>
-<div id="long-format" class="section level2">
-<h2>Long format</h2>
-<p>I then load the saved RData file and then extract a long format data that contains each of the 10 imputed data stacked.</p>
+<div id="imputed-data" class="section level2">
+<h2>Imputed data</h2>
+<p>I load the saved <code>RData</code> file and then extract the data that contains each of the 10 imputed data stacked.</p>
 <pre class="r"><code>load(&quot;temp_data.RData&quot;)
 imp_dat &lt;- complete(temp_data, action = &quot;long&quot;)</code></pre>
 </div>
 </div>
 <div id="estimating-propensity-scores" class="section level1">
 <h1>Estimating propensity scores</h1>
-<p>Below I create a dataset with only the covariates and use the <code>paste()</code> function to create propensity score model equation. For the sake of this example, I only focus on including main effects of the covariates in the propensity score model.</p>
+<p>Below I create a dataset with only the covariates and use the <code>paste()</code> function to create a propensity score model equation. For the sake of this example, I only focus on including main effects of the covariates in the propensity score model.</p>
 <pre class="r"><code>covs &lt;- imp_dat %&gt;%
   select(sex:climate, math_score_T1)
 
 equation_ps &lt;- paste(&quot;drop_status ~ &quot;, paste(names(covs), collapse = &quot; + &quot;))
 equation_ps</code></pre>
 <pre><code>## [1] &quot;drop_status ~  sex + race + language + repeated_grade + IEP + locale + region + SES + math_identity + math_utility + math_efficacy + math_interest + engagement + belonging + expectations + climate + math_score_T1&quot;</code></pre>
-<p>Here, I create a function <code>estimate_ps()</code> that takes in an equation and a dataset, then runs logistic regression using <code>glm()</code>. Then the function adds logit of propensity scores and propensity scores as columns in the dataset.</p>
+<p>Here, I create a function <code>estimate_ps()</code> that takes in an equation and a dataset and runs logistic regression using <code>glm()</code>. The function then adds the logit of propensity scores and the propensity scores as columns in the data.</p>
 <p>I then group the <code>imp_dat</code> by the imputation number and then run the <code>estimate_ps()</code> function on each of the imputed dataset using the <code>do()</code> function from <code>dplyr</code> <span class="citation">(Wickham et al. 2019)</span>.</p>
 <pre class="r"><code>estimate_ps &lt;- function(equation, dat){
   
@@ -667,7 +667,7 @@ imp_dat_ps &lt;- imp_dat %&gt;%
 <div id="estimating-att-ipw-weights" class="section level1">
 <h1>Estimating ATT IPW weights</h1>
 <p>Below I estimate ATT weights using the across and within methods. For the Across method, I use the average of the propensity scores across the imputed datasets to calculate weights. For the within method, I use the the propensity scores estimated within each imputed dataset to calculate weights.</p>
-<p>The code below groups the imputed data by <code>.id</code> which is an identifier denoting each case. For each case, I summarize the mean of the propensity scores across the 10 imputed dataset. I then estimate the ATT weights using the averaged propensity scores for the Across method and the original propensity scores for the Within method.</p>
+<p>The code below groups the imputed data by <code>.id</code> which is an identifier denoting each case. For each case, I summarize the mean of the propensity scores across the 10 imputed dataset and add that mean propensity score as a variable <code>ps_across</code> in the data. Then, I estimate the ATT weights using the averaged propensity scores for the Across method and the original propensity scores for the Within method.</p>
 <pre class="r"><code>imp_dat_ps &lt;- imp_dat_ps %&gt;%
   group_by(.id) %&gt;%
   mutate(ps_across = mean(ps)) %&gt;%
@@ -693,12 +693,43 @@ imp_dat_ps %&gt;%
 ## 10     1 0.000667  0.000633      0.000633      0.000667
 ## # … with 214,010 more rows</code></pre>
 </div>
+<div id="checking-common-support" class="section level1">
+<h1>Checking common support</h1>
+<div id="across" class="section level2">
+<h2>Across</h2>
+<p>The propensity scores are averaged across the imputations when using the Across method. Thus, I create a density plot showing the distribution of the logit of the propensity scores from one of the imputations (all of the imputations will have the same distribution). The distribution of the propensity scores for drop-outs overlaps with that for the stayers satisfying the common support assumption.</p>
+<pre class="r"><code>imp_dat_ps %&gt;%
+  mutate(drop = if_else(drop_status == 1, &quot;Drop-outs&quot;, &quot;Stayers&quot;),
+         ps_across_logit = log(ps_across/ (1 - ps_across))) %&gt;%
+  filter(.imp == 1) %&gt;%
+  ggplot(aes(x = ps_across_logit, fill = drop)) +
+  geom_density(alpha = .5) + 
+  labs(x = &quot;Logit Propensity Scores&quot;, y = &quot;Density&quot;, fill = &quot;&quot;) + 
+  ggtitle(&quot;Common Support: Across Method&quot;) +
+  theme_bw()</code></pre>
+<p><img src="/post/mi_ps_files/figure-html/unnamed-chunk-9-1.png" width="480" /></p>
+</div>
+<div id="within" class="section level2">
+<h2>Within</h2>
+<p>The propensity scores estimated for each imputation are used when using the Within method. Below, I create density plots showing distributions of the logit of the propensity scores faceted by the imputation. The common support assumption seems to be satisfied across all the imputations.</p>
+<p>In other datasets, the common support assumption may be violated. In such a case, certain cases might need to be trimmed from the analysis so there is enough overlap of the distributions.</p>
+<pre class="r"><code>imp_dat_ps %&gt;%
+  mutate(drop = if_else(drop_status == 1, &quot;Drop-outs&quot;, &quot;Stayers&quot;)) %&gt;%
+  ggplot(aes(x = ps_logit, fill = drop)) +
+  geom_density(alpha = .5) + 
+  labs(x = &quot;Logit Propensity Scores&quot;, y = &quot;Density&quot;, fill = &quot;&quot;) + 
+  ggtitle(&quot;Common Support: Within Method&quot;) + 
+  facet_wrap(~ .imp, ncol = 2) + 
+  theme_bw()</code></pre>
+<p><img src="/post/mi_ps_files/figure-html/unnamed-chunk-10-1.png" width="576" /></p>
+</div>
+</div>
 <div id="checking-balance" class="section level1">
 <h1>Checking balance</h1>
 </div>
 <div id="estimating-att" class="section level1">
 <h1>Estimating ATT</h1>
-<p>Below I create a function to estimate the ATT. The function takes in an equation, a dataset, and weights as arguments. Then it runs a model using <code>lm_robust()</code> from the <code>estimatr</code> package <span class="citation">(Blair et al. 2020)</span>. The standard errors of the regression coefficients are estimated using <code>HC2</code> type sandwich errors. I then clean up the results using <code>tidy()</code> from <code>broom</code> <span class="citation">(Robinson and Hayes 2020)</span>.</p>
+<p>Below I create a function to estimate the ATT. The function takes in an equation, a dataset, and weights as arguments. Then, it runs a model using <code>lm_robust()</code> from the <code>estimatr</code> package <span class="citation">(Blair et al. 2020)</span>. The standard errors of the regression coefficients are estimated using <code>HC2</code> type sandwich errors. It then cleans up the results using <code>tidy()</code> from <code>broom</code> <span class="citation">(Robinson and Hayes 2020)</span>.</p>
 <pre class="r"><code>estimate_ATT &lt;- function(equation, dat, wts){
   
   wts &lt;- dat %&gt;% pull({{wts}})
@@ -713,7 +744,7 @@ imp_dat_ps %&gt;%
   return(res)
   
 }</code></pre>
-<p>I set up an equation regressing the outcome variable, <code>math_score_T2</code> on drop status and on the main effects of all the covariates. I then run the <code>estimate_ATT()</code> function on each imputed data using <code>group_by()</code> and <code>do()</code>. The weights are different for the Across and Within methods.</p>
+<p>I set up an equation regressing the outcome variable, <code>math_score_T2</code> on drop status and on the main effects of all the covariates. Then, I run the <code>estimate_ATT()</code> function on each imputed data using <code>group_by()</code> and <code>do()</code>. Note that the weights are different for the Across and Within methods.</p>
 <pre class="r"><code>equation_ancova &lt;- paste(&quot;math_score_T2 ~ drop_status + &quot;, paste(names(covs), collapse = &quot; + &quot;))
 equation_ancova</code></pre>
 <pre><code>## [1] &quot;math_score_T2 ~ drop_status +  sex + race + language + repeated_grade + IEP + locale + region + SES + math_identity + math_utility + math_efficacy + math_interest + engagement + belonging + expectations + climate + math_score_T1&quot;</code></pre>
@@ -762,7 +793,7 @@ within_res &lt;- imp_dat_ps %&gt;%
   
 }</code></pre>
 <p>Below I use the <code>calc_pooled()</code> function to pool the results for each of the methods.</p>
-<div id="across" class="section level2">
+<div id="across-1" class="section level2">
 <h2>Across</h2>
 <pre class="r"><code>across_pooled &lt;- calc_pooled(dat = across_res, est = estimate, se = se, df = df)
 across_pooled %&gt;%
@@ -788,7 +819,7 @@ across_pooled %&gt;%
 </tbody>
 </table>
 </div>
-<div id="within" class="section level2">
+<div id="within-1" class="section level2">
 <h2>Within</h2>
 <pre class="r"><code>within_pooled &lt;- calc_pooled(dat = within_res, est = estimate, se = se, df = df)
 within_pooled %&gt;%
@@ -813,6 +844,17 @@ within_pooled %&gt;%
 </tr>
 </tbody>
 </table>
+</div>
+<div id="interpretation" class="section level2">
+<h2>Interpretation</h2>
+<div id="across-2" class="section level3">
+<h3>Across</h3>
+<p>For students who dropped out, if they drop out of high school, they are expected to score -0.335, 95% CI[-0.411, -0.26] lower on math score in 2012 compared to if they stayed.</p>
+</div>
+<div id="within-2" class="section level3">
+<h3>Within</h3>
+<p>For students who dropped out, if they drop out of high school, they are expected to score -0.356, 95% CI[-0.438, -0.273] lower on math score in 2012 compared to if they stayed.</p>
+</div>
 </div>
 </div>
 <div id="comparing-the-methods" class="section level1">
