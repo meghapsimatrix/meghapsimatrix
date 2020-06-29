@@ -118,7 +118,7 @@ summary(dat$ipw_s)
 
 ## Checking Balance and Outcome Analysis
 
-Please check back on my next post :) Short story: For balance, we have to calculate weighted correlations, and for outcome analysis we estimate the expected outcome for each treatment level and compare (Austin, 2019).
+Short story: For balance, we have to calculate weighted correlations, and for outcome analysis we estimate the expected outcome for each treatment level and compare (Austin, 2019).
 
 
 # References
