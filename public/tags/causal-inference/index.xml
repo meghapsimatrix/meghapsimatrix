@@ -233,7 +233,7 @@ summary(dat$ipw_s)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;checking-balance-and-outcome-analysis&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Checking Balance and Outcome Analysis&lt;/h2&gt;
-&lt;p&gt;Please check back on my next post :) Short story: For balance, we have to calculate weighted correlations, and for outcome analysis we estimate the expected outcome for each treatment level and compare (Austin, 2019).&lt;/p&gt;
+&lt;p&gt;Short story: For balance, we have to calculate weighted correlations, and for outcome analysis we estimate the expected outcome for each treatment level and compare (Austin, 2019).&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;references&#34; class=&#34;section level1&#34;&gt;
