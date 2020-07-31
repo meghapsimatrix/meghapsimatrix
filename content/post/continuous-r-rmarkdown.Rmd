@@ -69,7 +69,7 @@ The data that I use here is from High School and Beyond (HSB) longitudinal study
 ```{r, message = FALSE, warning = FALSE}
 library(tidyverse)
 
-dat <- read_csv("https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_incomplete.csv")
+dat <- read_csv("https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_complete.csv")
 
 ```
 

@@ -47,7 +47,7 @@ tags: ["propensity score analysis", "causal inference", "continuous treatment"]
 <h2>Loading the Data</h2>
 <pre class="r"><code>library(tidyverse)
 
-dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_incomplete.csv&quot;)</code></pre>
+dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/meghapsimatrix/datasets/master/causal/HSLS09_complete.csv&quot;)</code></pre>
 </div>
 <div id="the-numerators" class="section level2">
 <h2>The Numerators</h2>
@@ -76,8 +76,8 @@ den &lt;- dnorm(x = dat$math_efficacy, # treatment variable
   mutate(ipw_s = num/den)
 
 summary(dat$ipw_s)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
-##   0.268   0.938   0.972   1.091   1.092  22.092    4223</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.1398  0.9186  0.9778  1.0001  1.0390  5.9782</code></pre>
 </div>
 <div id="checking-balance-and-outcome-analysis" class="section level2">
 <h2>Checking Balance and Outcome Analysis</h2>
