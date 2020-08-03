@@ -44,7 +44,7 @@ date_format = "Jan 2006"
   description = """
   Responsibilities include:
   
-  * Assisted in the following courses: Causal Inference; Data Analysis, Simulation, Programming in R; Research Design; Survey of Multivariate Methods' Fundamental Statistics; and, Statistics in Market Analysis.
+  * Assisted in the following courses: Causal Inference; Data Analysis, Simulation, Programming in R; Research Design; Survey of Multivariate Methods; Fundamental Statistics; and, Statistics in Market Analysis.
   * Effectively communicated complex statistical methods to students with little prior background in the field. 
   """
 
