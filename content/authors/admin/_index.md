@@ -21,7 +21,7 @@ name: Megha Joshi
 organizations:
 - name: The University of Texas at Austin
   url: ""
-role: Doctoral student
+role: Doctoral candidate
 social:
 - icon: envelope
   icon_pack: fas
