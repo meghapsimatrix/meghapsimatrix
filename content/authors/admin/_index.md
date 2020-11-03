@@ -13,9 +13,9 @@ education:
 email: ""
 interests:
 - Causal inference
+- Meta-analysis
 - Missing data
 - Machine learning
-- Meta-analysis
 - Robust variance-covariance matrices
 name: Megha Joshi 
 organizations:
