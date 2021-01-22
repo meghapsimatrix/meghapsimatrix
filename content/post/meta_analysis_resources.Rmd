@@ -25,6 +25,10 @@ tags: ["meta-analysis"]
 - [metaforest](https://cran.r-project.org/web/packages/metaforest/vignettes/Introduction_to_metaforest.html)
 
 
+## Meta SEM
+
+- [metaSEM](https://cran.r-project.org/web/packages/metaSEM/vignettes/metaSEM.pdf)
+
 # Papers
 
 ## Effect sizes
