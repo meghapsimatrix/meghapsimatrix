@@ -76,6 +76,11 @@ Chapter from a book discussing multivariate meta-analysis.
 “Meta-analyses often include studies that report multiple effect sizes based on a common pool of subjects or that report effect sizes from several samples that were treated with very similar research protocols. The inclusion of such studies introduces dependence among the effect size estimates. When the number of studies is large, robust variance estimation (RVE) provides a method for pooling dependent effects, even when information on the exact dependence structure is not available. When the number of studies is small or moderate, however, test statistics and confidence intervals based on RVE can have inflated Type I error. This article describes and investigates several small-sample adjustments to F-statistics based on RVE. Simulation results demonstrate that one such test, which approximates the test statistic using Hotelling’s T2 distribution, is level-a and uniformly more powerful than the others. An empirical application demonstrates how results based on this test compare to the large- sample F-test.”
 
 
+[Tanner-Smith, E.E., Tipton, E. & Polanin, J.R. Handling Complex Meta-analytic Data Structures Using Robust Variance Estimates: a Tutorial in R. J Dev Life Course Criminology 2, 85–112 (2016).](https://link.springer.com/article/10.1007/s40865-016-0026-5#citeas)
+
+"This paper describes a recent innovative method for handling complex meta-analytic data structures arising due to dependent effect sizes: robust variance estimation (RVE). We first present a brief overview of the RVE method, describing the underlying models and estimation procedures and their applicability to meta-analyses of research in developmental criminology. We then present a tutorial on implementing these methods in the R statistical environment, using an example meta-analysis on risk factors for adolescent delinquency."
+
+
 ### RVE expanded working models 
 
 [Pustejovsky, J. E., & Tipton, E. (2020). Meta-Analysis with Robust Variance Estimation: Expanding the Range of Working Models.](https://osf.io/preprints/metaarxiv/vyfcj/)
