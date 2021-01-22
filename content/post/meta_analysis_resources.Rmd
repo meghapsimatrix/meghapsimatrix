@@ -16,6 +16,10 @@ tags: ["meta-analysis"]
 - [clubSandwich](https://www.jepusto.com/software/clubsandwich/)
 - [wildmeta](https://meghapsimatrix.github.io/wildmeta/)
 
+## Publication Bias
+
+-[PublicationBias](https://cran.r-project.org/web/packages/PublicationBias/index.html)
+
 ## Forest plots
 
 - [metaviz](https://cran.r-project.org/web/packages/metaviz/vignettes/metaviz.html)
@@ -28,6 +32,7 @@ tags: ["meta-analysis"]
 ## Meta SEM
 
 - [metaSEM](https://cran.r-project.org/web/packages/metaSEM/vignettes/metaSEM.pdf)
+
 
 #3 Other packages
 
