@@ -18,7 +18,7 @@ tags: ["meta-analysis"]
 
 ## Publication Bias
 
--[PublicationBias](https://cran.r-project.org/web/packages/PublicationBias/index.html)
+- [PublicationBias](https://cran.r-project.org/web/packages/PublicationBias/index.html)
 
 ## Forest plots
 
@@ -34,7 +34,7 @@ tags: ["meta-analysis"]
 - [metaSEM](https://cran.r-project.org/web/packages/metaSEM/vignettes/metaSEM.pdf)
 
 
-#3 Other packages
+## Other packages
 
 [Polanin, J. R., Hennessy, E. A., & Tanner-Smith, E. E. (2017). A review of meta-analysis packages in R. Journal of Educational and Behavioral Statistics, 42(2), 206-242.](https://journals.sagepub.com/doi/abs/10.3102/1076998616674315?journalCode=jebb)
 
