@@ -63,9 +63,7 @@ tags: ["meta-analysis"]
 
 ### Multivariate meta-analysis
 
-Becker, B. J. (2000). Multivariate meta-analysis. In Handbook of applied multivariate statistics and mathematical modeling (pp. 499-525). Academic Press.
-
-Chapter from a book discussing multivariate meta-analysis. 
+[Becker, B. J. (2000). Multivariate meta-analysis. In Handbook of applied multivariate statistics and mathematical modeling (pp. 499-525). Academic Press.](https://www.sciencedirect.com/science/article/pii/B9780126913606500185)
 
 ### Robust variance estimation
 
