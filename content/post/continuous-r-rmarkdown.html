@@ -6,6 +6,7 @@ categories: ["R"]
 tags: ["propensity score analysis", "causal inference", "continuous treatment"]
 ---
 
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p>In my qualifying exam, in the written part, I was asked about how to analyze the effect of continuous, not binary, treatment using propensity score analysis. I skipped it for the written but I spent a few days looking up how to analyze this in case I would be asked during my oral examination. Sadly, no one asked me even when I asked them to, so here is a blog detailing my explorations.</p>
@@ -34,7 +35,7 @@ tags: ["propensity score analysis", "causal inference", "continuous treatment"]
 <h1>Calculating Weights</h1>
 <p>Following the same logic as the inverse propensity weights (IPW) for the estimation of the average treatment effect (ATE) for a binary treatment, we calculate the inverse of the propensity scores as the weights:</p>
 <p><span class="math display">\[\frac{1}{{f_{T|X}}^{(t|x)}}\]</span></p>
-<p>However, Robins et al. (2000) noted that such weights can result in infinite variance (Austin, 2019). They suggested to use stabilized weights as follows:</p>
+<p>However, Robins et al. (2000) noted that such weights can result in infinite variance (Austin, 2019). They suggested to use stabilized weights as follows:</p>
 <p><span class="math display">\[\frac{{f_{T}}^{(t)}}{{f_{T|X}}^{(t|x)}}\]</span></p>
 <p>Here the numerator represents the marginal density of treatment:</p>
 <p><span class="math display">\[{f_{T}}^{(t)} = \frac{1}{\sqrt{2\pi\hat{\sigma_t}^2}} e^{-\frac{(t - \mu_t)^2}{2\pi\hat{\sigma_t}^2}}\]</span></p>
@@ -86,6 +87,7 @@ summary(dat$ipw_s)</code></pre>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
+<p>Austin, P. C. (2019). Assessing covariate balance when using the generalized propensity score with quantitative or continuous exposures. Statistical methods in medical research, 28(5), 1365-1377.</p>
 <p>Bia, M., &amp; Mattei, A. (2008). A Stata package for the estimation of the dose-response function through adjustment for the generalized propensity score. The Stata Journal, 8(3), 354-373.</p>
 <p>Hirano K and Imbens GW. The propensity score with continuous treatments. In: Gelman A and Meng X-L (eds) Applied Bayesian modeling and causal inference from incomplete-data perspectives. Chichester: John Wiley &amp; Sons Ltd, 2004, pp.73–84.</p>
 <p>Robins JM, Hernan MA and Brumback B. Marginal structural models and causal inference in epidemiology. Epidemiol 2000; 11: 550–560.</p>

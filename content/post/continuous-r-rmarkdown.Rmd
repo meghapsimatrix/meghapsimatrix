@@ -123,6 +123,8 @@ Short story: For balance, we have to calculate weighted correlations, and for ou
 
 # References
 
+Austin, P. C. (2019). Assessing covariate balance when using the generalized propensity score with quantitative or continuous exposures. Statistical methods in medical research, 28(5), 1365-1377.
+
 Bia, M., & Mattei, A. (2008). A Stata package for the estimation of the dose-response function through adjustment for the generalized propensity score. The Stata Journal, 8(3), 354-373.
 
 Hirano K and Imbens GW. The propensity score with continuous treatments. In: Gelman A and Meng X-L (eds) Applied Bayesian modeling and causal inference from incomplete-data perspectives. Chichester: John Wiley & Sons Ltd, 2004, pp.73–84.
