@@ -1,7 +1,7 @@
 ---
 title: "ERCOT Price Gouging"
 author: "Megha Joshi"
-date: 2020-02-23
+date: 2021-02-23
 categories: ["R"]
 tags: ["ERCOT", "ggplot", "Texas freeze", "power outage"]
 output:
