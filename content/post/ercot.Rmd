@@ -14,11 +14,11 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
+Welcome to the [Deregulated State of Texas](https://twitter.com/waltshaub/status/1362791542608588802)! 
  
-During the crisis brought on by government failure and capitalism last week in Texas that cause millions of people to suffer in freezing temperatures and suffer without water, some Texans [received egregious electricity bills](https://www.washingtonpost.com/nation/2021/02/21/texas-high-electric-bills/). 
+During the crisis brought on by government failure and capitalism last week in Texas that caused millions of people to suffer in freezing temperatures and suffer without water, some Texans [received egregious electricity bills](https://www.washingtonpost.com/nation/2021/02/21/texas-high-electric-bills/). 
 
-I found the historical data on Electric Reliability Council of Texas (ERCOT) settlement point prices [here](http://mis.ercot.com/misapp/GetReports.do?reportTypeId=13060&reportTitle=Historical%20DAM%20Load%20Zone%20and%20Hub%20Prices&showHTMLView=&mimicKey). ERCOT manages the power grid system in Texas. According to [Quick Facts](http://www.ercot.com/content/wcm/lists/144926/ERCOT_Quick_Facts_8818.pdf) from ERCOT, "it also performs financial settlement for the competitive wholesale bulk-power market and administers retail switching for seven million premises in competitive choice areas." 
+I found the historical data on Electric Reliability Council of Texas (ERCOT) settlement point prices [here](http://mis.ercot.com/misapp/GetReports.do?reportTypeId=13060&reportTitle=Historical%20DAM%20Load%20Zone%20and%20Hub%20Prices&showHTMLView=&mimicKey). ERCOT manages the power grid system in Texas. According to the [Quick Facts](http://www.ercot.com/content/wcm/lists/144926/ERCOT_Quick_Facts_8818.pdf) from ERCOT, "it also performs financial settlement for the competitive wholesale bulk-power market and administers retail switching for seven million premises in competitive choice areas." 
 
 Below I plot Daily-Ahead Market Settlement Point Prices (DAM SPP). According to [ERCOT website](http://www.ercot.com/mktinfo/dam), "The Day-Ahead Market (DAM) is a voluntary, financially-binding forward energy market. The DAM matches willing buyers and sellers, subject to network security and other constraints..." 
 
@@ -36,7 +36,7 @@ glimpse(ercot_dat)
 summary(ercot_dat$settlement_point_price)
 ```
 
-The data contains SPPs for different Hubs and Load Zones:
+The data contains SPPs for different Hubs and Load Zones (these care called settlement points in the data):
 
 ```{r}
 unique(ercot_dat$settlement_point)
@@ -60,5 +60,7 @@ ercot_dat %>%
   labs(x = "Date", y = "Average Day-Ahead Market Settlement Point Price") + 
   theme_bw()
 ```
+
+
 
 Make utilities public!
