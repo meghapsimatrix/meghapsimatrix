@@ -1,0 +1,49 @@
+---
+title: "ERCOT Price Gouging"
+author: "Megha Joshi"
+date: 2020-02-23
+categories: ["R"]
+tags: ["ERCOT", "ggplot", "Texas freeze", "power outage"]
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>During the crisis brought on by government failure and capitalism last week in Texas that cause millions of people to suffer in freezing temperatures and suffer without water, some Texans <a href="https://www.washingtonpost.com/nation/2021/02/21/texas-high-electric-bills/">received egregious electricity bills</a>.</p>
+<p>I found the historical data on Electric Reliability Council of Texas (ERCOT) settlement point prices <a href="http://mis.ercot.com/misapp/GetReports.do?reportTypeId=13060&amp;reportTitle=Historical%20DAM%20Load%20Zone%20and%20Hub%20Prices&amp;showHTMLView=&amp;mimicKey">here</a>. ERCOT manages the power grid system in Texas. According to <a href="http://www.ercot.com/content/wcm/lists/144926/ERCOT_Quick_Facts_8818.pdf">Quick Facts</a> from ERCOT, “it also performs financial settlement for the competitive wholesale bulk-power market and administers retail switching for seven million premises in competitive choice areas.” Below I plot Daily-Ahead Market settlement point prices.</p>
+<pre class="r"><code>library(tidyverse)
+library(lubridate)
+library(scales)
+
+ercot_dat &lt;- read_csv(&quot;https://raw.githubusercontent.com/meghapsimatrix/datasets/master/ercot/ercot_dam_spp.csv&quot;)
+
+glimpse(ercot_dat)</code></pre>
+<pre><code>## Rows: 7,200
+## Columns: 5
+## $ delivery_date          &lt;chr&gt; &quot;02/01/2021&quot;, &quot;02/01/2021&quot;, &quot;02/01/2021&quot;, &quot;02/…
+## $ hour_ending            &lt;time&gt; 01:00:00, 01:00:00, 01:00:00, 01:00:00, 01:00…
+## $ repeated_hour_flag     &lt;chr&gt; &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;N&quot;, &quot;…
+## $ settlement_point       &lt;chr&gt; &quot;HB_BUSAVG&quot;, &quot;HB_HOUSTON&quot;, &quot;HB_HUBAVG&quot;, &quot;HB_NO…
+## $ settlement_point_price &lt;dbl&gt; 20.04, 20.19, 19.91, 20.80, 21.08, 17.42, 21.2…</code></pre>
+<pre class="r"><code># not collapsing across hours
+summary(ercot_dat$settlement_point_price)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  -30.04   20.75   38.42 2071.37 3174.66 9052.53</code></pre>
+<pre class="r"><code>ercot_dat %&gt;%
+  mutate(delivery_date = mdy(delivery_date)) %&gt;%
+  group_by(delivery_date) %&gt;%
+  summarize(mean_spp = mean(settlement_point_price)) %&gt;%
+  ggplot(aes(x = delivery_date, y = mean_spp)) + 
+  geom_point(alpha = .5) + 
+  geom_line(color = &quot;blue&quot;) + 
+  scale_y_continuous(breaks = seq(0, 10000, 1000), 
+                     label = comma) +
+  scale_x_date(breaks = pretty_breaks(10)) +
+  labs(x = &quot;Date&quot;, y = &quot;Average Day Ahead Market Settlement Point Price&quot;) + 
+  theme_bw()</code></pre>
+<p><img src="/post/ercot_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Make utilities public!</p>
