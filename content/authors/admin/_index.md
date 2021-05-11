@@ -18,10 +18,7 @@ interests:
 - Machine learning
 - Robust variance-covariance matrices
 name: Megha Joshi 
-organizations:
-- name: Analyst Institute
-  url: ""
-role: Meta-Analysis Data Scientist
+
 social:
 - icon: envelope
   icon_pack: fas
