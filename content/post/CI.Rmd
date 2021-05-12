@@ -330,7 +330,7 @@ Then we recommend what method should be used under what conditions. This is why 
 
 ### Wait what is precision, accuracy, bias?
 
-![](precision_accuracy.png)
+![](/img/precision_accuracy.png)
 
 
 Consider the [image above](https://manoa.hawaii.edu/exploringourfluidearth/physical/world-ocean/map-distortion/practices-science-precision-vs-accuracy). The center of the dart board is the population parameter, the population average height of 5.5. Each of the dart is a sample and where it lands is the sample statistic. The goal is for each statistic to be as close as possible to the center. 
@@ -346,6 +346,9 @@ Panel A in the image above indicates low precision, high bias, and low accuracy.
 #### Where do CI's fit in here?
 
 CI's give information on precision. We can get a narrow CI under scenario B and under scenario D. CI's do not give information on accuracy. If the estimated mean is biased as is the case with the sample mean from the really tall people (sample 3), the CI is not going to capture the true mean. It is going to shift with the biased estimate. 
+
+
+
 
 
 # Further links
