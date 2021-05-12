@@ -1,13 +1,9 @@
 ---
 title: "What is a Confidence Interval?"
 author: "Megha Joshi"
-date: "5/11/2021"
-output: 
-  html_document:
-    number_sections: true
-    toc: true
-    toc_float: true
-    code_folding: hide
+date: 2021-05-11
+categories: ["R"]
+tags: ["statistics", "confidence intervals"]
 ---
 
 ```{r setup, include=FALSE}
@@ -16,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r, warning = FALSE, message = FALSE}
 library(tidyverse)
-library(kableExtra)
+library(knitr)
 ```
 
 # Distributions
@@ -109,8 +105,7 @@ m_s1 <- mean(sample_1$heights)
 sd_s1 <- sd(sample_1$heights) 
 
 calculate_ci(m = m_s1, sd = sd_s1) %>%
-  kable(digits = 3) %>%
-  kable_styling(bootstrap_options = "striped", full_width = FALSE)
+  kable(digits = 3) 
 ```
 
 In this example, the true population mean is in the CI. Note that the CI does not capture the range of the heights in the population (which is 4 to 7). 
@@ -127,8 +122,7 @@ m_s2 <- mean(sample_2$heights)
 sd_s2 <- sd(sample_2$heights) 
 
 calculate_ci(m = m_s2, sd = sd_s2) %>%
-  kable(digits = 3) %>%
-  kable_styling(bootstrap_options = "striped", full_width = FALSE)
+  kable(digits = 3) 
 ```
 
 This CI contains 5.5. Notice that the mean is close to 5.6 which is a bit different from the population parameter 5.5, and different from the sample mean of the first sample.
@@ -151,8 +145,7 @@ m_s3 <- mean(sample_3$heights)
 sd_s3 <- sd(sample_3$heights) 
 
 calculate_ci(m = m_s3, sd = sd_s3) %>%
-  kable(digits = 3) %>%
-  kable_styling(bootstrap_options = "striped", full_width = FALSE)
+  kable(digits = 3) 
 ```
 
 This CI definitely doesn't capture the 5.5 average population height. It doesn't say anything about the true population height which we know is 5.5. 
@@ -225,8 +218,7 @@ In the graph of the sampling distribution above above, some of the sample means 
 samples_ci %>%
   filter(mean > 5.9) %>%
   tail(n = 5) %>%
-  kable(digits = 3) %>%
-  kable_styling(bootstrap_options = "striped", full_width = FALSE)
+  kable(digits = 3) 
 ```
 
 Below are the sample means and CI's at the lower end of the distribution. These CI's also don't contain 5.5.
@@ -235,8 +227,7 @@ Below are the sample means and CI's at the lower end of the distribution. These 
 samples_ci %>%
   filter(mean < 5) %>%
   tail(n = 5) %>%
-  kable(digits = 3) %>%
-  kable_styling(bootstrap_options = "striped", full_width = FALSE)
+  kable(digits = 3) 
 ```
 
 Note here that the means at the extreme ends of the sampling distribution are from simple random samples of the population. So in real applied analysis, we could get one of those samples with extreme heights by chance and our CI won't capture the true mean. 
@@ -262,8 +253,7 @@ samples_ci <-
 samples_ci %>%
   summarize(prop = mean(captures),
             n = sum(captures)) %>%
-  kable(digits = 3) %>%
-  kable_styling(bootstrap_options = "striped", full_width = FALSE)
+  kable(digits = 3) 
 ```
 
 The proportion is close to 95%. Also note that I would need to take infinite number of samples to get close to 95%. 
@@ -305,8 +295,7 @@ large <- calculate_ci(m = m_s5, sd = sd_s5, n = n_s5) %>%
 bind_rows(small, large) %>%
   mutate(width = ci_u - ci_l) %>%
   select(n, everything()) %>%
-  kable(digits = 3) %>%
-  kable_styling(bootstrap_options = "striped", full_width = FALSE)
+  kable(digits = 3)
 ```
 
 

@@ -1,22 +1,16 @@
 ---
 title: "What is a Confidence Interval?"
 author: "Megha Joshi"
-date: "5/11/2021"
-output: 
-  html_document:
-    number_sections: true
-    toc: true
-    toc_float: true
-    code_folding: hide
+date: 2021-05-11
+categories: ["R"]
+tags: ["statistics", "confidence intervals"]
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
-<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
-<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
 
 
 <pre class="r"><code>library(tidyverse)
-library(kableExtra)</code></pre>
+library(knitr)</code></pre>
 <div id="distributions" class="section level1">
 <h1>Distributions</h1>
 <p>There are three kinds of distributions:</p>
@@ -87,33 +81,20 @@ m_s1 &lt;- mean(sample_1$heights)
 sd_s1 &lt;- sd(sample_1$heights) 
 
 calculate_ci(m = m_s1, sd = sd_s1) %&gt;%
-  kable(digits = 3) %&gt;%
-  kable_styling(bootstrap_options = &quot;striped&quot;, full_width = FALSE)</code></pre>
-<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+  kable(digits = 3) </code></pre>
+<table>
 <thead>
-<tr>
-<th style="text-align:right;">
-mean
-</th>
-<th style="text-align:right;">
-ci_l
-</th>
-<th style="text-align:right;">
-ci_u
-</th>
+<tr class="header">
+<th align="right">mean</th>
+<th align="right">ci_l</th>
+<th align="right">ci_u</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-5.482
-</td>
-<td style="text-align:right;">
-5.114
-</td>
-<td style="text-align:right;">
-5.85
-</td>
+<tr class="odd">
+<td align="right">5.482</td>
+<td align="right">5.114</td>
+<td align="right">5.85</td>
 </tr>
 </tbody>
 </table>
@@ -129,33 +110,20 @@ m_s2 &lt;- mean(sample_2$heights)
 sd_s2 &lt;- sd(sample_2$heights) 
 
 calculate_ci(m = m_s2, sd = sd_s2) %&gt;%
-  kable(digits = 3) %&gt;%
-  kable_styling(bootstrap_options = &quot;striped&quot;, full_width = FALSE)</code></pre>
-<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+  kable(digits = 3) </code></pre>
+<table>
 <thead>
-<tr>
-<th style="text-align:right;">
-mean
-</th>
-<th style="text-align:right;">
-ci_l
-</th>
-<th style="text-align:right;">
-ci_u
-</th>
+<tr class="header">
+<th align="right">mean</th>
+<th align="right">ci_l</th>
+<th align="right">ci_u</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-5.592
-</td>
-<td style="text-align:right;">
-5.192
-</td>
-<td style="text-align:right;">
-5.992
-</td>
+<tr class="odd">
+<td align="right">5.592</td>
+<td align="right">5.192</td>
+<td align="right">5.992</td>
 </tr>
 </tbody>
 </table>
@@ -176,33 +144,20 @@ m_s3 &lt;- mean(sample_3$heights)
 sd_s3 &lt;- sd(sample_3$heights) 
 
 calculate_ci(m = m_s3, sd = sd_s3) %&gt;%
-  kable(digits = 3) %&gt;%
-  kable_styling(bootstrap_options = &quot;striped&quot;, full_width = FALSE)</code></pre>
-<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+  kable(digits = 3) </code></pre>
+<table>
 <thead>
-<tr>
-<th style="text-align:right;">
-mean
-</th>
-<th style="text-align:right;">
-ci_l
-</th>
-<th style="text-align:right;">
-ci_u
-</th>
+<tr class="header">
+<th align="right">mean</th>
+<th align="right">ci_l</th>
+<th align="right">ci_u</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-6.216
-</td>
-<td style="text-align:right;">
-6.086
-</td>
-<td style="text-align:right;">
-6.345
-</td>
+<tr class="odd">
+<td align="right">6.216</td>
+<td align="right">6.086</td>
+<td align="right">6.345</td>
 </tr>
 </tbody>
 </table>
@@ -261,77 +216,40 @@ samples_ci %&gt;%
 <pre class="r"><code>samples_ci %&gt;%
   filter(mean &gt; 5.9) %&gt;%
   tail(n = 5) %&gt;%
-  kable(digits = 3) %&gt;%
-  kable_styling(bootstrap_options = &quot;striped&quot;, full_width = FALSE)</code></pre>
-<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+  kable(digits = 3) </code></pre>
+<table>
 <thead>
-<tr>
-<th style="text-align:right;">
-mean
-</th>
-<th style="text-align:right;">
-ci_l
-</th>
-<th style="text-align:right;">
-ci_u
-</th>
+<tr class="header">
+<th align="right">mean</th>
+<th align="right">ci_l</th>
+<th align="right">ci_u</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-5.911
-</td>
-<td style="text-align:right;">
-5.566
-</td>
-<td style="text-align:right;">
-6.257
-</td>
+<tr class="odd">
+<td align="right">5.911</td>
+<td align="right">5.566</td>
+<td align="right">6.257</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-5.948
-</td>
-<td style="text-align:right;">
-5.565
-</td>
-<td style="text-align:right;">
-6.331
-</td>
+<tr class="even">
+<td align="right">5.948</td>
+<td align="right">5.565</td>
+<td align="right">6.331</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-5.929
-</td>
-<td style="text-align:right;">
-5.625
-</td>
-<td style="text-align:right;">
-6.234
-</td>
+<tr class="odd">
+<td align="right">5.929</td>
+<td align="right">5.625</td>
+<td align="right">6.234</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-5.929
-</td>
-<td style="text-align:right;">
-5.622
-</td>
-<td style="text-align:right;">
-6.236
-</td>
+<tr class="even">
+<td align="right">5.929</td>
+<td align="right">5.622</td>
+<td align="right">6.236</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-5.922
-</td>
-<td style="text-align:right;">
-5.529
-</td>
-<td style="text-align:right;">
-6.315
-</td>
+<tr class="odd">
+<td align="right">5.922</td>
+<td align="right">5.529</td>
+<td align="right">6.315</td>
 </tr>
 </tbody>
 </table>
@@ -339,77 +257,40 @@ ci_u
 <pre class="r"><code>samples_ci %&gt;%
   filter(mean &lt; 5) %&gt;%
   tail(n = 5) %&gt;%
-  kable(digits = 3) %&gt;%
-  kable_styling(bootstrap_options = &quot;striped&quot;, full_width = FALSE)</code></pre>
-<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+  kable(digits = 3) </code></pre>
+<table>
 <thead>
-<tr>
-<th style="text-align:right;">
-mean
-</th>
-<th style="text-align:right;">
-ci_l
-</th>
-<th style="text-align:right;">
-ci_u
-</th>
+<tr class="header">
+<th align="right">mean</th>
+<th align="right">ci_l</th>
+<th align="right">ci_u</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-4.988
-</td>
-<td style="text-align:right;">
-4.711
-</td>
-<td style="text-align:right;">
-5.265
-</td>
+<tr class="odd">
+<td align="right">4.988</td>
+<td align="right">4.711</td>
+<td align="right">5.265</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-4.914
-</td>
-<td style="text-align:right;">
-4.733
-</td>
-<td style="text-align:right;">
-5.095
-</td>
+<tr class="even">
+<td align="right">4.914</td>
+<td align="right">4.733</td>
+<td align="right">5.095</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-4.979
-</td>
-<td style="text-align:right;">
-4.621
-</td>
-<td style="text-align:right;">
-5.336
-</td>
+<tr class="odd">
+<td align="right">4.979</td>
+<td align="right">4.621</td>
+<td align="right">5.336</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-4.981
-</td>
-<td style="text-align:right;">
-4.702
-</td>
-<td style="text-align:right;">
-5.261
-</td>
+<tr class="even">
+<td align="right">4.981</td>
+<td align="right">4.702</td>
+<td align="right">5.261</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-4.976
-</td>
-<td style="text-align:right;">
-4.729
-</td>
-<td style="text-align:right;">
-5.224
-</td>
+<tr class="odd">
+<td align="right">4.976</td>
+<td align="right">4.729</td>
+<td align="right">5.224</td>
 </tr>
 </tbody>
 </table>
@@ -433,27 +314,18 @@ ci_u
 samples_ci %&gt;%
   summarize(prop = mean(captures),
             n = sum(captures)) %&gt;%
-  kable(digits = 3) %&gt;%
-  kable_styling(bootstrap_options = &quot;striped&quot;, full_width = FALSE)</code></pre>
-<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+  kable(digits = 3) </code></pre>
+<table>
 <thead>
-<tr>
-<th style="text-align:right;">
-prop
-</th>
-<th style="text-align:right;">
-n
-</th>
+<tr class="header">
+<th align="right">prop</th>
+<th align="right">n</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-0.914
-</td>
-<td style="text-align:right;">
-9144
-</td>
+<tr class="odd">
+<td align="right">0.914</td>
+<td align="right">9144</td>
 </tr>
 </tbody>
 </table>
@@ -486,62 +358,31 @@ large &lt;- calculate_ci(m = m_s5, sd = sd_s5, n = n_s5) %&gt;%
 bind_rows(small, large) %&gt;%
   mutate(width = ci_u - ci_l) %&gt;%
   select(n, everything()) %&gt;%
-  kable(digits = 3) %&gt;%
-  kable_styling(bootstrap_options = &quot;striped&quot;, full_width = FALSE)</code></pre>
-<table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
+  kable(digits = 3)</code></pre>
+<table>
 <thead>
-<tr>
-<th style="text-align:right;">
-n
-</th>
-<th style="text-align:right;">
-mean
-</th>
-<th style="text-align:right;">
-ci_l
-</th>
-<th style="text-align:right;">
-ci_u
-</th>
-<th style="text-align:right;">
-width
-</th>
+<tr class="header">
+<th align="right">n</th>
+<th align="right">mean</th>
+<th align="right">ci_l</th>
+<th align="right">ci_u</th>
+<th align="right">width</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:right;">
-5
-</td>
-<td style="text-align:right;">
-5.592
-</td>
-<td style="text-align:right;">
-5.266
-</td>
-<td style="text-align:right;">
-5.919
-</td>
-<td style="text-align:right;">
-0.654
-</td>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">5.592</td>
+<td align="right">5.266</td>
+<td align="right">5.919</td>
+<td align="right">0.654</td>
 </tr>
-<tr>
-<td style="text-align:right;">
-1000
-</td>
-<td style="text-align:right;">
-5.490
-</td>
-<td style="text-align:right;">
-5.459
-</td>
-<td style="text-align:right;">
-5.521
-</td>
-<td style="text-align:right;">
-0.062
-</td>
+<tr class="even">
+<td align="right">1000</td>
+<td align="right">5.490</td>
+<td align="right">5.459</td>
+<td align="right">5.521</td>
+<td align="right">0.062</td>
 </tr>
 </tbody>
 </table>
