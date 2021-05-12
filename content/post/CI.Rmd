@@ -321,7 +321,7 @@ CI also does not say anything about my psychological level of confidence.
 
 ## How do I know then if my estimate is close to the true mean?
 
-Well you don't, you just assume you do :) (This joke was told to me by Rob Santos, the nominated Director of the Census Bureau).
+Well you don't, you just assume you do :) (A version of this joke was told to me by [Rob Santos](https://www.urban.org/author/robert-santos/publications)).
 
 We methodologists study methods under known data generating conditions and we study them under conditions where certain assumptions or conditions hold and when they don't. We generate tens of thousands of samples ~ approximately creating the sampling distribution. From simulations, we measure accuracy, bias, precision etc. and we can measure those because we generate data based on true parameters that are known to us. 
 
