@@ -64,7 +64,7 @@ I_sq
 
 ### $\tau^2$
 
-$I^2$ is a relative measure of heterogeneity and depends not only on between-study variation in effects but also on sampling error. An absolute measure of between-study variation in effects is a descriptive statistic called $\tau^2$. It is the variance in effects across primary studies included in a meta-analysis. The square root form, $\tau$, is the standard deviation of effects across studies. $\tau$ will be in the same scale as the effect size estimates. $\tau$ can be interpreted just like the regular standard deviation. In the context of the scale of the effect sizes, it quantifies how much variation there is across the effects from different studies.
+$I^2$ is a relative measure of heterogeneity and depends not only on between-study variation in effects but also on sampling error. An absolute measure of between-study variation in effects is a descriptive statistic called $\tau^2$. It is the variance in effects across primary studies included in a meta-analysis. Viechtbauer (2007) described $\tau^2$ as the estimated variance of the random variable producing the true effect sizes. The square root form, $\tau$, is the standard deviation of effects across studies. $\tau$ will be in the same scale as the effect size estimates. $\tau$ can be interpreted just like the regular standard deviation. In the context of the scale of the effect sizes, it quantifies how much variation there is across the effects from different studies.
 
 # References
 
@@ -75,3 +75,7 @@ Hedges, L. V., & Cooper, H. M. (2009). Research synthesis as a scientific proces
 Higgins, J. P., & Thompson, S. G. (2002). Quantifying heterogeneity in a meta-analysis. Statistics in Medicine, 21(11), 1539–1558.
 
 Konstantopoulos, S., & Hedges, L. V. (2019). Statistically analyzing effect sizes: Fixed-and random-effects models. The Handbook of Research Synthesis and Meta-Analysis, 245–279. 
+
+Viechtbauer, W. (2007). Accounting for heterogeneity via random-effects models and
+moderator analyses in meta-analysis. Zeitschrift für Psychologie/Journal of
+Psychology, 215 (2), 104–121.
