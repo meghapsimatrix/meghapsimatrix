@@ -1,0 +1,77 @@
+---
+title: "What should I use to quantify heterogeneity in meta-analysis?"
+author: "Megha Joshi"
+date: 2021-05-17
+categories: ["R"]
+tags: ["meta-analyis", "heterogeneity", "I squared", "tau squared", "Michael Borenstein"]
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Meta-analysis
+
+Scientific researchers tend to produce literature on the same topic either to replicate or extend prior studies or due to a lack of awareness of prior evidence (Hedges & Cooper, 2009). Results across studies tend to vary, even when researchers try to replicate studies, due to differences in sample characteristics, research designs, analytic strategies or sampling error (Hedges & Cooper, 2009). Meta-analysis is a set of statistical techniques for synthesizing results from multiple primary studies on a common topic. The three major goals of meta-analysis include: (1) summarizing effect size estimates across studies, (2) characterizing, and (3) explaining the variability in the effect sizes.
+
+In this post I am going to talk about the second goal: **characterizing variability in effect sizes**.
+
+## What is heterogeneity?
+
+Pooling effect size estimates provides an average estimate of the effect of an intervention. However, typically, researchers are also interested in the existence of variation in the effects (Konstantopoulos & Hedges, 2019). The characterization of variation in effects across studies in a meta-analysis allows meta-analysts to gauge how much the effects vary across different studies included in the meta-analysis and whether it makes sense to pool the effects together. Are we comparing apples to apples or comparing apples to oranges and pears :D
+
+### Measures of Heterogeneity
+
+I will use the following notations in this post:
+
+-   $\hat{\sigma}^2$ refers to the estimated sampling variance of primary study level effects. This variance corresponds to the sampling error - in primary studies we are estimating the effects from a sample so we have sampling error.
+
+-   $\hat{\tau}^2$ refers to the variation in effects across studies included in the meta-analysis - the between-study variation in effects.
+
+### $I^2$
+
+A commonly used statistic to measure heterogeneity is $I^2$ (Higgins & Thompson, 2002). It is a descriptive statistic that denotes the percentage or proportion of variance in the observed effect size estimates that is due to variation in the true effect sizes (Borenstein, Higgins, Hedges, & Rothstein, 2017).
+
+$$ I^2 = \frac{\hat{\tau}^2}{\hat{\tau}^2 + \hat{\sigma} ^2}$$
+
+The formula for $I^2$ has the between-study variance estimate in the numerator and the total variance in the denominator - which is the sum of between-study variance and the sampling variance. $I^2$ is a relative measure of heterogeneity in that it measures the proportion of total heterogeneity that is between studies.
+
+Borenstein et al. (2017) noted that the value of $I^2$ often is misinterpreted in applied meta-analysis. The value of $I^2$ as we can see in the formula above depends not only on between-study variation in effects (measured by $\hat\tau^2$) but also on the sampling variance (measured by $\hat\sigma^2$).
+
+$I^2$ values tend to be high when the value of $\hat\sigma^2$ is small which can happen if a meta-analysis includes many primary studies with large sample sizes. Primary studies with large sample sizes tend to produce less noisy estimates, hence the $\sigma^2$ value will be small for these kinds of studies. $I^2$ values can be small when the value of $\sigma^2$ is large which can happen if meta-analysis includes many primary studies with small sample sizes. Note that in both of the cases, the absolute between-study variance ($\hat\tau^2$) is not even considered.
+
+Below is an example code where I am holding the between-study variation in effect sizes constant at .5. By just changing the magnitude of the sampling variance ($\hat\sigma^2$), the $I^2$ value decreases by a lot, from 98% to 62.5%. Therefore Borenstein et al. (2017) argued that the value of $I^2$ is not very useful in quantifying the amount of actual between-study heterogeneity present in meta-analyses.
+
+```{r}
+tau_sq <- .5
+sigma_sq <- .01  
+
+I_sq <- tau_sq / (tau_sq + sigma_sq)
+I_sq
+```
+
+```{r}
+# i am not changing tau_sq
+sigma_sq <- .3
+
+I_sq <- tau_sq / (tau_sq + sigma_sq)
+I_sq
+```
+
+### $\tau^2$
+
+$I^2$ is a relative measure of heterogeneity and depends not only on between-study variation in effects but also on sampling error. An absolute measure of between-study variation in effects is a descriptive statistic called $\tau^2$. It is the variance in effects across primary studies included in a meta-analysis. The square root form, $\tau$, is the standard deviation of effects across studies. $\tau$ will be in the same scale as the effect size estimates. $\tau$ can be interpreted just like the regular standard deviation. In the context of the scale of the effect sizes, it quantifies how much variation there is across the effects from different studies.
+
+# References
+
+Borenstein, M., Higgins, J. P., Hedges, L. V., & Rothstein, H. R. (2017). Basics of meta-analysis: I2 is not an absolute measure of heterogeneity. Research Synthesis Methods, 8(1), 5–18.
+
+Hedges, L. V., & Cooper, H. M. (2009). Research synthesis as a scientific process. The Handbook of Research Synthesis and Meta-Analysis, 1.
+
+Higgins, J. P., & Thompson, S. G. (2002). Quantifying heterogeneity in a meta-analysis. Statistics in Medicine, 21(11), 1539–1558.
+
+Konstantopoulos, S., & Hedges, L. V. (2019). Statistically analyzing effect sizes: Fixed-and random-effects models. The Handbook of Research Synthesis and Meta-Analysis, 245–279. 
