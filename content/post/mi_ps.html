@@ -7,21 +7,22 @@ tags: ["propensity scores", "missing data", "multiple imputation" , "causal"]
 bibliography: references.bib
 ---
 
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<p>In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier <a href="https://meghapsimatrix.com/post/missing_dat/">post</a> where I go over different ways to handle missing data when conducting propensity score analysis. I go through <code>tidyeval</code> way of dealing with multiply imputed data. Please see <code>MatchThem</code> package for functions that work with multiply imputed data and propensity scores <span class="citation">(Pishgar and Greifer 2020)</span>.</p>
-<p><span class="citation">Hill (2004)</span> and <span class="citation">Mitra and Reiter (2016)</span> examined two distinct ways to condition on the propensity scores estimated on multiply imputed data:</p>
+<p>In this post, I walk through steps of running propensity score analysis when there is missingness in the covariate data. Particularly, I look at multiple imputation and ways to condition on propensity scores estimated with imputed data. The code builds on my earlier <a href="https://meghapsimatrix.com/post/missing_dat/">post</a> where I go over different ways to handle missing data when conducting propensity score analysis. I go through <code>tidyeval</code> way of dealing with multiply imputed data. Please see <code>MatchThem</code> package for functions that work with multiply imputed data and propensity scores <span class="citation">(<a href="#ref-matchthem_2020" role="doc-biblioref">Pishgar and Greifer 2020</a>)</span>.</p>
+<p><span class="citation"><a href="#ref-hill_2004" role="doc-biblioref">Hill</a> (<a href="#ref-hill_2004" role="doc-biblioref">2004</a>)</span> and <span class="citation"><a href="#ref-mitra_comparison_2016" role="doc-biblioref">Mitra and Reiter</a> (<a href="#ref-mitra_comparison_2016" role="doc-biblioref">2016</a>)</span> examined two distinct ways to condition on the propensity scores estimated on multiply imputed data:</p>
 <div id="multiple-imputation-across-mi-across" class="section level2">
 <h2>Multiple Imputation Across (MI Across)</h2>
-<p>This approach involves creating <em>m</em> imputed datasets and then estimating propensity scores within each of the datasets and then averaging each unit’s <em>m</em> propensity scores across the <em>m</em> datasets <span class="citation">(Hill 2004)</span>. Stratification, matching or IPW can be implemented using these averaged propensity scores <span class="citation">(Hill 2004)</span>. Outcome models that include covariates will need to use the weights or strata derived from the averaged propensity scores and the <em>m</em> sets of covariate values. The weighted regression estimates will then need to be pooled.</p>
+<p>This approach involves creating <em>m</em> imputed datasets and then estimating propensity scores within each of the datasets and then averaging each unit’s <em>m</em> propensity scores across the <em>m</em> datasets <span class="citation">(<a href="#ref-hill_2004" role="doc-biblioref">Hill 2004</a>)</span>. Stratification, matching or IPW can be implemented using these averaged propensity scores <span class="citation">(<a href="#ref-hill_2004" role="doc-biblioref">Hill 2004</a>)</span>. Outcome models that include covariates will need to use the weights or strata derived from the averaged propensity scores and the <em>m</em> sets of covariate values. The weighted regression estimates will then need to be pooled.</p>
 </div>
 <div id="multiple-imputation-within-mi-within" class="section level2">
 <h2>Multiple Imputation Within (MI Within)</h2>
-<p>This approach involves creating <em>m</em> imputed datasets and then estimating propensity scores within each of the datasets <span class="citation">(Hill 2004)</span>. Instead of averaging the propensity scores across the datasets, this method entails conditioning on the propensity scores within the datasets and running the outcome analyses within each dataset <span class="citation">(Hill 2004)</span>. The separate regression estimates have to be pooled.</p>
+<p>This approach involves creating <em>m</em> imputed datasets and then estimating propensity scores within each of the datasets <span class="citation">(<a href="#ref-hill_2004" role="doc-biblioref">Hill 2004</a>)</span>. Instead of averaging the propensity scores across the datasets, this method entails conditioning on the propensity scores within the datasets and running the outcome analyses within each dataset <span class="citation">(<a href="#ref-hill_2004" role="doc-biblioref">Hill 2004</a>)</span>. The separate regression estimates have to be pooled.</p>
 </div>
 <div id="read-in-the-data" class="section level1">
 <h1>Read in the data</h1>
-<p>Below, I show how to implement the Across and Within methods to estimate the average treatment effect on the treated (ATT). The data that I use here is from High School and Beyond (HSB) longitudinal study used by <span class="citation">Rosenbaum (1986)</span> to analyze the effect of dropping out of high school on later math achievement for students who dropped out. For the purpose of this example, I am going to assume a simple random sample.</p>
+<p>Below, I show how to implement the Across and Within methods to estimate the average treatment effect on the treated (ATT). The data that I use here is from High School and Beyond (HSB) longitudinal study used by <span class="citation"><a href="#ref-rosenbaum1986dropping" role="doc-biblioref">Rosenbaum</a> (<a href="#ref-rosenbaum1986dropping" role="doc-biblioref">1986</a>)</span> to analyze the effect of dropping out of high school on later math achievement for students who dropped out. For the purpose of this example, I am going to assume a simple random sample.</p>
 <pre class="r"><code>library(tidyverse)
 library(mice)
 library(estimatr)
@@ -32,13 +33,13 @@ library(knitr)</code></pre>
   mutate_if(is.character, as.factor) %&gt;%
   mutate_at(vars(repeated_grade, IEP), as.factor) %&gt;%
   select(-working_T3) # an outcome we don&#39;t care about</code></pre>
-<p>Below, using <code>gg_miss_var</code> from the <code>naniar</code> package, I visualize the percent of data that are missing for each of the variables <span class="citation">(Tierney et al. 2020)</span>. The treatment variable, <code>drop_status</code> has no missing data. The outcome variable, <code>math_score_T2</code>, however, does have around 10% missing data. I am going to impute the outcome data and the covariate data in this example. Please see <span class="citation">Hill (2004)</span> for a discussion on dealing with missing outcome data.</p>
+<p>Below, using <code>gg_miss_var</code> from the <code>naniar</code> package, I visualize the percent of data that are missing for each of the variables <span class="citation">(<a href="#ref-naniar_2020" role="doc-biblioref">Tierney et al. 2020</a>)</span>. The treatment variable, <code>drop_status</code> has no missing data. The outcome variable, <code>math_score_T2</code>, however, does have around 10% missing data. I am going to impute the outcome data and the covariate data in this example. Please see <span class="citation"><a href="#ref-hill_2004" role="doc-biblioref">Hill</a> (<a href="#ref-hill_2004" role="doc-biblioref">2004</a>)</span> for a discussion on dealing with missing outcome data.</p>
 <pre class="r"><code>gg_miss_var(hsls_dat, show_pct = TRUE)</code></pre>
 <p><img src="/post/mi_ps_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 <div id="multiple-imputation-using-mice" class="section level1">
 <h1>Multiple imputation using <code>mice</code></h1>
-<p>Here, I impute the data using the <code>mice</code> package and set the number of imputations and iterations to 10 each <span class="citation">(van Buuren and Groothuis-Oudshoorn 2011)</span>. Then, I save the result as an <code>RData</code> file that I can load later. For the imputation method, I let mice run the default methods: predicitive mean matching for continuous variables, Bayesian logistic regression for binary variables and Bayesian polytomous regression for multinomial variables. For more information on different methods for imputation, please see <a href="https://stefvanbuuren.name/fimd/sec-modelform.html">Chapter 6.2</a> from <a href="https://stefvanbuuren.name/fimd/">Flexible Modeling of Missing Data</a> <span class="citation">(van Buuren 2018)</span>.</p>
+<p>Here, I impute the data using the <code>mice</code> package and set the number of imputations and iterations to 10 each <span class="citation">(<a href="#ref-vanB_2011" role="doc-biblioref">van Buuren and Groothuis-Oudshoorn 2011</a>)</span>. Then, I save the result as an <code>RData</code> file that I can load later. For the imputation method, I let mice run the default methods: predicitive mean matching for continuous variables, Bayesian logistic regression for binary variables and Bayesian polytomous regression for multinomial variables. For more information on different methods for imputation, please see <a href="https://stefvanbuuren.name/fimd/sec-modelform.html">Chapter 6.2</a> from <a href="https://stefvanbuuren.name/fimd/">Flexible Modeling of Missing Data</a> <span class="citation">(<a href="#ref-van2018flexible" role="doc-biblioref">van Buuren 2018</a>)</span>.</p>
 <pre class="r"><code>system.time(temp_data &lt;- mice(hsls_dat, m = 10, maxit = 10, seed = 20200516))
 
 save(temp_data, file = &quot;temp_data.RData&quot;)</code></pre>
@@ -59,7 +60,7 @@ equation_ps &lt;- paste(&quot;drop_status ~ &quot;, paste(names(covs), collapse 
 equation_ps</code></pre>
 <pre><code>## [1] &quot;drop_status ~  sex + race + language + repeated_grade + IEP + locale + region + SES + math_identity + math_utility + math_efficacy + math_interest + engagement + belonging + expectations + climate + math_score_T1&quot;</code></pre>
 <p>Here, I create a function <code>estimate_ps()</code> that takes in an equation and a dataset and runs logistic regression using <code>glm()</code>. The function then adds the logit of propensity scores and the propensity scores as columns in the data.</p>
-<p>I then group the <code>imp_dat</code> by the imputation number and then run the <code>estimate_ps()</code> function on each of the imputed dataset using the <code>do()</code> function from <code>dplyr</code> <span class="citation">(Wickham et al. 2019)</span>.</p>
+<p>I then group the <code>imp_dat</code> by the imputation number and then run the <code>estimate_ps()</code> function on each of the imputed dataset using the <code>do()</code> function from <code>dplyr</code> <span class="citation">(<a href="#ref-tidy_2020" role="doc-biblioref">Wickham et al. 2019</a>)</span>.</p>
 <pre class="r"><code>estimate_ps &lt;- function(equation, dat){
   
   ps_model &lt;- glm(as.formula(equation), family = binomial, data = dat)
@@ -144,7 +145,7 @@ imp_dat_ps %&gt;%
 </div>
 <div id="estimating-att" class="section level1">
 <h1>Estimating ATT</h1>
-<p>Below I create a function to estimate the ATT. The function takes in an equation, a dataset, and weights as arguments. Then, it runs a model using <code>lm_robust()</code> from the <code>estimatr</code> package <span class="citation">(Blair et al. 2020)</span>. The standard errors of the regression coefficients are estimated using <code>HC2</code> type sandwich errors. It then cleans up the results using <code>tidy()</code> from <code>broom</code> <span class="citation">(Robinson and Hayes 2020)</span>.</p>
+<p>Below I create a function to estimate the ATT. The function takes in an equation, a dataset, and weights as arguments. Then, it runs a model using <code>lm_robust()</code> from the <code>estimatr</code> package <span class="citation">(<a href="#ref-estimatr_2020" role="doc-biblioref">Blair et al. 2020</a>)</span>. The standard errors of the regression coefficients are estimated using <code>HC2</code> type sandwich errors. It then cleans up the results using <code>tidy()</code> from <code>broom</code> <span class="citation">(<a href="#ref-broom_2020" role="doc-biblioref">Robinson and Hayes 2020</a>)</span>.</p>
 <pre class="r"><code>estimate_ATT &lt;- function(equation, dat, wts){
   
   wts &lt;- dat %&gt;% pull({{wts}})
@@ -154,7 +155,7 @@ imp_dat_ps %&gt;%
   res &lt;- model %&gt;%
     tidy() %&gt;%
     filter(term == &quot;drop_status&quot;) %&gt;%
-    select(term, estimate, se = std.error, dci_low = conf.low, ci_high = conf.high, df = df)
+    select(term, estimate, se = std.error, ci_low = conf.low, ci_high = conf.high, df = df)
   
   return(res)
   
@@ -175,7 +176,7 @@ within_res &lt;- imp_dat_ps %&gt;%
 </div>
 <div id="pooling-the-results" class="section level1">
 <h1>Pooling the results</h1>
-<p>Here, I create a function called <code>calc_pooled()</code> using formula by <span class="citation">Barnard and Rubin (1999)</span> to pool the results across the imputations. The <code>mice</code> package has the <code>pool()</code> function to do the same thing but we would need to convert the imputed data back to <code>mids</code> object type and I just wanted to skip all that :D</p>
+<p>Here, I create a function called <code>calc_pooled()</code> using formula by <span class="citation"><a href="#ref-barnard_small-sample_nodate" role="doc-biblioref">Barnard and Rubin</a> (<a href="#ref-barnard_small-sample_nodate" role="doc-biblioref">1999</a>)</span> to pool the results across the imputations. The <code>mice</code> package has the <code>pool()</code> function to do the same thing but we would need to convert the imputed data back to <code>mids</code> object type and I just wanted to skip all that :D</p>
 <pre class="r"><code>calc_pooled &lt;- function(dat, est, se, df){
   
   dat &lt;- dat %&gt;%
@@ -274,43 +275,43 @@ within_pooled %&gt;%
 </div>
 <div id="comparing-the-methods" class="section level1">
 <h1>Comparing the methods</h1>
-<p>The estimates, se and df are different for the results from the two different methods. So which one is better? It’s not possible to say based on analysis on one dataset. <span class="citation">Hill (2004)</span> and <span class="citation">Mitra and Reiter (2016)</span> conducted simulation studies comparing the two methods. <span class="citation">Hill (2004)</span> found that MI Across performed best in terms of absolute bias and mean squared error compared to all the other methods examined in the study. <span class="citation">Mitra and Reiter (2016)</span> found that MI Across resulted in greater bias reduction in the estimation of ATT compared to MI Within. For details of the simulation studies please see the articles.</p>
+<p>The estimates, se and df are different for the results from the two different methods. So which one is better? It’s not possible to say based on analysis on one dataset. <span class="citation"><a href="#ref-hill_2004" role="doc-biblioref">Hill</a> (<a href="#ref-hill_2004" role="doc-biblioref">2004</a>)</span> and <span class="citation"><a href="#ref-mitra_comparison_2016" role="doc-biblioref">Mitra and Reiter</a> (<a href="#ref-mitra_comparison_2016" role="doc-biblioref">2016</a>)</span> conducted simulation studies comparing the two methods. <span class="citation"><a href="#ref-hill_2004" role="doc-biblioref">Hill</a> (<a href="#ref-hill_2004" role="doc-biblioref">2004</a>)</span> found that MI Across performed best in terms of absolute bias and mean squared error compared to all the other methods examined in the study. <span class="citation"><a href="#ref-mitra_comparison_2016" role="doc-biblioref">Mitra and Reiter</a> (<a href="#ref-mitra_comparison_2016" role="doc-biblioref">2016</a>)</span> found that MI Across resulted in greater bias reduction in the estimation of ATT compared to MI Within. For details of the simulation studies please see the articles.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1>References</h1>
-<div id="refs" class="references">
-<div id="ref-barnard_small-sample_nodate">
-<p>Barnard, John, and Donald B Rubin. 1999. “Small-Sample Degrees of Freedom with Multiple Imputation,” 9.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-barnard_small-sample_nodate" class="csl-entry">
+Barnard, John, and Donald B Rubin. 1999. <span>“Small-<span>Sample</span> <span>Degrees</span> of <span>Freedom</span> with <span>Multiple</span> <span>Imputation</span>,”</span> 9.
 </div>
-<div id="ref-estimatr_2020">
-<p>Blair, Graeme, Jasper Cooper, Alexander Coppock, Macartan Humphreys, and Luke Sonnet. 2020. <em>Estimatr: Fast Estimators for Design-Based Inference</em>. <a href="https://CRAN.R-project.org/package=estimatr">https://CRAN.R-project.org/package=estimatr</a>.</p>
+<div id="ref-estimatr_2020" class="csl-entry">
+Blair, Graeme, Jasper Cooper, Alexander Coppock, Macartan Humphreys, and Luke Sonnet. 2020. <em>Estimatr: Fast Estimators for Design-Based Inference</em>. <a href="https://CRAN.R-project.org/package=estimatr">https://CRAN.R-project.org/package=estimatr</a>.
 </div>
-<div id="ref-hill_2004">
-<p>Hill, Jennifer. 2004. “Reducing Bias in Treatment Effect Estimation in Observational Studies Suffering from Missing Data.” Columbia University Institute for Social &amp; Economic Research &amp; Policy (ISERP).</p>
+<div id="ref-hill_2004" class="csl-entry">
+Hill, Jennifer. 2004. <span>“Reducing Bias in Treatment Effect Estimation in Observational Studies Suffering from Missing Data.”</span> Columbia University Institute for Social &amp; Economic Research &amp; Policy (ISERP).
 </div>
-<div id="ref-mitra_comparison_2016">
-<p>Mitra, Robin, and Jerome P Reiter. 2016. “A Comparison of Two Methods of Estimating Propensity Scores After Multiple Imputation.” <em>Statistical Methods in Medical Research</em> 25 (1): 188–204. <a href="https://doi.org/10.1177/0962280212445945">https://doi.org/10.1177/0962280212445945</a>.</p>
+<div id="ref-mitra_comparison_2016" class="csl-entry">
+Mitra, Robin, and Jerome P Reiter. 2016. <span>“A Comparison of Two Methods of Estimating Propensity Scores After Multiple Imputation.”</span> <em>Statistical Methods in Medical Research</em> 25 (1): 188–204. <a href="https://doi.org/10.1177/0962280212445945">https://doi.org/10.1177/0962280212445945</a>.
 </div>
-<div id="ref-matchthem_2020">
-<p>Pishgar, Farhad, and Noah Greifer. 2020. <em>MatchThem: Matching and Weighting Multiply Imputed Datasets</em>. <a href="https://CRAN.R-project.org/package=MatchThem">https://CRAN.R-project.org/package=MatchThem</a>.</p>
+<div id="ref-matchthem_2020" class="csl-entry">
+Pishgar, Farhad, and Noah Greifer. 2020. <em>MatchThem: Matching and Weighting Multiply Imputed Datasets</em>. <a href="https://CRAN.R-project.org/package=MatchThem">https://CRAN.R-project.org/package=MatchThem</a>.
 </div>
-<div id="ref-broom_2020">
-<p>Robinson, David, and Alex Hayes. 2020. <em>Broom: Convert Statistical Analysis Objects into Tidy Tibbles</em>. <a href="https://CRAN.R-project.org/package=broom">https://CRAN.R-project.org/package=broom</a>.</p>
+<div id="ref-broom_2020" class="csl-entry">
+Robinson, David, and Alex Hayes. 2020. <em>Broom: Convert Statistical Analysis Objects into Tidy Tibbles</em>. <a href="https://CRAN.R-project.org/package=broom">https://CRAN.R-project.org/package=broom</a>.
 </div>
-<div id="ref-rosenbaum1986dropping">
-<p>Rosenbaum, Paul R. 1986. “Dropping Out of High School in the United States: An Observational Study.” <em>Journal of Educational Statistics</em> 11 (3). Sage Publications Sage CA: Los Angeles, CA: 207–24.</p>
+<div id="ref-rosenbaum1986dropping" class="csl-entry">
+Rosenbaum, Paul R. 1986. <span>“Dropping Out of High School in the United States: An Observational Study.”</span> <em>Journal of Educational Statistics</em> 11 (3): 207–24.
 </div>
-<div id="ref-naniar_2020">
-<p>Tierney, Nicholas, Di Cook, Miles McBain, and Colin Fay. 2020. <em>Naniar: Data Structures, Summaries, and Visualisations for Missing Data</em>. <a href="https://CRAN.R-project.org/package=naniar">https://CRAN.R-project.org/package=naniar</a>.</p>
+<div id="ref-naniar_2020" class="csl-entry">
+Tierney, Nicholas, Di Cook, Miles McBain, and Colin Fay. 2020. <em>Naniar: Data Structures, Summaries, and Visualisations for Missing Data</em>. <a href="https://CRAN.R-project.org/package=naniar">https://CRAN.R-project.org/package=naniar</a>.
 </div>
-<div id="ref-van2018flexible">
-<p>van Buuren, Stef. 2018. <em>Flexible Imputation of Missing Data</em>. Chapman; Hall/CRC.</p>
+<div id="ref-van2018flexible" class="csl-entry">
+van Buuren, Stef. 2018. <em>Flexible Imputation of Missing Data</em>. Chapman; Hall/CRC.
 </div>
-<div id="ref-vanB_2011">
-<p>van Buuren, Stef, and Karin Groothuis-Oudshoorn. 2011. “mice: Multivariate Imputation by Chained Equations in R.” <em>Journal of Statistical Software</em> 45 (3): 1–67. <a href="http://www.jstatsoft.org/v45/i03/">http://www.jstatsoft.org/v45/i03/</a>.</p>
+<div id="ref-vanB_2011" class="csl-entry">
+van Buuren, Stef, and Karin Groothuis-Oudshoorn. 2011. <span>“<span class="nocase">mice</span>: Multivariate Imputation by Chained Equations in r.”</span> <em>Journal of Statistical Software</em> 45 (3): 1–67. <a href="http://www.jstatsoft.org/v45/i03/">http://www.jstatsoft.org/v45/i03/</a>.
 </div>
-<div id="ref-tidy_2020">
-<p>Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. “Welcome to the tidyverse.” <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.</p>
+<div id="ref-tidy_2020" class="csl-entry">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span class="nocase">tidyverse</span>.”</span> <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
 </div>
 </div>
 </div>

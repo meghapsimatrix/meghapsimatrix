@@ -185,7 +185,7 @@ estimate_ATT <- function(equation, dat, wts){
   res <- model %>%
     tidy() %>%
     filter(term == "drop_status") %>%
-    select(term, estimate, se = std.error, dci_low = conf.low, ci_high = conf.high, df = df)
+    select(term, estimate, se = std.error, ci_low = conf.low, ci_high = conf.high, df = df)
   
   return(res)
   
