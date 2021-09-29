@@ -12,13 +12,13 @@ publication_types:
 - "2"
 publishDate: 2019-09-25
 
-summary: Missing data treatment using multivariate methods for two-group comparisons and small sample sizes. 
+summary: 
 tags:
 - missing data
 - multivariate analysis
 - multilevel modeling
 - maximum likelihood
-title: The Performance of Multivariate Methods for Two-Group Comparisons with Small Samples and Incomplete Data
+title: The performance of multivariate methods for two-group comparisons with small samples and incomplete data
 url_code: ""
 url_dataset: ""
 url_pdf: ""

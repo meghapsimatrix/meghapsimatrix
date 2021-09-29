@@ -12,12 +12,12 @@ publication_types:
 - "2"
 publishDate: 2019-05-08
 
-summary: Direct ties to faculty related to better outcomes for undergraduate life-science researchers. 
+summary: 
 tags:
 - structural equation modeling
 - mentoring structures
 - undergraduate research
-title: Direct Ties to a Faculty Mentor Related to Positive Outcomes for Undergraduate Researchers
+title: Direct ties to a faculty mentor related to positive outcomes for undergraduate researchers
 url_code: ""
 url_dataset: ""
 url_pdf: ""
