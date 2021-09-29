@@ -10,7 +10,7 @@ publication: '*Preprint*'
 publication_short: ""
 publication_types:
 - "3"
-publishDate: 
+publishDate: "2021"
 
 summary: 
 tags: 
@@ -20,6 +20,11 @@ tags:
 
 title: Cluster wild bootstrapping to handle dependent effect sizes in meta-analysis with a small number of studies
 
+links:
+- name: Supplementary materials
+  url: https://osf.io/eazw2/
+- name: R package
+  url: https://github.com/meghapsimatrix/wildmeta
 url_preprint: "https://osf.io/preprints/metaarxiv/x6uhk"
 url_code: "https://github.com/meghapsimatrix/CWB_analyses"
 url_dataset: ""
