@@ -18,7 +18,7 @@ tags:
 - robust variance estimation
 - bootstrap
 
-title: Cluster wild bootstrapping to handle dependent effect sizes in meta-analysis with a small number of studies
+title: Working Paper: Cluster wild bootstrapping to handle dependent effect sizes in meta-analysis with a small number of studies
 
 links:
 - name: Supplementary materials
