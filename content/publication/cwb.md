@@ -24,7 +24,7 @@ links:
 - name: Supplementary materials
   url: https://osf.io/eazw2/
 - name: R package
-  url: https://github.com/meghapsimatrix/wildmeta
+  url: https://meghapsimatrix.github.io/wildmeta/
 url_preprint: "https://osf.io/preprints/metaarxiv/x6uhk"
 url_code: "https://github.com/meghapsimatrix/CWB_analyses"
 url_dataset: ""
