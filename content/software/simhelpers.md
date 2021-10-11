@@ -3,7 +3,7 @@ title: simhelpers
 author: "Megha Joshi"
 date: '2020-03-04'
 slug: simhelpers
-categories: [Project]
+categories: [Software]
 tags: [package, R, simhelpers, Monte Carlo, simulation]
 description: 'A package to help with simulation studies'
 ---
