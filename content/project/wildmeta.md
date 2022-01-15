@@ -24,10 +24,3 @@ You can install the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("meghapsimatrix/wildmeta")
 ```
-
-Install the development version from [GitHub](https://github.com/):
-
-``` r
-# install.packages("devtools")
-devtools::install_github("meghapsimatrix/simhelpers")
-```
