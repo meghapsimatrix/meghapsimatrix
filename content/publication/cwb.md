@@ -6,7 +6,7 @@ date: 2021-09-24
 doi: ""
 featured: true
 projects: []
-publication: '*Preprint*'
+publication: '*_Research Synthesis Methods_, forthcoming'
 publication_short: ""
 publication_types:
 - "3"
@@ -18,7 +18,7 @@ tags:
 - robust variance estimation
 - bootstrap
 
-title: WORKING PAPER Cluster wild bootstrapping to handle dependent effect sizes in meta-analysis with a small number of studies
+title: Cluster wild bootstrapping to handle dependent effect sizes in meta-analysis with a small number of studies
 
 links:
 - name: Supplementary materials
