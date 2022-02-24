@@ -6,7 +6,7 @@ date: 2021-09-24
 doi: ""
 featured: true
 projects: []
-publication: '*_Research Synthesis Methods_, forthcoming'
+publication: '_Research Synthesis Methods_, forthcoming'
 publication_short: ""
 publication_types:
 - "3"
