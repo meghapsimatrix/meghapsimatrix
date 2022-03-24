@@ -3,7 +3,7 @@ abstract: In intervention studies having multiple outcomes, researchers often us
 authors:
 - Keenan A Pituch, Megha Joshi, Molly E Cain, Tiffany A Whittaker, Wanchen Chang, Ryoungsun Park, Graham J McDougall
 date: 2019-09-25
-doi: "https://doi.org/10.1080/00273171.2019.1667217"
+doi: ""
 featured: true
 projects: []
 publication: '*Multivariate behavioral research*'
