@@ -9,8 +9,8 @@ projects: []
 publication: '_Research Synthesis Methods_, forthcoming'
 publication_short: ""
 publication_types:
-- "3"
-publishDate: ""
+- "2"
+publishDate: "2022-02-25T00:00:00"
 
 summary: 
 tags: 
@@ -21,6 +21,8 @@ tags:
 title: Cluster wild bootstrapping to handle dependent effect sizes in meta-analysis with a small number of studies
 
 links:
+- name: Journal
+  url:  https://doi.org/10.1002/jrsm.1554
 - name: Supplementary materials
   url: https://osf.io/eazw2/
 - name: R package
@@ -31,9 +33,9 @@ url_dataset: ""
 url_pdf: ""
 url_poster: ""
 url_project: ""
-url_slides: ""
+url_slides: "https://github.com/meghapsimatrix/conference_cwb/blob/main/mosaic/cwb_mosaic_pres.pdf"
 url_source: ""
-url_video: ""
+url_video: "https://www.youtube.com/watch?v=WzT301yAtdE"
 ---
 
 {{% alert note %}}
