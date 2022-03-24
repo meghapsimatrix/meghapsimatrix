@@ -3,7 +3,7 @@ abstract: Mentored research is critical for integrating undergraduates into the 
 authors:
 - Megha Joshi, Melissa L Aikens, Erin L Dolan
 date: 2019-05-08
-doi: "10.1093/biosci/biz039"
+doi: ""
 featured: true
 projects: []
 publication: '*BioScience*'
@@ -18,6 +18,9 @@ tags:
 - mentoring structures
 - undergraduate research
 title: Direct ties to a faculty mentor related to positive outcomes for undergraduate researchers
+links:
+- name: Journal
+  url:  https://doi.org/10.1093/biosci/biz039
 url_code: ""
 url_dataset: ""
 url_pdf: ""
