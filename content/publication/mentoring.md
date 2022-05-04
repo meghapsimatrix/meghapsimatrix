@@ -8,6 +8,8 @@ featured: true
 projects: []
 publication: '*BioScience*'
 publication_short: ""
+publication_types:
+- "2"
 publishDate: 2019-05-08
 
 summary: 

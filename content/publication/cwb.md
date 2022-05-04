@@ -8,6 +8,8 @@ featured: true
 projects: []
 publication: '_Research Synthesis Methods_, forthcoming'
 publication_short: ""
+publication_types:
+- "2"
 publishDate: "2022-02-25T00:00:00"
 
 summary: 
