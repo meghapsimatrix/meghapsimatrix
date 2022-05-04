@@ -8,8 +8,7 @@ featured: true
 projects: []
 publication: '*Multivariate behavioral research*'
 publication_short: ""
-publication_types:
-- "2"
+publication_types: "2"
 publishDate: 2019-09-25
 
 summary: 
