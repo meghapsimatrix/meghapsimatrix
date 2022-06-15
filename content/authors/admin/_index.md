@@ -29,6 +29,9 @@ social:
 - icon: github
   icon_pack: fab
   link: https://github.com/meghapsimatrix
+- icon: twitter
+  icon_pack: fab
+  link: https://twitter.com/meghapsimatrix
 superuser: true
 user_groups:
 - Researchers
