@@ -264,7 +264,7 @@ $$CI = estimate \pm critical \times se$$
 
 CI's are built around an estimate plus and minus a critical value (like 1.96 for z normal distribution) times the standard error. The width of the CI is dependent on the standard error - which indicates how precise an estimate is. 
 
-CI's are not built around the mean of the sample means (i.e., the center of the sampling distribution). If we knew what the sampling distribution was and what the center was and built CI around that center then we would capture where 95% of all the sample means fall. But, we don't know what the sampling distribution is and only have one sample that could be in the center of the sampling distribution but by random chance could also be on the ends of the sampling distribution or could be a bit to the left or right of the center. We won't know. The CI is built around that one sample statistic therefore, the CI does not give us the range of possible means. 
+CI's are not built around the mean of the sample means (i.e., the center of the sampling distribution). If we knew what the sampling distribution was and what the center was and built CI around that center then we would capture where 95% of all the sample means fall. But, we don't know what the sampling distribution is and only have one sample that could be in the center of the sampling distribution but by random chance could also be on the ends of the sampling distribution or could be a bit to the left or right of the center. We won't know. The CI is built around that one sample statistic; therefore, the CI does not give us the range of possible means. 
 
 
 ## What does CI tell me?
