@@ -212,7 +212,7 @@ Precision, in statistics, captures the variability of sample means - deviation o
 
 ### CI's of Sample Means in Sampling Distribution
 
-In the graph of the sampling distribution above above, some of the sample means are way out there. For example there are some near 6. The table below shows 5 of these sample means and their corresponding CIs. The CIs don't contain 5.5, the true mean. 
+In the graph of the sampling distribution above, some of the sample means are way out there. For example, there are some near 6. The table below shows 5 of these sample means and their corresponding CIs. The CIs don't contain 5.5, the true mean. 
 
 ```{r}
 samples_ci %>%
