@@ -123,7 +123,7 @@ glimpse(first_stage_res)
 
 #### Second Stage: Meta-Analysis
 
-Then, in the second stage, I synthesize the block specific treatment effects using [metafor::`rma.uni()`](https://wviechtb.github.io/metafor/reference/rma.uni.html) :
+Then, in the second stage, I synthesize the block specific treatment effects using [metafor::rma.uni()](https://wviechtb.github.io/metafor/reference/rma.uni.html), which weighs each effect size estimate by its precision:
 
 ```{r}
 second_stage_res <- rma.uni(yi = estimate, 
@@ -143,8 +143,6 @@ tibble(
   kable(digits = 3)
 ```
 
-Note: I ran univariate meta-analysis for this example. If we have multiple effects per experiment or effect sizes nested in any other way, we should account dependent effect sizes.
-
 #### Subgroup Analyses
 
 #### First Stage: Primary Study Analysis
@@ -159,7 +157,7 @@ subgroup_fs_res <- bryan_dat %>%
 
 #### Second Stage: Meta-Analysis
 
-Then, in the second stage, I synthesize the block specific subgroup effects, this time using metafor::rma.mv() and adding `female` as a moderator variable. I estimate a zero intercept model so we get the average effect for each category of the moderator variable:
+Then, in the second stage, I synthesize the block specific subgroup effects.
 
 ```{r}
 estimate_subgroup_mod <- function(dat){
@@ -185,7 +183,8 @@ estimate_subgroup_mod <- function(dat){
   
 subgroup_fs_res %>%
   group_by(female) %>%
-  do(estimate_subgroup_mod(.))
+  do(estimate_subgroup_mod(.)) %>%
+  kable(digits = 3)
 ```
 
 ## References
