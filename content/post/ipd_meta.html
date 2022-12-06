@@ -446,77 +446,39 @@ intrcpt
 <div id="second-stage-meta-analysis-1" class="section level4">
 <h4>Second Stage: Meta-Analysis</h4>
 <p>Then, in the second stage, I synthesize the block specific subgroup effects, this time using metafor::rma.mv() and adding <code>female</code> as a moderator variable. I estimate a zero intercept model so we get the average effect for each category of the moderator variable:</p>
-<pre class="r"><code>rma_mv_res  &lt;- rma.mv(yi = estimate, 
-                      V = v, 
-                      mods = ~ 0 + female,
-                      random = ~ female | classroom,
-                      data = subgroup_fs_res)</code></pre>
-<pre><code>## Warning: Rows with NAs omitted from model fitting.</code></pre>
-<pre class="r"><code>tibble(
-  rowname = rownames(rma_mv_res$b),
-  est = as.vector(rma_mv_res$b),
-  SE = rma_mv_res$se,
-  ci_lo = rma_mv_res$ci.lb,
-  ci_hi = rma_mv_res$ci.ub
-) %&gt;%
-  kable(digits = 3)</code></pre>
-<table>
-<thead>
-<tr>
-<th style="text-align:left;">
-rowname
-</th>
-<th style="text-align:right;">
-est
-</th>
-<th style="text-align:right;">
-SE
-</th>
-<th style="text-align:right;">
-ci_lo
-</th>
-<th style="text-align:right;">
-ci_hi
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-femaleFemale
-</td>
-<td style="text-align:right;">
-1.223
-</td>
-<td style="text-align:right;">
-0.129
-</td>
-<td style="text-align:right;">
-0.971
-</td>
-<td style="text-align:right;">
-1.476
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-femaleNot Female
-</td>
-<td style="text-align:right;">
-1.168
-</td>
-<td style="text-align:right;">
-0.128
-</td>
-<td style="text-align:right;">
-0.917
-</td>
-<td style="text-align:right;">
-1.419
-</td>
-</tr>
-</tbody>
-</table>
+<pre class="r"><code>estimate_subgroup_mod &lt;- function(dat){
+  
+  second_stage_res &lt;- rma.uni(yi = estimate, 
+                              sei = std_error,
+                              data = dat, 
+                              method = &quot;REML&quot;, 
+                              test = &quot;knha&quot;)
+  
+  res &lt;- tibble(
+      rowname = rownames(second_stage_res$b),
+      est = as.vector(second_stage_res$b),
+      SE = second_stage_res$se,
+      ci_lo = second_stage_res$ci.lb,
+      ci_hi = second_stage_res$ci.ub,
+      tau_2 = second_stage_res$tau2
+    )
+
+  return(res)
+  
+}
+  
+subgroup_fs_res %&gt;%
+  group_by(female) %&gt;%
+  do(estimate_subgroup_mod(.))</code></pre>
+<pre><code>## Warning: Studies with NAs omitted from model fitting.
+
+## Warning: Studies with NAs omitted from model fitting.</code></pre>
+<pre><code>## # A tibble: 2 × 7
+## # Groups:   female [2]
+##   female     rowname   est    SE ci_lo ci_hi tau_2
+##   &lt;chr&gt;      &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Female     intrcpt  1.23 0.124 0.979  1.49 0.290
+## 2 Not Female intrcpt  1.18 0.101 0.972  1.39 0.171</code></pre>
 </div>
 </div>
 </div>

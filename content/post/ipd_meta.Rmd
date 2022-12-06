@@ -162,20 +162,30 @@ subgroup_fs_res <- bryan_dat %>%
 Then, in the second stage, I synthesize the block specific subgroup effects, this time using metafor::rma.mv() and adding `female` as a moderator variable. I estimate a zero intercept model so we get the average effect for each category of the moderator variable:
 
 ```{r}
-rma_mv_res  <- rma.mv(yi = estimate, 
-                      V = v, 
-                      mods = ~ 0 + female,
-                      random = ~ female | classroom,
-                      data = subgroup_fs_res)
+estimate_subgroup_mod <- function(dat){
+  
+  second_stage_res <- rma.uni(yi = estimate, 
+                              sei = std_error,
+                              data = dat, 
+                              method = "REML", 
+                              test = "knha")
+  
+  res <- tibble(
+      rowname = rownames(second_stage_res$b),
+      est = as.vector(second_stage_res$b),
+      SE = second_stage_res$se,
+      ci_lo = second_stage_res$ci.lb,
+      ci_hi = second_stage_res$ci.ub,
+      tau_2 = second_stage_res$tau2
+    )
 
-tibble(
-  rowname = rownames(rma_mv_res$b),
-  est = as.vector(rma_mv_res$b),
-  SE = rma_mv_res$se,
-  ci_lo = rma_mv_res$ci.lb,
-  ci_hi = rma_mv_res$ci.ub
-) %>%
-  kable(digits = 3)
+  return(res)
+  
+}
+  
+subgroup_fs_res %>%
+  group_by(female) %>%
+  do(estimate_subgroup_mod(.))
 ```
 
 ## References
