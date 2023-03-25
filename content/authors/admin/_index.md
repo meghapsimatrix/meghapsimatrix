@@ -14,9 +14,11 @@ email: ""
 interests:
 - Causal inference
 - Meta-analysis
+- Bootstrapping
 - Missing data
 - Machine learning
-- Robust variance-covariance matrices
+
+
 name: Megha Joshi 
 
 social:
