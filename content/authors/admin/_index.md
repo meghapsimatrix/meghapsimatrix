@@ -31,9 +31,7 @@ social:
 - icon: github
   icon_pack: fab
   link: https://github.com/meghapsimatrix
-- icon: mastodon
-  icon_pack: fab
-  link: https://mastodon.social/@meghapsimatrix
+
 
 superuser: true
 user_groups:
