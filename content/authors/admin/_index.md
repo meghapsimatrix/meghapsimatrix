@@ -20,6 +20,9 @@ interests:
 
 
 name: Megha Joshi 
+role: Senior Quantitative Researcher
+organizations: 
+- name: American Institutes for Research
 
 social:
 - icon: envelope
